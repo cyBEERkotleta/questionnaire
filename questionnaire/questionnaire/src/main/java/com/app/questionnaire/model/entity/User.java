@@ -15,7 +15,7 @@ import java.util.List;
  * может совершать действия в зависимости от своей роли
  *
  * @author Катя Левкович
- * @version 1.0, 25.06.2023
+ * @version 1.1, 25.06.2023
  */
 @Data
 @NoArgsConstructor
@@ -47,6 +47,10 @@ public class User {
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
     private UserRole role;
+
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "gender_id")
+    private Gender gender;
 
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)

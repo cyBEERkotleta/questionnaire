@@ -22,6 +22,7 @@ import java.util.List;
  * @version 1.1, 25.06.2023
  */
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class MyController {
     private final IUserService userService;
