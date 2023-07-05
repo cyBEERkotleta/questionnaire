@@ -1,11 +1,15 @@
 package com.app.questionnaire.controller;
 
+import com.app.questionnaire.model.dto.FormDTO;
 import com.app.questionnaire.model.dto.TopicDTO;
 import com.app.questionnaire.model.dto.UserDTO;
+import com.app.questionnaire.model.entity.Form;
+import com.app.questionnaire.model.mappers.FormMapper;
 import com.app.questionnaire.model.mappers.TopicMapper;
 import com.app.questionnaire.model.mappers.UserMapper;
 import com.app.questionnaire.model.entity.Topic;
 import com.app.questionnaire.model.entity.User;
+import com.app.questionnaire.model.service.IFormService;
 import com.app.questionnaire.model.service.ITopicService;
 import com.app.questionnaire.model.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +31,7 @@ import java.util.List;
 public class MyController {
     private final IUserService userService;
     private final ITopicService topicService;
+    private final IFormService formService;
 
     @GetMapping("/users")
     public List<UserDTO> processUsers() {
@@ -49,5 +54,11 @@ public class MyController {
     public TopicDTO processTopic(@PathVariable Long id) {
         Topic topic = topicService.getTopicById(id);
         return TopicMapper.INSTANCE.toDTO(topic);
+    }
+
+    @GetMapping("/forms/{id}")
+    public FormDTO processForm(@PathVariable Long id) {
+        Form form = formService.getFormById(id);
+        return FormMapper.INSTANCE.toDTO(form);
     }
 }

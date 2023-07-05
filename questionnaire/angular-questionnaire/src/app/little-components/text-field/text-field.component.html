@@ -1,0 +1,13 @@
+<div class="pt-3">
+  <app-field-name [fieldName]="fieldName" [required]="required"></app-field-name>
+
+  <input *ngIf="nextLine"
+    type="text"
+    class="border rounded-1 w-full py-2 px-3 mt-1"
+  >
+
+  <input *ngIf="!nextLine"
+    type="text"
+    class="border rounded-1 w-auto py-2 px-3 mt-1 ml-3"
+  >
+</div>

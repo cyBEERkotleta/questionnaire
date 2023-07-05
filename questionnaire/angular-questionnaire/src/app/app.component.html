@@ -1,5 +1,22 @@
 <div class="max-w-2xl mx-auto bg-blue-50">
   <app-header></app-header>
-  <app-user-profile [user]="users[0]"></app-user-profile>
-  <app-user-profile [user]="users[1]"></app-user-profile>
+  <app-error></app-error>
+
+  <input
+    type="text"
+    class="m-2 border rounded-1 py-2 px-4 w-11/12"
+    placeholder="Поиск по пользователям..."
+    [(ngModel)]="term"
+  >
+
+  <p *ngIf="loading" class="text-center text-lg p-2">Loading...</p>
+
+  <app-user-profile
+    *ngFor="let item of users | filterUsers: term"
+    [user]="item">
+  </app-user-profile>
+
+  <app-modal-create-user title="Создать нового пользователя">
+    <app-create-user></app-create-user>
+  </app-modal-create-user>
 </div>

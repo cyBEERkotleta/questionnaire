@@ -1,18 +1,23 @@
 package com.app.questionnaire.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * сущность - пол пользователя сайта
  *
  * @author Катя Левкович
- * @version 1.0, 01.07.2023
+ * @version 1.1, 01.07.2023
  */
 @Data
+@ToString(exclude = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -26,4 +31,9 @@ public class Gender {
 
     @Column(name = "name")
     private String name;
+
+    @Fetch(FetchMode.SELECT)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "gender", cascade = CascadeType.ALL)
+    private List<User> users = new ArrayList<>();
 }

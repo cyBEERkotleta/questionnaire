@@ -1,26 +1,31 @@
-import { Component } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {Component, OnInit} from '@angular/core';
 import {User} from "./entity/User";
+import {UserService} from "./service/users.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  private http: HttpClient;
-
+export class AppComponent implements OnInit {
   title = 'angular-questionnaire';
   users: User[];
+  loading = false;
+  term: string = '';
 
-  constructor(http: HttpClient) {
-    this.http = http;
-    this.subscribeForUserData();
+  private userService: UserService;
+
+  constructor(userService: UserService) {
+    this.userService = userService;
   }
 
-  private subscribeForUserData() {
-    this.http.get<User[]>("http://localhost:8080/users").subscribe(result => {
-      this.users = result;
+  ngOnInit() {
+    this.loading = true;
+
+    this.userService.getAll().subscribe(users => {
+      this.users = users;
+
+      this.loading = false;
     });
   }
 }

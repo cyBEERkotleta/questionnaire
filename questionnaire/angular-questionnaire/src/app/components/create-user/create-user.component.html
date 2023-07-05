@@ -1,0 +1,13 @@
+<form>
+  <app-text-field-placeholder placeholder="Email" [required]="true"></app-text-field-placeholder>
+  <app-text-field fieldName="Пароль" [required]="true" [nextLine]="false"></app-text-field>
+  <app-text-field fieldName="Подтверждение пароля" [required]="true" [nextLine]="false"></app-text-field>
+  <app-text-field fieldName="Имя" [required]="true" [nextLine]="false"></app-text-field>
+  <app-text-field fieldName="Фамилия" [required]="true" [nextLine]="false"></app-text-field>
+  <app-text-field fieldName="Номер телефона" [required]="false" [nextLine]="false"></app-text-field>
+
+  <button
+    type="submit"
+    class="py-2 px-4 mt-3 mx-auto rounded-1 bg-blue-600 text-white"
+  >Создать</button>
+</form>

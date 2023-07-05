@@ -8,4 +8,12 @@ import {User} from "../../entity/User";
 })
 export class UserProfileComponent {
   @Input() user: User;
+
+  isMale() : boolean {
+    return this.user.gender.name == 'MALE';
+  }
+
+  isFemale() : boolean {
+    return this.user.gender.name == 'FEMALE';
+  }
 }
