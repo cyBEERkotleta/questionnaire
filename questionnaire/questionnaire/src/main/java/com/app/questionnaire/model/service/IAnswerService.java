@@ -15,5 +15,5 @@ public interface IAnswerService {
     public Answer getAnswerById(Long id);
     public List<Answer> getAnswersByAnsweredFormId(Long id);
     public void deleteAnswerById(Long id);
-    public Answer saveAnswerAndCreateId(Answer answer);
+    public Answer saveAnswer(Answer answer);
 }

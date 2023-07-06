@@ -36,7 +36,7 @@ public class AnsweredFormService implements IAnsweredFormService {
     }
 
     @Override
-    public AnsweredForm saveAnsweredFormAndCreateId(AnsweredForm answeredForm) {
+    public AnsweredForm saveAnswered(AnsweredForm answeredForm) {
         return answeredFormRepository.save(answeredForm);
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
  * тип роли пользователей на сайте
  *
  * @author Катя Левкович
- * @version 1.1, 25.06.2023
+ * @version 1.2, 25.06.2023
  */
 @Data
 @ToString(exclude = "users")
@@ -36,4 +36,18 @@ public class UserRole {
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     private List<User> users = new ArrayList<>();
+
+    public static UserRole admin() {
+        return UserRole.builder()
+                .id((short) 2)
+                .name("ADMIN")
+                .build();
+    }
+
+    public static UserRole member() {
+        return UserRole.builder()
+                .id((short) 1)
+                .name("MEMBER")
+                .build();
+    }
 }

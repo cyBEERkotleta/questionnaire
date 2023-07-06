@@ -15,7 +15,7 @@ import java.util.List;
  * этот JPA сводит меня с ума
  *
  * @author Катя Левкович
- * @version 1.0, 25.06.2023
+ * @version 1.1, 25.06.2023
  */
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
@@ -23,4 +23,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
     public List<User> findAll();
 
     public User getUserById(Long id);
+    public User getUserByEmail(String email);
 }

@@ -41,7 +41,7 @@ public class FieldService implements IFieldService {
     }
 
     @Override
-    public Field saveFieldAndCreateId(Field field) {
+    public Field saveField(Field field) {
         return fieldRepository.save(field);
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
  * форма (анкета) с вопросами
  *
  * @author Катя Левкович
- * @version 1.1, 25.06.2023
+ * @version 1.2, 25.06.2023
  */
 @Data
 @ToString(exclude = {"topic", "user"})
@@ -31,6 +31,9 @@ public class Form {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "shown")
+    private boolean shown;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "topic_id")

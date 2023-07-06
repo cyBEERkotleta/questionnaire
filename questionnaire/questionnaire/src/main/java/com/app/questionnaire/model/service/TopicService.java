@@ -34,7 +34,7 @@ public class TopicService implements ITopicService {
     }
 
     @Override
-    public Topic saveTopicAndCreateId(Topic topic) {
+    public Topic saveTopic(Topic topic) {
         return topicRepository.save(topic);
     }
 }

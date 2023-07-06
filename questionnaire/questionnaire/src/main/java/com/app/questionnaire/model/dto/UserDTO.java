@@ -23,7 +23,6 @@ import java.util.List;
 public class UserDTO {
     private Long id;
     private String email;
-    private String hashedPassword;
     private String firstName;
     private String lastName;
     private String phoneNumber;

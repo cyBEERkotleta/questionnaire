@@ -5,7 +5,6 @@ import {Gender} from "./Gender";
 export class User {
   id: bigint;
   email: string;
-  hashedPassword: string;
   firstName: string;
   lastName: string;
   phoneNumber: string;
@@ -13,10 +12,9 @@ export class User {
   forms: Form[];
   gender: Gender;
 
-  constructor(id: bigint, email: string, hashedPassword: string, firstName: string, lastName: string, phoneNumber: string, userRole: UserRole, forms: Form[], gender: Gender) {
+  constructor(id: bigint, email: string, firstName: string, lastName: string, phoneNumber: string, userRole: UserRole, forms: Form[], gender: Gender) {
     this.id = id;
     this.email = email;
-    this.hashedPassword = hashedPassword;
     this.firstName = firstName;
     this.lastName = lastName;
     this.phoneNumber = phoneNumber;

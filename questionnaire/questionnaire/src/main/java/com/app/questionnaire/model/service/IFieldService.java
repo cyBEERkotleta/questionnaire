@@ -16,5 +16,5 @@ public interface IFieldService {
     public List<Field> getFieldsByFormId(Long id);
     public List<Field> getActiveFieldsByFormId(Long id);
     public void deleteFieldById(Long id);
-    public Field saveFieldAndCreateId(Field field);
+    public Field saveField(Field field);
 }

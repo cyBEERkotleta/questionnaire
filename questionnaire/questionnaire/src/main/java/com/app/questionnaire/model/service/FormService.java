@@ -40,7 +40,7 @@ public class FormService implements IFormService {
     }
 
     @Override
-    public Form saveFormAndCreateId(Form form) {
+    public Form saveForm(Form form) {
         return formRepository.save(form);
     }
 }

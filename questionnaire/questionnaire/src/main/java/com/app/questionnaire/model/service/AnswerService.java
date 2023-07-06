@@ -35,7 +35,7 @@ public class AnswerService implements IAnswerService {
     }
 
     @Override
-    public Answer saveAnswerAndCreateId(Answer answer) {
+    public Answer saveAnswer(Answer answer) {
         return answerRepository.save(answer);
     }
 }

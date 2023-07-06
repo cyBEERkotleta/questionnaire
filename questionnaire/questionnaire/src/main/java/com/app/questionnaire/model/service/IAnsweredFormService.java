@@ -1,7 +1,6 @@
 package com.app.questionnaire.model.service;
 
 import com.app.questionnaire.model.entity.AnsweredForm;
-import com.app.questionnaire.model.entity.Topic;
 
 import java.util.List;
 
@@ -16,5 +15,5 @@ public interface IAnsweredFormService {
     public List<AnsweredForm> getAnsweredFormsByFormId(Long id);
     public AnsweredForm getAnsweredFormById(Long id);
     public void deleteAnsweredFormById(Long id);
-    public AnsweredForm saveAnsweredFormAndCreateId(AnsweredForm answeredForm);
+    public AnsweredForm saveAnswered(AnsweredForm answeredForm);
 }

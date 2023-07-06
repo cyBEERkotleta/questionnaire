@@ -32,9 +32,6 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "hashed_password")
-    private String hashedPassword;
-
     @Column(name = "first_name")
     private String firstName;
 

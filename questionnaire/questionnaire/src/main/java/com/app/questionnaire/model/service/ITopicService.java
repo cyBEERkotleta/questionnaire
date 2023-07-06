@@ -14,5 +14,5 @@ public interface ITopicService {
     public List<Topic> findAll();
     public Topic getTopicById(Long id);
     public void deleteTopicById(Long id);
-    public Topic saveTopicAndCreateId(Topic topic);
+    public Topic saveTopic(Topic topic);
 }
