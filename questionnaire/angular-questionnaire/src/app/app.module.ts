@@ -7,7 +7,7 @@ import { CommonModule } from "@angular/common";
 import { HeaderComponent } from "./components/header/header.component";
 import { UserProfileComponent } from "./components/user_profile/user_profile.component";
 import { ErrorComponent } from './components/error/error.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { FilterUsersPipe } from './pipes/filter-users.pipe';
 import { ModalCreateUserComponent } from './components/modal-create-user/modal-create-user.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
@@ -17,6 +17,7 @@ import { TextFieldPlaceholderComponent } from './little-components/text-field-pl
 import { HorizontalLineComponent } from './little-components/horizontal-line/horizontal-line.component';
 import { DarkHLineComponent } from './little-components/dark-h-line/dark-h-line.component';
 import { LightHLineComponent } from './little-components/light-h-line/light-h-line.component';
+import { ChoiceGenderComponent } from './little-components/choice-gender/choice-gender.component';
 
 @NgModule({
   declarations: [
@@ -33,12 +34,14 @@ import { LightHLineComponent } from './little-components/light-h-line/light-h-li
     HorizontalLineComponent,
     DarkHLineComponent,
     LightHLineComponent,
+    ChoiceGenderComponent,
   ],
     imports: [
         BrowserModule,
         HttpClientModule,
         CommonModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
     ],
   providers: [],
   bootstrap: [AppComponent]

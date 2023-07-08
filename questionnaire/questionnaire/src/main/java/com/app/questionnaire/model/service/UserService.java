@@ -1,6 +1,7 @@
 package com.app.questionnaire.model.service;
 
 import com.app.questionnaire.exception.UserException;
+import com.app.questionnaire.model.entity.HashedPassword;
 import com.app.questionnaire.model.entity.User;
 import com.app.questionnaire.model.entity.UserRole;
 import com.app.questionnaire.model.repository.UserRepository;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
     private final UserRepository userRepository;
+    private final HashedHashedPasswordService hashedPasswordService;
 
     @Override
     public List<User> findAll() {
@@ -50,20 +52,36 @@ public class UserService implements IUserService {
     public User registerUser(User user, String password) throws UserException {
         user.setRole(UserRole.member());
 
-        checkUserWithEmailExistence(user.getEmail());
+        checkUserWithEmailExistenceOrThrown(user.getEmail());
 
         UserValidator.getInstance().checkValidityOrThrown(user);
         UserValidator.getInstance().checkPasswordOrThrown(password);
+
+        HashedPassword hashedPassword = HashedPassword.builder()
+                .hash(hashedPasswordService.encryptPassword(password))
+                .build();
+
+        hashedPassword = hashedPasswordService.savePassword(hashedPassword);
+        user.setHashedPassword(hashedPassword);
 
         return userRepository.save(user);
     }
 
     @Override
     public User loginUser(String email, String password) throws UserException {
-        if ()
+        User user = userRepository.getUserByEmail(email);
+        if (user == null)
+            throw new UserException("Пользователя с таким Email не существует");
+
+        String hashedPassword = user.getHashedPassword().getHash();
+        boolean passwordIsCorrect = hashedPasswordService.checkPassword(password, hashedPassword);
+        if (!passwordIsCorrect)
+            throw new UserException("Неправильный пароль");
+
+        return user;
     }
 
-    private void checkUserWithEmailExistence(String email) throws UserException {
+    private void checkUserWithEmailExistenceOrThrown(String email) throws UserException {
         User user = getUserByEmail(email);
         if (user != null)
             throw new UserException("Пользователь с Email " + email + " уже существует");

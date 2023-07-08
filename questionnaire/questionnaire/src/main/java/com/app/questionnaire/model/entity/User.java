@@ -15,7 +15,7 @@ import java.util.List;
  * может совершать действия в зависимости от своей роли
  *
  * @author Катя Левкович
- * @version 1.1, 25.06.2023
+ * @version 1.2, 25.06.2023
  */
 @Data
 @NoArgsConstructor
@@ -31,6 +31,10 @@ public class User {
 
     @Column(name = "email")
     private String email;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "password_id", referencedColumnName = "id")
+    private HashedPassword hashedPassword;
 
     @Column(name = "first_name")
     private String firstName;

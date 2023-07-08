@@ -12,12 +12,17 @@ import java.util.List;
  * с формами (анкетами)
  *
  * @author Катя Левкович
- * @version 1.0, 29.06.2023
+ * @version 1.1, 29.06.2023
  */
 @Service
 @RequiredArgsConstructor
 public class FormService implements IFormService {
     private final FormRepository formRepository;
+
+    @Override
+    public List<Form> findAll() {
+        return formRepository.findAll();
+    }
 
     @Override
     public Form getFormById(Long id) {

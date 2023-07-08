@@ -25,12 +25,12 @@ public class UserValidator implements IValidator<User> {
 
     @Override
     public void checkValidityOrThrown(User user) throws UserException {
-        checkEmail(user.getEmail());
-        checkFirstName(user.getFirstName());
-        checkLastName(user.getLastName());
-        checkPhoneNumber(user.getPhoneNumber());
-        checkGender(user.getGender());
-        checkUserRole(user.getRole());
+        checkEmailOrThrown(user.getEmail());
+        checkFirstNameOrThrown(user.getFirstName());
+        checkLastNameOrThrown(user.getLastName());
+        checkPhoneNumberOrThrown(user.getPhoneNumber());
+        checkGenderOrThrown(user.getGender());
+        checkUserRoleOrThrown(user.getRole());
     }
 
     public void checkPasswordOrThrown(String password) throws UserException {
@@ -38,7 +38,7 @@ public class UserValidator implements IValidator<User> {
             throw new UserException("Пароль должен быть от 8 до 30 символов");
     }
 
-    private void checkEmail(String email) throws UserException {
+    private void checkEmailOrThrown(String email) throws UserException {
         if (!isStrAnEmail(email))
             throw new UserException("Укажите корректный формат Email");
 
@@ -46,27 +46,27 @@ public class UserValidator implements IValidator<User> {
             throw new UserException("Email должен быть от 5 до 60 символов");
     }
 
-    private void checkFirstName(String firstName) throws UserException {
+    private void checkFirstNameOrThrown(String firstName) throws UserException {
         if (isLengthOutsideRange(firstName, 2, 30))
             throw new UserException("Имя должно быть от 2 до 30 символов");
     }
 
-    private void checkLastName(String lastName) throws UserException {
+    private void checkLastNameOrThrown(String lastName) throws UserException {
         if (isLengthOutsideRange(lastName, 2, 30))
             throw new UserException("Фамилия должна быть от 2 до 30 символов");
     }
 
-    private void checkPhoneNumber(String phoneNumber) throws UserException {
+    private void checkPhoneNumberOrThrown(String phoneNumber) throws UserException {
         if (isLengthOutsideRange(phoneNumber, 3, 15))
             throw new UserException("Телефонный номер должен быть от 3 до 15 символов");
     }
 
-    private void checkGender(Gender gender) throws UserException {
+    private void checkGenderOrThrown(Gender gender) throws UserException {
         if (gender == null)
             throw new UserException("Пользователю не задан пол");
     }
 
-    private void checkUserRole(UserRole userRole) throws UserException {
+    private void checkUserRoleOrThrown(UserRole userRole) throws UserException {
         if (userRole == null)
             throw new UserException("Пользователю не задана роль");
     }

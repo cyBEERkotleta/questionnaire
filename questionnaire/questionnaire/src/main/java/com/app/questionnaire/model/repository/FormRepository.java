@@ -15,6 +15,8 @@ import java.util.List;
  */
 @Repository
 public interface FormRepository extends CrudRepository<Form, Long> {
+    @Override
+    public List<Form> findAll();
     public Form getFormById(Long id);
     public List<Form> getFormsByTopicId(Long id);
     public List<Form> getFormsByUserId(Long id);

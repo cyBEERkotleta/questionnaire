@@ -21,23 +21,23 @@ public class AnswerValidator implements IValidator<Answer> {
 
     @Override
     public void checkValidityOrThrown(Answer answer) throws AnswerException {
-        checkField(answer.getField());
-        checkAnsweredForm(answer.getAnsweredForm());
-        checkText(answer.getText(), answer.getField().isRequired());
+        checkFieldOrThrown(answer.getField());
+        checkAnsweredFormOrThrown(answer.getAnsweredForm());
+        checkTextOrThrown(answer.getText(), answer.getField().isRequired());
     }
 
-    private void checkText(String text, boolean required) throws AnswerException {
+    private void checkTextOrThrown(String text, boolean required) throws AnswerException {
         int minLength = required ? 0 : 1;
         if (isLengthOutsideRange(text, minLength, 200))
             throw new AnswerException("Ответ быть от " + minLength + " до 200 символов");
     }
 
-    private void checkAnsweredForm(AnsweredForm answeredForm) throws AnswerException {
+    private void checkAnsweredFormOrThrown(AnsweredForm answeredForm) throws AnswerException {
         if (answeredForm == null)
             throw new AnswerException("Ответ должен принадлежать к определённой анкете");
     }
 
-    private void checkField(Field field) throws AnswerException {
+    private void checkFieldOrThrown(Field field) throws AnswerException {
         if (field == null)
             throw new AnswerException("Ответ должен быть привязан к полю, на которое был дан");
     }

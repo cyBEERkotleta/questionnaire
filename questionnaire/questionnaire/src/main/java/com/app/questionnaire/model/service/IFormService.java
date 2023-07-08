@@ -9,9 +9,10 @@ import java.util.List;
  * с формами (анкетами)
  *
  * @author Катя Левкович
- * @version 1.0, 29.06.2023
+ * @version 1.1, 29.06.2023
  */
 public interface IFormService {
+    public List<Form> findAll();
     public Form getFormById(Long id);
     public List<Form> getFormsByUserId(Long id);
     public List<Form> getFormsByTopicId(Long id);

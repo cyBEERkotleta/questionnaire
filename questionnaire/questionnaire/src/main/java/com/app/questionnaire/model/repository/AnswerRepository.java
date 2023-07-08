@@ -11,10 +11,11 @@ import java.util.List;
  * (таблица answers)
  *
  * @author Катя Левкович
- * @version 1.0, 26.06.2023
+ * @version 1.1, 26.06.2023
  */
 @Repository
 public interface AnswerRepository extends CrudRepository<Answer, Long> {
     public Answer getAnswerById(Long id);
     public List<Answer> getAnswersByAnsweredFormId(Long id);
+    public List<Answer> getAnswersByFieldId(Long id);
 }

@@ -23,22 +23,22 @@ public class FormValidator implements IValidator<Form> {
 
     @Override
     public void checkValidityOrThrown(Form form) throws FormException {
-        checkName(form.getName());
-        checkTopic(form.getTopic());
-        checkUser(form.getUser());
+        checkNameOrThrown(form.getName());
+        checkTopicOrThrown(form.getTopic());
+        checkUserOrThrown(form.getUser());
     }
 
-    private void checkName(String name) throws FormException {
+    private void checkNameOrThrown(String name) throws FormException {
         if (isLengthOutsideRange(name, 2, 100))
             throw new FormException("Название формы должно быть от 2 до 100 символов");
     }
 
-    private void checkTopic(Topic topic) throws FormException {
+    private void checkTopicOrThrown(Topic topic) throws FormException {
         if (topic == null)
             throw new FormException("Форма должна принадлежать к одной из тем");
     }
 
-    private void checkUser(User user) throws FormException {
+    private void checkUserOrThrown(User user) throws FormException {
         if (user == null)
             throw new FormException("У формы должен быть обозначен её пользователь-создатель");
     }

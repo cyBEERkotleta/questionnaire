@@ -27,17 +27,17 @@ public class AnsweredFormValidator implements IValidator<AnsweredForm> {
 
     @Override
     public void checkValidityOrThrown(AnsweredForm answeredForm) throws AnsweredFormException {
-        checkForm(answeredForm.getForm());
-        checkAnswers(answeredForm.getAnswers());
-        checkAnswerMatching(answeredForm.getAnswers(), answeredForm.getForm());
+        checkFormOrThrown(answeredForm.getForm());
+        checkAnswersOrThrown(answeredForm.getAnswers());
+        checkAnswerMatchingOrThrown(answeredForm.getAnswers(), answeredForm.getForm());
     }
 
-    private void checkForm(Form form) throws AnsweredFormException {
+    private void checkFormOrThrown(Form form) throws AnsweredFormException {
         if (form == null)
             throw new AnsweredFormException("Анкете должна быть задана форма, на которую она составлена");
     }
 
-    private void checkAnswers(List<Answer> answers) throws AnsweredFormException {
+    private void checkAnswersOrThrown(List<Answer> answers) throws AnsweredFormException {
         try {
             for (Answer answer : answers) {
                 AnswerValidator.getInstance().checkValidityOrThrown(answer);
@@ -47,7 +47,7 @@ public class AnsweredFormValidator implements IValidator<AnsweredForm> {
         }
     }
 
-    private void checkAnswerMatching(List<Answer> answers, Form form) throws AnsweredFormException {
+    private void checkAnswerMatchingOrThrown(List<Answer> answers, Form form) throws AnsweredFormException {
         for (int i = 0; i < answers.size(); i++) {
             Field fieldFromAnswer = answers.get(i).getField();
             Field fieldFromForm = form.getFields().get(i);

@@ -1,10 +1,45 @@
-<form>
-  <app-text-field-placeholder placeholder="Email" [required]="true"></app-text-field-placeholder>
-  <app-text-field fieldName="Пароль" [required]="true" [nextLine]="false"></app-text-field>
-  <app-text-field fieldName="Подтверждение пароля" [required]="true" [nextLine]="false"></app-text-field>
-  <app-text-field fieldName="Имя" [required]="true" [nextLine]="false"></app-text-field>
-  <app-text-field fieldName="Фамилия" [required]="true" [nextLine]="false"></app-text-field>
-  <app-text-field fieldName="Номер телефона" [required]="false" [nextLine]="false"></app-text-field>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <app-text-field
+    fieldName="Email"
+    [required]="true"
+    [nextLine]="true"
+    [formElement]="form.controls.email"
+  ></app-text-field>
+
+  <app-text-field
+    fieldName="Пароль"
+    [required]="true"
+    [nextLine]="true"
+    [formElement]="form.controls.password"
+  ></app-text-field>
+
+  <app-text-field
+    fieldName="Подтверждение пароля"
+    [required]="true"
+    [nextLine]="true"
+    [formElement]="form.controls.confirmPassword"
+  ></app-text-field>
+
+  <app-text-field
+    fieldName="Имя"
+    [required]="true"
+    [nextLine]="true"
+    [formElement]="form.controls.firstName"
+  ></app-text-field>
+
+  <app-text-field
+    fieldName="Фамилия"
+    [required]="true"
+    [nextLine]="true"
+    [formElement]="form.controls.lastName"
+  ></app-text-field>
+
+  <app-text-field
+    fieldName="Номер телефона"
+    [required]="false"
+    [nextLine]="true"
+    [formElement]="form.controls.phoneNumber"
+  ></app-text-field>
 
   <button
     type="submit"

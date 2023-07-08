@@ -21,22 +21,22 @@ public class FieldValidator implements IValidator<Field> {
 
     @Override
     public void checkValidityOrThrown(Field field) throws FieldException {
-        checkLabel(field.getLabel());
-        checkType(field.getFieldType());
-        checkForm(field.getForm());
+        checkLabelOrThrown(field.getLabel());
+        checkTypeOrThrown(field.getFieldType());
+        checkFormOrThrown(field.getForm());
     }
 
-    private void checkLabel(String label) throws FieldException {
+    private void checkLabelOrThrown(String label) throws FieldException {
         if (isLengthOutsideRange(label, 2, 100))
             throw new FieldException("Подпись поля должна быть от 2 до 100 символов");
     }
 
-    private void checkType(FieldType fieldType) throws FieldException {
+    private void checkTypeOrThrown(FieldType fieldType) throws FieldException {
         if (fieldType == null)
             throw new FieldException("Полю должен быть задан тип");
     }
 
-    private void checkForm(Form form) throws FieldException {
+    private void checkFormOrThrown(Form form) throws FieldException {
         if (form == null)
             throw new FieldException("Поле должно принадлежать к определённой форме");
     }

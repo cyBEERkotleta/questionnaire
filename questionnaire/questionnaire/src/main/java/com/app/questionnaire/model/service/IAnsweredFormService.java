@@ -15,5 +15,5 @@ public interface IAnsweredFormService {
     public List<AnsweredForm> getAnsweredFormsByFormId(Long id);
     public AnsweredForm getAnsweredFormById(Long id);
     public void deleteAnsweredFormById(Long id);
-    public AnsweredForm saveAnswered(AnsweredForm answeredForm);
+    public AnsweredForm saveAnsweredForm(AnsweredForm answeredForm);
 }

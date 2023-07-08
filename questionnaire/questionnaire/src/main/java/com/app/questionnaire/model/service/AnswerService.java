@@ -12,7 +12,7 @@ import java.util.List;
  * с ответами пользователей на поля форм
  *
  * @author Катя Левкович
- * @version 1.0, 29.06.2023
+ * @version 1.1, 29.06.2023
  */
 @Service
 @RequiredArgsConstructor
@@ -27,6 +27,11 @@ public class AnswerService implements IAnswerService {
     @Override
     public List<Answer> getAnswersByAnsweredFormId(Long id) {
         return answerRepository.getAnswersByAnsweredFormId(id);
+    }
+
+    @Override
+    public List<Answer> getAnswersByFieldId(Long id) {
+        return answerRepository.getAnswersByFieldId(id);
     }
 
     @Override

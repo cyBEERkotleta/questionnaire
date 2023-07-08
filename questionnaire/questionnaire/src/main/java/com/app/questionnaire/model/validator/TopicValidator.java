@@ -1,7 +1,6 @@
 package com.app.questionnaire.model.validator;
 
 import com.app.questionnaire.exception.TopicException;
-import com.app.questionnaire.exception.UserException;
 import com.app.questionnaire.model.entity.Topic;
 
 /**
@@ -22,16 +21,16 @@ public class TopicValidator implements IValidator<Topic> {
 
     @Override
     public void checkValidityOrThrown(Topic topic) throws TopicException {
-        checkName(topic.getName());
-        checkDescription(topic.getDescription());
+        checkNameOrThrown(topic.getName());
+        checkDescriptionOrThrown(topic.getDescription());
     }
 
-    private void checkName(String name) throws TopicException {
+    private void checkNameOrThrown(String name) throws TopicException {
         if (isLengthOutsideRange(name, 3, 100))
             throw new TopicException("Название темы должно быть от 3 до 100 символов");
     }
 
-    private void checkDescription(String firstName) throws TopicException {
+    private void checkDescriptionOrThrown(String firstName) throws TopicException {
         if (isLengthOutsideRange(firstName, 0, 250))
             throw new TopicException("Описание темы не должно превышать 250 символов");
     }

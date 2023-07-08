@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {catchError, delay, Observable, throwError} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 import {User} from "../entity/User";
 import {ErrorService} from "./error.service";
+import {RequestResult} from "../additional/RequestResult";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,24 @@ export class UserService {
       .pipe(
         catchError(this.errorHandler.bind(this))
       )
+  }
+
+  /*register(email: string, password: string, firstName: string, lastName: string,
+           phoneNumber: string, gender: Gender) : Observable<RequestResult> {
+    return this.http.post<RequestResult>('http://localhost:8080/register')
+      .pipe(
+        catchError(this.errorHandler.bind(this))
+      )
+  }*/
+
+  register(user: User, password: string) : Observable<RequestResult> {
+    let headers = { 'content-type': 'application/json'};
+    let body = JSON.stringify(user) + JSON.stringify(password);
+    console.log(body);
+    return this.http.post<RequestResult>('http://localhost:8080/register', body, {'headers':headers})
+      .pipe(
+        catchError(this.errorHandler.bind(this))
+      );
   }
 
   private errorHandler(error: HttpErrorResponse) {

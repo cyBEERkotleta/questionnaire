@@ -11,7 +11,7 @@ import java.util.List;
  * (таблица answered_forms)
  *
  * @author Катя Левкович
- * @version 1.1, 26.06.2023
+ * @version 1.2, 26.06.2023
  */
 @Repository
 public interface AnsweredFormRepository extends CrudRepository<AnsweredForm, Long> {
