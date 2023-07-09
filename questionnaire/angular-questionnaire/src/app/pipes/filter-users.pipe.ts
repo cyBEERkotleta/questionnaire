@@ -14,6 +14,6 @@ export class FilterUsersPipe implements PipeTransform {
     let searchLower = search.toLowerCase();
     return u.firstName.toLowerCase().includes(searchLower) ||
       u.lastName.toLowerCase().includes(searchLower) ||
-      (u.firstName + u.lastName).toLowerCase().includes(searchLower);
+      (u.firstName + " " + u.lastName).toLowerCase().includes(searchLower);
   }
 }

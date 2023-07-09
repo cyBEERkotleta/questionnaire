@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-text-field',
@@ -8,7 +8,11 @@ import {FormControl} from "@angular/forms";
 })
 export class TextFieldComponent {
   @Input() fieldName: string;
-  @Input() required: boolean;
   @Input() nextLine: boolean;
   @Input() formElement: FormControl;
+  @Input() showError: boolean = false;
+
+  isFieldRequired(): boolean {
+    return this.formElement.hasValidator(Validators.required);
+  }
 }

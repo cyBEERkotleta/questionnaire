@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
 import {ErrorService} from "./error.service";
-import {User} from "../entity/User";
 import {Gender} from "../entity/Gender";
 
 @Injectable({
@@ -18,7 +17,7 @@ export class GenderService {
   }
 
   getAll() : Observable<Gender[]> {
-    return this.http.get<User[]>('http://localhost:8080/genders')
+    return this.http.get<Gender[]>('http://localhost:8080/genders')
       .pipe(
         catchError(this.errorHandler.bind(this))
       )

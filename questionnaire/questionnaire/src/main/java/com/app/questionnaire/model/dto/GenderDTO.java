@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
  * Data Transfer Object для сущности "пол пользователя"
  *
  * @author Катя Левкович
- * @version 1.0, 01.07.2023
+ * @version 1.1, 01.07.2023
  */
 @Data
 @NoArgsConstructor
@@ -18,4 +18,5 @@ import lombok.NoArgsConstructor;
 public class GenderDTO {
     private Short id;
     private String name;
+    private String shownName;
 }

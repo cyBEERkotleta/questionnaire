@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {ModalService} from "../../service/modal.service";
 
 @Component({
   selector: 'app-modal-create-user',
@@ -7,4 +8,10 @@ import {Component, Input} from '@angular/core';
 })
 export class ModalCreateUserComponent {
   @Input() title: string;
+
+  modalService: ModalService;
+
+  constructor(modalService: ModalService) {
+    this.modalService = modalService;
+  }
 }

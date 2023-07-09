@@ -14,7 +14,7 @@ import java.util.List;
  * сущность - пол пользователя сайта
  *
  * @author Катя Левкович
- * @version 1.2, 01.07.2023
+ * @version 1.3, 01.07.2023
  */
 @Data
 @ToString(exclude = "users")
@@ -32,6 +32,9 @@ public class Gender {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "shown_name")
+    private String shownName;
+
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "gender", cascade = CascadeType.ALL)
@@ -41,6 +44,7 @@ public class Gender {
         return Gender.builder()
                 .id((short) 1)
                 .name("FEMALE")
+                .shownName("Женский")
                 .build();
     }
 
@@ -48,6 +52,7 @@ public class Gender {
         return Gender.builder()
                 .id((short) 2)
                 .name("MALE")
+                .shownName("Мужской")
                 .build();
     }
 }

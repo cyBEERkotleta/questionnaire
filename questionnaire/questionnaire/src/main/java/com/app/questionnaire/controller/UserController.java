@@ -48,18 +48,10 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public RequestResult registerUser(@RequestParam String email, @RequestParam String password,
-                                      @RequestParam String firstName, @RequestParam String lastName,
-                                      @RequestParam String phoneNumber, @RequestParam GenderDTO gender) throws UserException {
-        User user = User.builder()
-                .email(email)
-                .firstName(firstName)
-                .lastName(lastName)
-                .phoneNumber(phoneNumber)
-                .gender(GenderMapper.INSTANCE.fromDTO(gender))
-                .build();
+    public RequestResult registerUser(@RequestParam UserDTO user, @RequestParam String password) throws UserException {
+        User newUser = UserMapper.INSTANCE.fromDTO(user);
 
-        userService.registerUser(user, password);
+        userService.registerUser(newUser, password);
         return new RequestResult(true, "Аккаунт пользователя успешно зарегистрирован");
     }
 
@@ -70,10 +62,10 @@ public class UserController {
         return new RequestResult(true, "Вы успешно вошли в свой аккаунт");
     }
 
-    /*@PostMapping("/change_password")
+    @PostMapping("/change_password")
     public RequestResult changePassword(@RequestParam String oldPassword, @RequestParam String newPassword) throws UserException {
 
-    }*/
+    }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(UserException.class)

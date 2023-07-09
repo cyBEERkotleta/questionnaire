@@ -1,1 +1,13 @@
-<p>choice-gender works!</p>
+<div class="pt-3">
+  <app-combobox-group
+    [label]="fieldName"
+    [required]="isFieldRequired()"
+    [objects]="genders"
+    (itemSelection)="onChange($event)"
+  ></app-combobox-group>
+
+  <app-field-validator
+    [formElement]="formElement"
+    [showError]="showError"
+  ></app-field-validator>
+</div>

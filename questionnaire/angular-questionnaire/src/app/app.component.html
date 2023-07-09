@@ -7,7 +7,7 @@
     class="m-2 border rounded-1 py-2 px-4 w-11/12"
     placeholder="Поиск по пользователям..."
     [(ngModel)]="term"
-  >
+  />
 
   <p *ngIf="loading" class="text-center text-lg p-2">Loading...</p>
 
@@ -16,7 +16,10 @@
     [user]="item">
   </app-user-profile>
 
-  <app-modal-create-user title="Создать нового пользователя">
+  <app-modal-create-user
+    *ngIf="modalService.isVisible()"
+    title="Создать нового пользователя"
+  >
     <app-create-user></app-create-user>
   </app-modal-create-user>
 </div>

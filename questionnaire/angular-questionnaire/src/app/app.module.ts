@@ -18,6 +18,9 @@ import { HorizontalLineComponent } from './little-components/horizontal-line/hor
 import { DarkHLineComponent } from './little-components/dark-h-line/dark-h-line.component';
 import { LightHLineComponent } from './little-components/light-h-line/light-h-line.component';
 import { ChoiceGenderComponent } from './little-components/choice-gender/choice-gender.component';
+import { ComboboxGroupComponent } from './little-components/combobox-group/combobox-group.component';
+import { FieldValidatorComponent } from './little-components/field-validator/field-validator.component';
+import { ErrorParagraphComponent } from './little-components/error-paragraph/error-paragraph.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,9 @@ import { ChoiceGenderComponent } from './little-components/choice-gender/choice-
     DarkHLineComponent,
     LightHLineComponent,
     ChoiceGenderComponent,
+    ComboboxGroupComponent,
+    FieldValidatorComponent,
+    ErrorParagraphComponent
   ],
     imports: [
         BrowserModule,

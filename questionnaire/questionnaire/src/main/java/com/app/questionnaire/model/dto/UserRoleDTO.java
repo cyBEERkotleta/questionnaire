@@ -18,4 +18,5 @@ import lombok.NoArgsConstructor;
 public class UserRoleDTO {
     private Short id;
     private String name;
+    private String shownName;
 }

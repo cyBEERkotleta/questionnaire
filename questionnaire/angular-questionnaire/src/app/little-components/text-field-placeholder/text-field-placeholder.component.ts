@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-text-field-placeholder',
@@ -8,10 +8,14 @@ import {FormControl} from "@angular/forms";
 })
 export class TextFieldPlaceholderComponent {
   @Input() placeholder: string;
-  @Input() required: boolean;
   @Input() formElement: FormControl;
+  @Input() showError: boolean = false;
 
   getPlaceholder(): string {
-    return this.placeholder + (this.required ? ' *' : '');
+    return this.placeholder + (this.isFieldRequired() ? ' *' : '');
+  }
+
+  isFieldRequired(): boolean {
+    return this.formElement.hasValidator(Validators.required);
   }
 }

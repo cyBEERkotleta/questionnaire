@@ -24,19 +24,10 @@ export class UserService {
       )
   }
 
-  /*register(email: string, password: string, firstName: string, lastName: string,
-           phoneNumber: string, gender: Gender) : Observable<RequestResult> {
-    return this.http.post<RequestResult>('http://localhost:8080/register')
-      .pipe(
-        catchError(this.errorHandler.bind(this))
-      )
-  }*/
-
   register(user: User, password: string) : Observable<RequestResult> {
-    let headers = { 'content-type': 'application/json'};
-    let body = JSON.stringify(user) + JSON.stringify(password);
+    let body = {user: user, password: password};
     console.log(body);
-    return this.http.post<RequestResult>('http://localhost:8080/register', body, {'headers':headers})
+    return this.http.post<RequestResult>('http://localhost:8080/register', body)
       .pipe(
         catchError(this.errorHandler.bind(this))
       );
