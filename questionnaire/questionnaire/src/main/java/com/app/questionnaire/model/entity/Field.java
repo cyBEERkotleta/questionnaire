@@ -19,14 +19,14 @@ import lombok.*;
 @Table(name = "fields")
 public class Field {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
     @Column(name = "label")
     private String label;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "type_id")
     private FieldType fieldType;
 
@@ -36,7 +36,7 @@ public class Field {
     @Column(name = "active")
     private boolean active;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "form_id")
     private Form form;
 }

@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "field_types")
 public class FieldType {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Short id;
 

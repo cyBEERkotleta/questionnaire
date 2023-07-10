@@ -76,9 +76,6 @@ export class CreateUserComponent implements OnInit {
     let user = this.createUserFromFields();
     let password = this.getPasswordFromField();
 
-    console.log(user);
-    console.log(password);
-
     this.userService.register(user, password).subscribe(result => {
       console.log(result);
       if (result.success) {

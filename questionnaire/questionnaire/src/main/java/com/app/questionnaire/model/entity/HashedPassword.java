@@ -17,7 +17,7 @@ import lombok.*;
 @Table(name = "passwords")
 public class HashedPassword {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 

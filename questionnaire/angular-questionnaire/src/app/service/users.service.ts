@@ -25,9 +25,13 @@ export class UserService {
   }
 
   register(user: User, password: string) : Observable<RequestResult> {
-    let body = {user: user, password: password};
+    const userWithPassword = {user: user, password: password};
+    const body = JSON.stringify(userWithPassword);
+    const options = { headers: {'Content-Type': 'application/json'} };
+
     console.log(body);
-    return this.http.post<RequestResult>('http://localhost:8080/register', body)
+
+    return this.http.post<RequestResult>('http://localhost:8080/register', userWithPassword)
       .pipe(
         catchError(this.errorHandler.bind(this))
       );
