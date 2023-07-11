@@ -52,7 +52,6 @@ public class TopicController {
         return new RequestResult(true, "Тема успешно сохранена");
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(UserException.class)
     public RequestResult handleException(TopicException exception) {
         return new RequestResult(false, exception.getMessage());

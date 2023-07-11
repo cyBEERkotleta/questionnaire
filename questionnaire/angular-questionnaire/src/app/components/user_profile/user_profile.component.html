@@ -1,4 +1,4 @@
-<div class="py-2 px-4 border rounded flex items-center flex-row gap-x-4">
+<div class="py-2 px-4 rounded flex items-center flex-row gap-x-4">
   <div *ngIf="isMale()">
     <img class="user-profile-image" src="assets/images/user_male_icon.png">
   </div>
@@ -9,5 +9,4 @@
   <h2 class="text-lg text-center">
     {{user.firstName}} {{user.lastName}} <span class="font-monospace text-blue-800">({{user.email}})</span>
   </h2>
-  <p class="font-monospace bg-cyan-100 my-auto">{{user.phoneNumber}}</p>
 </div>

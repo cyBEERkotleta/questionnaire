@@ -52,7 +52,6 @@ public class AnsweredFormController {
         return new RequestResult(true, "Отвеченная анкета успешно сохранена");
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(UserException.class)
     public RequestResult handleException(AnsweredFormException exception) {
         return new RequestResult(false, exception.getMessage());

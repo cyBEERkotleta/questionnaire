@@ -58,7 +58,6 @@ public class FieldController {
         return new RequestResult(true, "Поле успешно сохранено");
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(UserException.class)
     public RequestResult handleException(FieldException exception) {
         return new RequestResult(false, exception.getMessage());

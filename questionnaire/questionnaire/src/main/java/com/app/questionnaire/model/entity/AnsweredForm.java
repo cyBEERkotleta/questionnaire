@@ -24,7 +24,7 @@ import java.util.List;
 @Table(name = "answered_forms")
 public class AnsweredForm {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

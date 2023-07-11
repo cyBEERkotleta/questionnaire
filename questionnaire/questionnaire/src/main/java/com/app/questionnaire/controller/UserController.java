@@ -71,7 +71,6 @@ public class UserController {
 
     }*/
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(UserException.class)
     public RequestResult handleException(UserException exception) {
         return new RequestResult(false, exception.getMessage());

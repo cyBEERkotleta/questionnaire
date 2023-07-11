@@ -51,7 +51,6 @@ public class AnswerController {
         return new RequestResult(true, "Ответ успешно сохранён");
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(UserException.class)
     public RequestResult handleException(AnswerException exception) {
         return new RequestResult(false, exception.getMessage());

@@ -1,3 +1,4 @@
 .user-profile-image {
-  @apply w-7 mb-2
+  @apply mb-2;
+  width: 27px;
 }

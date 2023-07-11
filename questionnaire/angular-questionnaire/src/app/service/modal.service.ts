@@ -6,7 +6,7 @@ import {BehaviorSubject} from "rxjs";
 })
 export class ModalService {
 
-  private visible$ = new BehaviorSubject<boolean>(true);
+  private visible$ = new BehaviorSubject<boolean>(false);
 
   constructor() { }
 

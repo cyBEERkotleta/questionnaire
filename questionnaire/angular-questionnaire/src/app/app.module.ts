@@ -9,7 +9,7 @@ import { UserProfileComponent } from "./components/user_profile/user_profile.com
 import { ErrorComponent } from './components/error/error.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { FilterUsersPipe } from './pipes/filter-users.pipe';
-import { ModalCreateUserComponent } from './components/modal-create-user/modal-create-user.component';
+import { ModalWindow } from './components/modal-window/modal-window';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { FieldNameComponent } from './little-components/field-name/field-name.component';
 import { TextFieldComponent } from './little-components/text-field/text-field.component';
@@ -21,6 +21,14 @@ import { ChoiceGenderComponent } from './little-components/choice-gender/choice-
 import { ComboboxGroupComponent } from './little-components/combobox-group/combobox-group.component';
 import { FieldValidatorComponent } from './little-components/field-validator/field-validator.component';
 import { ErrorParagraphComponent } from './little-components/error-paragraph/error-paragraph.component';
+import { NavigationMenuComponent } from './components/navigation-menu/navigation-menu.component';
+import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
+import { AboutPageComponent } from './pages/about-page/about-page.component';
+import { NarrowAreaComponent } from './components/narrow-area/narrow-area.component';
+import { AboutTextComponent } from './components/about-text/about-text.component';
+import {AppRoutingModule} from "./app-routing.module";
+import { UserListComponent } from './pages/user-list/user-list.component';
+import { LogotypeTextComponent } from './little-components/logotype-text/logotype-text.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +37,7 @@ import { ErrorParagraphComponent } from './little-components/error-paragraph/err
     UserProfileComponent,
     ErrorComponent,
     FilterUsersPipe,
-    ModalCreateUserComponent,
+    ModalWindow,
     CreateUserComponent,
     FieldNameComponent,
     TextFieldComponent,
@@ -40,14 +48,22 @@ import { ErrorParagraphComponent } from './little-components/error-paragraph/err
     ChoiceGenderComponent,
     ComboboxGroupComponent,
     FieldValidatorComponent,
-    ErrorParagraphComponent
+    ErrorParagraphComponent,
+    NavigationMenuComponent,
+    RegistrationPageComponent,
+    AboutPageComponent,
+    NarrowAreaComponent,
+    AboutTextComponent,
+    UserListComponent,
+    LogotypeTextComponent
   ],
     imports: [
         BrowserModule,
         HttpClientModule,
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        AppRoutingModule
     ],
   providers: [],
   bootstrap: [AppComponent]

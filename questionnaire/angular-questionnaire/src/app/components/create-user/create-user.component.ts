@@ -67,16 +67,20 @@ export class CreateUserComponent implements OnInit {
     this.resetGlobalError();
 
     if (this.isAnyErrorInFields()) {
-      if (!this.doPasswordsMatch())
-        this.globalError = 'Пароли не совпадают';
-
       this.showAllErrors = true;
       return;
     }
+    if (!this.doPasswordsMatch()) {
+      this.globalError = 'Пароли не совпадают';
+      this.showAllErrors = true;
+      return;
+    }
+
     let user = this.createUserFromFields();
     let password = this.getPasswordFromField();
 
-    this.userService.register(user, password).subscribe(result => {
+    this.userService.register(user, password)
+      .subscribe(result => {
       console.log(result);
       if (result.success) {
         this.modalService.close();

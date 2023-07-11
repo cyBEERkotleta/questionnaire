@@ -64,7 +64,6 @@ public class FormController {
         return new RequestResult(true, "Форма успешно сохранена");
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(UserException.class)
     public RequestResult handleException(FormException exception) {
         return new RequestResult(false, exception.getMessage());
