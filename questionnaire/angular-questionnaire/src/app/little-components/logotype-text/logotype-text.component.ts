@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-logotype-text',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./logotype-text.component.css']
 })
 export class LogotypeTextComponent {
-
+  @Input() centered: boolean = false;
 }

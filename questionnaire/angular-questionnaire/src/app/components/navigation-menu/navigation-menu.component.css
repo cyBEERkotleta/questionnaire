@@ -12,10 +12,6 @@
   @apply top-0 right-0 left-0 flex py-2 px-5 justify-around items-center bg-white border-b-2;
 }
 
-.logotype-in-navbar {
-  @apply font-bold text-4xl;
-}
-
 .menu-items-div {
   @apply flex py-2 px-5 items-center;
   justify-content: space-around;

@@ -23,12 +23,17 @@ import { FieldValidatorComponent } from './little-components/field-validator/fie
 import { ErrorParagraphComponent } from './little-components/error-paragraph/error-paragraph.component';
 import { NavigationMenuComponent } from './components/navigation-menu/navigation-menu.component';
 import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
-import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { NarrowAreaComponent } from './components/narrow-area/narrow-area.component';
 import { AboutTextComponent } from './components/about-text/about-text.component';
 import {AppRoutingModule} from "./app-routing.module";
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { LogotypeTextComponent } from './little-components/logotype-text/logotype-text.component';
+import { SuccessfulRegistrationComponent } from './pages/successful-registration/successful-registration.component';
+import { PlainTextComponent } from './little-components/plain-text/plain-text.component';
+import { ButtonBackToMainComponent } from './little-components/button-back-to-main/button-back-to-main.component';
+import { MainPageComponent } from './pages/main-page/main-page.component';
+import { LargeAreaComponent } from './components/large-area/large-area.component';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
 
 @NgModule({
   declarations: [
@@ -51,11 +56,16 @@ import { LogotypeTextComponent } from './little-components/logotype-text/logotyp
     ErrorParagraphComponent,
     NavigationMenuComponent,
     RegistrationPageComponent,
-    AboutPageComponent,
     NarrowAreaComponent,
     AboutTextComponent,
     UserListComponent,
-    LogotypeTextComponent
+    LogotypeTextComponent,
+    SuccessfulRegistrationComponent,
+    PlainTextComponent,
+    ButtonBackToMainComponent,
+    MainPageComponent,
+    LargeAreaComponent,
+    ErrorPageComponent
   ],
     imports: [
         BrowserModule,

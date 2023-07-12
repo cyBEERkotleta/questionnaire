@@ -4,6 +4,7 @@ import {Gender} from "../../entity/Gender";
 import {UserService} from "../../service/users.service";
 import {User} from "../../entity/User";
 import {ModalService} from "../../service/modal.service";
+import {NavigationExtras, Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-user',
@@ -13,6 +14,10 @@ import {ModalService} from "../../service/modal.service";
 export class CreateUserComponent implements OnInit {
   private userService: UserService;
   private modalService: ModalService;
+  private router: Router;
+
+  private createdUser: User;
+
   showAllErrors = false;
   globalError: string = '';
 
@@ -51,9 +56,12 @@ export class CreateUserComponent implements OnInit {
     ])
   })
 
-  constructor(userService: UserService, modalService: ModalService) {
+  constructor(userService: UserService,
+              modalService: ModalService,
+              router: Router) {
     this.userService = userService;
     this.modalService = modalService;
+    this.router = router;
   }
 
   ngOnInit() {
@@ -64,30 +72,50 @@ export class CreateUserComponent implements OnInit {
   }
 
   submit() {
+    if (this.anyErrorExists())
+      return;
+
+    this.createdUser = this.addUser();
+    this.navigateToSuccessfulRegistrationPage();
+  }
+
+  private anyErrorExists(): boolean {
     this.resetGlobalError();
+    let passwordsMatch = this.doPasswordsMatch();
 
-    if (this.isAnyErrorInFields()) {
+    if (this.isAnyErrorInFields() || !passwordsMatch) {
+      if (!passwordsMatch) {
+        this.globalError = 'Пароли не совпадают';
+      }
       this.showAllErrors = true;
-      return;
+      return true;
     }
-    if (!this.doPasswordsMatch()) {
-      this.globalError = 'Пароли не совпадают';
-      this.showAllErrors = true;
-      return;
-    }
+    return false;
+  }
 
+  private addUser(): User {
     let user = this.createUserFromFields();
     let password = this.getPasswordFromField();
 
     this.userService.register(user, password)
       .subscribe(result => {
-      console.log(result);
-      if (result.success) {
-        this.modalService.close();
-      } else {
-        this.globalError = result.message;
-      }
-    });
+        console.log(result);
+        if (result.success) {
+          this.modalService.close();
+        } else {
+          this.globalError = result.message;
+        }
+      });
+    return user;
+  }
+
+  private navigateToSuccessfulRegistrationPage() {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {'first_name': this.createdUser.firstName,
+                    'last_name': this.createdUser.lastName}
+    };
+
+    this.router.navigate(['/successful-registration'], navigationExtras);
   }
 
   resetGlobalError() {

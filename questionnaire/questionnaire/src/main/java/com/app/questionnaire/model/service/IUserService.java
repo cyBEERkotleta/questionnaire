@@ -20,4 +20,5 @@ public interface IUserService {
     public User saveUser(User user);
     public User registerUser(User user, String password) throws UserException;
     public User loginUser(String email, String password) throws UserException;
+    public void changePassword(String email, String oldPassword, String newPassword) throws UserException;
 }

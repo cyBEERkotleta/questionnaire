@@ -1,0 +1,9 @@
+.large-window {
+  @apply w-[1150px] relative rounded mt-3 p-6 bg-white left-1/2 -translate-x-1/2;
+}
+
+@media (max-width: 615px) {
+  .large-window {
+    @apply w-10/12 relative rounded mt-3 p-6 bg-white left-1/2 -translate-x-1/2;
+  }
+}

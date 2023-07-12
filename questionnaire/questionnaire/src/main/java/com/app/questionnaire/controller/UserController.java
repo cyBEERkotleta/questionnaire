@@ -1,5 +1,6 @@
 package com.app.questionnaire.controller;
 
+import com.app.questionnaire.additional.ChangePasswordData;
 import com.app.questionnaire.additional.LoginData;
 import com.app.questionnaire.additional.UserWithPassword;
 import com.app.questionnaire.exception.UserException;
@@ -66,10 +67,14 @@ public class UserController {
         return new RequestResult(true, "Вы успешно вошли в свой аккаунт");
     }
 
-    /*@PostMapping("/change_password")
-    public RequestResult changePassword(@RequestParam String oldPassword, @RequestParam String newPassword) throws UserException {
+    @PostMapping("/change_password")
+    public RequestResult changePassword(@RequestBody ChangePasswordData changePasswordData) throws UserException {
+        userService.changePassword(changePasswordData.getEmail(),
+                changePasswordData.getOldPassword(),
+                changePasswordData.getNewPassword());
 
-    }*/
+        return new RequestResult(true, "Пароль успешно изменён");
+    }
 
     @ExceptionHandler(UserException.class)
     public RequestResult handleException(UserException exception) {

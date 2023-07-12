@@ -86,4 +86,21 @@ public class UserService implements IUserService {
         if (user != null)
             throw new UserException("Пользователь с Email " + email + " уже существует");
     }
+
+    @Override
+    public void changePassword(String email, String oldPassword, String newPassword) throws UserException {
+        User user = getUserByEmail(email);
+        if (user == null)
+            throw new UserException("Нельзя сменить пароль: пользователя с почтой " + email + " не существует");
+
+        boolean passwordsMatch = hashedPasswordService.checkPassword(oldPassword, user.getHashedPassword().getHash());
+        if (!passwordsMatch)
+            throw new UserException("Неверно введён предыдущий пароль");
+
+        String hash = hashedPasswordService.encryptPassword(newPassword);
+        HashedPassword hashedPassword = user.getHashedPassword();
+        hashedPassword.setHash(hash);
+
+        hashedPasswordService.savePassword(hashedPassword);
+    }
 }

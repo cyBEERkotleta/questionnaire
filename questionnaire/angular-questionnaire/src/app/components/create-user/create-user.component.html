@@ -4,47 +4,41 @@
     [errorMessage]="globalError"
   ></app-error-paragraph>
 
-  <app-text-field
-    fieldName="Email"
-    [nextLine]="true"
+  <app-text-field-placeholder
+    placeholder="Email"
     [formElement]="form.controls.email"
     [showError]="showAllErrors"
-  ></app-text-field>
+  ></app-text-field-placeholder>
 
-  <app-text-field
-    fieldName="Пароль"
-    [nextLine]="true"
+  <app-text-field-placeholder
+    placeholder="Пароль"
     [formElement]="form.controls.password"
     [showError]="showAllErrors"
-  ></app-text-field>
+  ></app-text-field-placeholder>
 
-  <app-text-field
-    fieldName="Подтверждение пароля"
-    [nextLine]="true"
+  <app-text-field-placeholder
+    placeholder="Подтверждение пароля"
     [formElement]="form.controls.confirmPassword"
     [showError]="showAllErrors"
-  ></app-text-field>
+  ></app-text-field-placeholder>
 
-  <app-text-field
-    fieldName="Имя"
-    [nextLine]="true"
+  <app-text-field-placeholder
+    placeholder="Имя"
     [formElement]="form.controls.firstName"
     [showError]="showAllErrors"
-  ></app-text-field>
+  ></app-text-field-placeholder>
 
-  <app-text-field
-    fieldName="Фамилия"
-    [nextLine]="true"
+  <app-text-field-placeholder
+    placeholder="Фамилия"
     [formElement]="form.controls.lastName"
     [showError]="showAllErrors"
-  ></app-text-field>
+  ></app-text-field-placeholder>
 
-  <app-text-field
-    fieldName="Номер телефона"
-    [nextLine]="true"
+  <app-text-field-placeholder
+    placeholder="Номер телефона"
     [formElement]="form.controls.phoneNumber"
     [showError]="showAllErrors"
-  ></app-text-field>
+  ></app-text-field-placeholder>
 
   <app-choice-gender
     fieldName="Пол"
@@ -56,4 +50,6 @@
     type="submit"
     class="py-2 px-4 mt-3 mx-auto rounded-1 bg-blue-600 text-white"
   >Создать</button>
+
+  <!--<a [routerLink]="['/somepath', { foo: 'foo' }]">Somewhere</a>-->
 </form>

@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {RegistrationPageComponent} from "./pages/registration-page/registration-page.component";
-import {AboutPageComponent} from "./pages/about-page/about-page.component";
 import {UserListComponent} from "./pages/user-list/user-list.component";
+import {SuccessfulRegistrationComponent} from "./pages/successful-registration/successful-registration.component";
+import {MainPageComponent} from "./pages/main-page/main-page.component";
+import {ErrorPageComponent} from "./pages/error-page/error-page.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'user-list',
     component: UserListComponent
   },
   {
@@ -14,8 +16,16 @@ const routes: Routes = [
     component: RegistrationPageComponent
   },
   {
-    path: 'about',
-    component: AboutPageComponent
+    path: 'successful-registration',
+    component: SuccessfulRegistrationComponent
+  },
+  {
+    path: '',
+    component: MainPageComponent
+  },
+  {
+    path: 'error-page',
+    component: ErrorPageComponent
   }
 ];
 
