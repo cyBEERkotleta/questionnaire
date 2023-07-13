@@ -3,9 +3,48 @@
 @tailwind utilities;
 
 .main-body {
-  @apply pb-4 bg-gray-100 h-full;
+  @apply pb-4 bg-gray-100;
 }
 
 body, html {
-  height: 100%;
+  @apply bg-gray-100;
+  min-height: 100%;
+}
+
+.button-red-rounded {
+  @apply py-2 px-4 mx-auto rounded bg-red-600 text-white;
+}
+
+.button-red-rounded:hover {
+  @apply bg-red-400;
+}
+
+.button-red-rounded:active {
+  @apply bg-red-600;
+}
+
+.button-back {
+  @apply py-2 pl-5 pr-10 mx-auto text-white bg-red-800;
+  border-radius: 5px;
+  background-size: cover;
+
+  clip-path: polygon(0% 0%, 95% 0%, 75% 100%, 0% 100%);
+}
+.button-back:hover {
+  background-color: #f19ab1;
+}
+.button-back:active {
+  @apply bg-red-800;
+}
+
+.button-red-very-rounded-narrow {
+  @apply py-1.5 px-7 mx-auto rounded-3xl bg-red-500 text-white;
+}
+
+.button-red-very-rounded-narrow:hover {
+  @apply bg-red-300;
+}
+
+.button-red-very-rounded-narrow:active {
+  @apply bg-red-500;
 }

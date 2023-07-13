@@ -8,7 +8,6 @@ import com.app.questionnaire.model.entity.Answer;
 import com.app.questionnaire.model.mappers.AnswerMapper;
 import com.app.questionnaire.model.service.IAnswerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,7 +44,7 @@ public class AnswerController {
     }
 
     @PostMapping("/save_answer")
-    public RequestResult saveAnswer(@RequestParam AnswerDTO answer) {
+    public RequestResult saveAnswer(@RequestBody AnswerDTO answer) {
         answerService.saveAnswer(AnswerMapper.INSTANCE.fromDTO(answer));
 
         return new RequestResult(true, "Ответ успешно сохранён");

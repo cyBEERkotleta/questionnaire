@@ -20,6 +20,6 @@ export class SuccessfulRegistrationComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       this.firstName = params['first_name'];
       this.lastName = params['last_name'];
-    })
+    });
   }
 }

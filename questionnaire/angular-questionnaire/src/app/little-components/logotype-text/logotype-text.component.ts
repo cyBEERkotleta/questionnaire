@@ -6,5 +6,4 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./logotype-text.component.css']
 })
 export class LogotypeTextComponent {
-  @Input() centered: boolean = false;
 }

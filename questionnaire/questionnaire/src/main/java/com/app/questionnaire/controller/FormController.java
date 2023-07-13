@@ -8,7 +8,6 @@ import com.app.questionnaire.model.entity.Form;
 import com.app.questionnaire.model.mappers.FormMapper;
 import com.app.questionnaire.model.service.IFormService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,14 +50,14 @@ public class FormController {
     }
 
     @PostMapping("/delete_form")
-    public RequestResult deleteForm(@RequestParam Long id) {
+    public RequestResult deleteForm(@RequestBody Long id) {
         formService.deleteFormById(id);
 
         return new RequestResult(true, "Форма успешно удалена");
     }
 
     @PostMapping("/save_form")
-    public RequestResult saveForm(@RequestParam FormDTO form) {
+    public RequestResult saveForm(@RequestBody FormDTO form) {
         formService.saveForm(FormMapper.INSTANCE.fromDTO(form));
 
         return new RequestResult(true, "Форма успешно сохранена");

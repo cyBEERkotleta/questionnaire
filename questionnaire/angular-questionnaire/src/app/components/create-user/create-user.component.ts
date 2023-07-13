@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Gender} from "../../entity/Gender";
-import {UserService} from "../../service/users.service";
+import {UserService} from "../../service/user.service";
 import {User} from "../../entity/User";
-import {ModalService} from "../../service/modal.service";
 import {NavigationExtras, Router} from "@angular/router";
 
 @Component({
@@ -11,15 +10,15 @@ import {NavigationExtras, Router} from "@angular/router";
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.css']
 })
-export class CreateUserComponent implements OnInit {
+export class CreateUserComponent {
   private userService: UserService;
-  private modalService: ModalService;
   private router: Router;
 
   private createdUser: User;
 
   showAllErrors = false;
   globalError: string = '';
+  private successfulReg = false;
 
   form = new FormGroup({
     email: new FormControl<string>('', [
@@ -49,6 +48,7 @@ export class CreateUserComponent implements OnInit {
       Validators.required
     ]),
     phoneNumber: new FormControl<string>('', [
+      Validators.required,
       Validators.pattern('\\d{3,15}')
     ]),
     gender: new FormControl<Gender>(null, [
@@ -57,14 +57,9 @@ export class CreateUserComponent implements OnInit {
   })
 
   constructor(userService: UserService,
-              modalService: ModalService,
               router: Router) {
     this.userService = userService;
-    this.modalService = modalService;
     this.router = router;
-  }
-
-  ngOnInit() {
   }
 
   isGlobalErrorSet(): boolean {
@@ -75,8 +70,7 @@ export class CreateUserComponent implements OnInit {
     if (this.anyErrorExists())
       return;
 
-    this.createdUser = this.addUser();
-    this.navigateToSuccessfulRegistrationPage();
+    this.registerUser();
   }
 
   private anyErrorExists(): boolean {
@@ -93,20 +87,23 @@ export class CreateUserComponent implements OnInit {
     return false;
   }
 
-  private addUser(): User {
-    let user = this.createUserFromFields();
+  private registerUser() {
+    this.createdUser = this.createUserFromFields();
     let password = this.getPasswordFromField();
 
-    this.userService.register(user, password)
+    this.userService.register(this.createdUser, password)
       .subscribe(result => {
         console.log(result);
+
         if (result.success) {
-          this.modalService.close();
-        } else {
+          this.successfulReg = true;
+          this.navigateToSuccessfulRegistrationPage();
+        }
+        else {
+          this.successfulReg = false;
           this.globalError = result.message;
         }
       });
-    return user;
   }
 
   private navigateToSuccessfulRegistrationPage() {
@@ -118,11 +115,11 @@ export class CreateUserComponent implements OnInit {
     this.router.navigate(['/successful-registration'], navigationExtras);
   }
 
-  resetGlobalError() {
+  private resetGlobalError() {
     this.globalError = '';
   }
 
-  createUserFromFields(): User {
+  private createUserFromFields(): User {
     let email = this.form.controls.email.getRawValue();
     let firstName = this.form.controls.firstName.getRawValue();
     let lastName = this.form.controls.lastName.getRawValue();
@@ -133,11 +130,11 @@ export class CreateUserComponent implements OnInit {
       null, null, gender);
   }
 
-  getPasswordFromField(): string {
+  private getPasswordFromField(): string {
     return this.form.controls.password.getRawValue();
   }
 
-  isAnyErrorInFields(): boolean {
+  private isAnyErrorInFields(): boolean {
     return this.doesControlHaveError(this.form.controls.email) ||
       this.doesControlHaveError(this.form.controls.password) ||
       this.doesControlHaveError(this.form.controls.confirmPassword) ||
@@ -147,11 +144,11 @@ export class CreateUserComponent implements OnInit {
       this.doesControlHaveError(this.form.controls.gender);
   }
 
-  doesControlHaveError(formControl: FormControl): boolean {
+  private doesControlHaveError(formControl: FormControl): boolean {
     return formControl.errors != null;
   }
 
-  doPasswordsMatch(): boolean {
+  private doPasswordsMatch(): boolean {
     let password = this.form.controls.password.getRawValue();
     let confirmPassword = this.form.controls.confirmPassword.getRawValue();
     return password == confirmPassword;

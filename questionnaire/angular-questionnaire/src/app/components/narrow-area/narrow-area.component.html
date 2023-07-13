@@ -1,11 +1,14 @@
 <div
   class="narrow-window"
 >
-  <app-logotype-text
-    *ngIf="showLogo"
-    [centered]="true"
-  ></app-logotype-text>
-  <h1 class="text-center mb-2 text-lg">{{title | titlecase}}</h1>
-  <!--<app-light-h-line></app-light-h-line>-->
+  <p class="text-center w-full">
+    <app-logotype-text
+      *ngIf="showLogo"
+    ></app-logotype-text>
+  </p>
+  <h1 class="text-center mb-2 fs-4">{{title | titlecase}}</h1>
+  <app-light-h-line
+    *ngIf="showLine"
+  ></app-light-h-line>
   <ng-content></ng-content>
 </div>

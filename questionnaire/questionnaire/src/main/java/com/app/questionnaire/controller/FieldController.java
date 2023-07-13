@@ -45,14 +45,14 @@ public class FieldController {
     }
 
     @PostMapping("/delete_field")
-    public RequestResult deleteField(@RequestParam Long id) {
+    public RequestResult deleteField(@RequestBody Long id) {
         fieldService.deleteFieldById(id);
 
         return new RequestResult(true, "Поле успешно удалено");
     }
 
     @PostMapping("/save_field")
-    public RequestResult saveField(@RequestParam FieldDTO field) {
+    public RequestResult saveField(@RequestBody FieldDTO field) {
         fieldService.saveField(FieldMapper.INSTANCE.fromDTO(field));
 
         return new RequestResult(true, "Поле успешно сохранено");

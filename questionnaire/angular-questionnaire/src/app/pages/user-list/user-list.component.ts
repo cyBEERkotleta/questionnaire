@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {UserService} from "../../service/users.service";
+import {UserService} from "../../service/user.service";
 import {ModalService} from "../../service/modal.service";
 
 @Component({

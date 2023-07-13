@@ -2,13 +2,14 @@
 >
   <h1 class="logotype-in-navbar"
   >
-    <app-logotype-text></app-logotype-text>
+    <a routerLink="/" class="text-decoration-none">
+      <app-logotype-text></app-logotype-text>
+    </a>
   </h1>
 
   <div class="menu-items-div"
   >
-    <a routerLink="/" class="menu-item">Главная страница</a>
     <a routerLink="/user-list" class="menu-item">Пользователи</a>
-    <a routerLink="/register" class="menu-item">Регистрация</a>
+    <a routerLink="/topics" class="menu-item">Каталог</a>
   </div>
 </nav>

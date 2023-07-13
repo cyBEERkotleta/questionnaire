@@ -39,14 +39,14 @@ public class TopicController {
     }
 
     @PostMapping("/delete_topic")
-    public RequestResult deleteTopic(@RequestParam Long id) {
+    public RequestResult deleteTopic(@RequestBody Long id) {
         topicService.deleteTopicById(id);
 
         return new RequestResult(true, "Тема успешно удалена");
     }
 
     @PostMapping("/save_topic")
-    public RequestResult saveTopic(@RequestParam TopicDTO topic) {
+    public RequestResult saveTopic(@RequestBody TopicDTO topic) {
         topicService.saveTopic(TopicMapper.INSTANCE.fromDTO(topic));
 
         return new RequestResult(true, "Тема успешно сохранена");

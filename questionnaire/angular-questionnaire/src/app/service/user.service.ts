@@ -27,13 +27,31 @@ export class UserService {
       )
   }
 
-  register(user: User, password: string) : Observable<RequestResult> {
+  register(user: User, password: string): Observable<RequestResult> {
     const userWithPassword = {user: user, password: password};
 
     return this.http.post<RequestResult>('http://localhost:8080/register', userWithPassword)
       .pipe(
         catchError(this.errorHandler.bind(this)),
         tap(result => this.getAll().subscribe())
+      );
+  }
+
+  login(email: string, password: string): Observable<RequestResult> {
+    const loginData = {email: email, password: password};
+
+    return this.http.post<RequestResult>('http://localhost:8080/login', loginData)
+      .pipe(
+        catchError(this.errorHandler.bind(this))
+      );
+  }
+
+  changePassword(email: string, oldPassword: string, newPassword: string): Observable<RequestResult> {
+    const changePasswordData = {email: email, oldPassword: oldPassword, newPassword: newPassword};
+
+    return this.http.post<RequestResult>('http://localhost:8080/change_password', changePasswordData)
+      .pipe(
+        catchError(this.errorHandler.bind(this))
       );
   }
 

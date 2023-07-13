@@ -1,0 +1,28 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <app-error-paragraph
+    *ngIf="isGlobalErrorSet()"
+    [errorMessage]="globalError"
+  ></app-error-paragraph>
+
+  <app-text-field-placeholder
+    placeholder="Email"
+    [formElement]="form.controls.email"
+    [showError]="showAllErrors"
+  ></app-text-field-placeholder>
+
+  <app-text-field-placeholder
+    placeholder="Пароль"
+    [formElement]="form.controls.password"
+    [showError]="showAllErrors"
+  ></app-text-field-placeholder>
+
+  <br/>
+
+  <app-middle-control>
+    <button
+      type="submit"
+      class="button-red-rounded"
+    >Войти</button>
+  </app-middle-control>
+
+</form>

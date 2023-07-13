@@ -39,14 +39,14 @@ public class AnsweredFormController {
     }
 
     @PostMapping("/delete_answered_form")
-    public RequestResult deleteAnsweredForm(@RequestParam Long id) {
+    public RequestResult deleteAnsweredForm(@RequestBody Long id) {
         answeredFormService.deleteAnsweredFormById(id);
 
         return new RequestResult(true, "Отвеченная анкета успешно удалена");
     }
 
     @PostMapping("/save_answered_form")
-    public RequestResult saveAnsweredForm(@RequestParam AnsweredFormDTO answeredForm) {
+    public RequestResult saveAnsweredForm(@RequestBody AnsweredFormDTO answeredForm) {
         answeredFormService.saveAnsweredForm(AnsweredFormMapper.INSTANCE.fromDTO(answeredForm));
 
         return new RequestResult(true, "Отвеченная анкета успешно сохранена");

@@ -8,4 +8,5 @@ import {Component, Input} from '@angular/core';
 export class NarrowAreaComponent {
   @Input() title: string;
   @Input() showLogo: boolean = false;
+  @Input() showLine: boolean = false;
 }

@@ -97,6 +97,10 @@ public class UserService implements IUserService {
         if (!passwordsMatch)
             throw new UserException("Неверно введён предыдущий пароль");
 
+        boolean samePasswordAsWas = oldPassword.equals(newPassword);
+        if (samePasswordAsWas)
+            throw new UserException("Новый пароль такой же, какой был до этого");
+
         String hash = hashedPasswordService.encryptPassword(newPassword);
         HashedPassword hashedPassword = user.getHashedPassword();
         hashedPassword.setHash(hash);

@@ -14,6 +14,6 @@ export class ButtonBackToMainComponent {
   }
 
   doTransfer() {
-    this.router.navigate(['/main-page']);
+    this.router.navigate(['/']);
   }
 }

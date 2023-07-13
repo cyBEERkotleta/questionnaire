@@ -29,11 +29,24 @@ import {AppRoutingModule} from "./app-routing.module";
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { LogotypeTextComponent } from './little-components/logotype-text/logotype-text.component';
 import { SuccessfulRegistrationComponent } from './pages/successful-registration/successful-registration.component';
-import { PlainTextComponent } from './little-components/plain-text/plain-text.component';
+import { PlainParagraphComponent } from './little-components/plain-paragraph/plain-paragraph.component';
 import { ButtonBackToMainComponent } from './little-components/button-back-to-main/button-back-to-main.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { LargeAreaComponent } from './components/large-area/large-area.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { LoginUserComponent } from './components/login-user/login-user.component';
+import { ChangePasswordPageComponent } from './pages/change-password-page/change-password-page.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { MiddleControlComponent } from './little-components/middle-control/middle-control.component';
+import { SuccessfulPasswordChangeComponent } from './pages/successful-password-change/successful-password-change.component';
+import { TopicsPageComponent } from './pages/topics-page/topics-page.component';
+import { TopicItemComponent } from './components/topic-item/topic-item.component';
+import { FilterTopicsPipe } from './pipes/filter-topics.pipe';
+import { CreateTopicComponent } from './components/create-topic/create-topic.component';
+import { FormsPageComponent } from './pages/forms-page/forms-page.component';
+import { FormItemInListComponent } from './components/form-item-in-list/form-item-in-list.component';
+import { FilterFormsPipe } from './pipes/filter-forms.pipe';
 
 @NgModule({
   declarations: [
@@ -61,11 +74,24 @@ import { ErrorPageComponent } from './pages/error-page/error-page.component';
     UserListComponent,
     LogotypeTextComponent,
     SuccessfulRegistrationComponent,
-    PlainTextComponent,
+    PlainParagraphComponent,
     ButtonBackToMainComponent,
     MainPageComponent,
     LargeAreaComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    LoginPageComponent,
+    LoginUserComponent,
+    ChangePasswordPageComponent,
+    ChangePasswordComponent,
+    MiddleControlComponent,
+    SuccessfulPasswordChangeComponent,
+    TopicsPageComponent,
+    TopicItemComponent,
+    FilterTopicsPipe,
+    CreateTopicComponent,
+    FormsPageComponent,
+    FormItemInListComponent,
+    FilterFormsPipe
   ],
     imports: [
         BrowserModule,
