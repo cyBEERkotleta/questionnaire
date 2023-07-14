@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ErrorService} from "./error.service";
 import {Topic} from "../entity/Topic";
-import {catchError, Observable, tap, throwError} from "rxjs";
-import {User} from "../entity/User";
+import {catchError, Observable, throwError} from "rxjs";
 import {RequestResult} from "../additional/RequestResult";
+import {SessionService} from "./session.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +12,20 @@ import {RequestResult} from "../additional/RequestResult";
 export class TopicService {
   private http: HttpClient;
   private errorService: ErrorService;
+  private sessionService: SessionService;
 
-  topics: Topic[];
-  topic: Topic;
-
-  constructor(http: HttpClient, errorService: ErrorService) {
+  constructor(http: HttpClient,
+              errorService: ErrorService,
+              sessionService: SessionService) {
     this.http = http;
     this.errorService = errorService;
+    this.sessionService = sessionService;
   }
 
   getAll() : Observable<Topic[]> {
     return this.http.get<Topic[]>('http://localhost:8080/topics')
       .pipe(
         catchError(this.errorHandler.bind(this)),
-        tap(topics => this.topics = topics)
       )
   }
 
@@ -34,23 +34,24 @@ export class TopicService {
     return this.http.get<Topic>(path)
       .pipe(
         catchError(this.errorHandler.bind(this)),
-        tap(topic => this.topic = topic)
       );
   }
 
   saveTopic(topic: Topic): Observable<RequestResult> {
-    return this.http.post<RequestResult>('http://localhost:8080/save_topic', topic)
+    let token = this.sessionService.getToken();
+    let tokenWithTopic = {token: token, topic: topic};
+    return this.http.post<RequestResult>('http://localhost:8080/save_topic', tokenWithTopic)
       .pipe(
         catchError(this.errorHandler.bind(this)),
-        tap(result => this.getAll().subscribe())
       );
   }
 
-  deleteTopicById(id: bigint): Observable<RequestResult> {
-    return this.http.post<RequestResult>('http://localhost:8080/delete_topic', id)
+  deleteTopic(topic: Topic): Observable<RequestResult> {
+    let token = this.sessionService.getToken();
+    let tokenWithTopic = {token: token, topic: topic};
+    return this.http.post<RequestResult>('http://localhost:8080/delete_topic', tokenWithTopic)
       .pipe(
         catchError(this.errorHandler.bind(this)),
-        tap(result => this.getAll().subscribe())
       );
   }
 

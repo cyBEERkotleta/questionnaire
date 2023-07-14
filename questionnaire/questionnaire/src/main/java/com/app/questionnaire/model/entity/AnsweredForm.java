@@ -17,6 +17,7 @@ import java.util.List;
  */
 @Data
 @ToString(exclude = "form")
+@EqualsAndHashCode(exclude = {"form"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

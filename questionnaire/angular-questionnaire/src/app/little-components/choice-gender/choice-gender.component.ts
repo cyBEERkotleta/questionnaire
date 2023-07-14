@@ -10,7 +10,7 @@ import {FormControl, Validators} from "@angular/forms";
   styleUrls: ['./choice-gender.component.css']
 })
 export class ChoiceGenderComponent implements OnInit {
-  @Input() formElement: FormControl;
+  @Input() formElement: FormControl<Gender>;
   @Input() fieldName: string;
   @Input() showError: boolean = false;
 

@@ -12,6 +12,7 @@ import lombok.*;
  */
 @Data
 @ToString(exclude = "form")
+@EqualsAndHashCode(exclude = {"form"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

@@ -47,6 +47,9 @@ import { CreateTopicComponent } from './components/create-topic/create-topic.com
 import { FormsPageComponent } from './pages/forms-page/forms-page.component';
 import { FormItemInListComponent } from './components/form-item-in-list/form-item-in-list.component';
 import { FilterFormsPipe } from './pipes/filter-forms.pipe';
+import { CheckboxComponent } from './little-components/checkbox/checkbox.component';
+import { CheckboxGroupComponent } from './little-components/checkbox-group/checkbox-group.component';
+import { CheckboxSingleComponent } from './little-components/checkbox-single/checkbox-single.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +94,10 @@ import { FilterFormsPipe } from './pipes/filter-forms.pipe';
     CreateTopicComponent,
     FormsPageComponent,
     FormItemInListComponent,
-    FilterFormsPipe
+    FilterFormsPipe,
+    CheckboxComponent,
+    CheckboxGroupComponent,
+    CheckboxSingleComponent
   ],
     imports: [
         BrowserModule,

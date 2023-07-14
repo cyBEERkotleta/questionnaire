@@ -1,5 +1,6 @@
 package com.app.questionnaire.additional;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -12,6 +13,7 @@ import lombok.Data;
  * @version 1.0, 09.07.2023
  */
 @Data
+@Builder
 public class LoginData {
     private String email;
     private String password;

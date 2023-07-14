@@ -18,6 +18,7 @@ import java.util.List;
  */
 @Data
 @ToString(exclude = {"topic", "user"})
+@EqualsAndHashCode(exclude = {"topic", "user"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

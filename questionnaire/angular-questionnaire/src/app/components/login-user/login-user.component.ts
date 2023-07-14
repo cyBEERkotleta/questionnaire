@@ -23,7 +23,8 @@ export class LoginUserComponent {
     ]),
     password: new FormControl<string>('', [
       Validators.required
-    ])
+    ]),
+    rememberMe: new FormControl<boolean>(false)
   })
 
   constructor(userService: UserService,
@@ -56,8 +57,9 @@ export class LoginUserComponent {
   private loginUser() {
     let email = this.getEmailFromField();
     let password = this.getPasswordFromField();
+    let rememberMe = this.getRememberMeOptionFromField();
 
-    this.userService.login(email, password)
+    this.userService.login(email, password, rememberMe)
       .subscribe(result => {
         console.log(result);
         if (result.success) {
@@ -85,6 +87,10 @@ export class LoginUserComponent {
 
   private getPasswordFromField(): string {
     return this.form.controls.password.getRawValue();
+  }
+
+  private getRememberMeOptionFromField(): boolean {
+    return this.form.controls.rememberMe.getRawValue();
   }
 
   private isAnyErrorInFields(): boolean {

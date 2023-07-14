@@ -1,6 +1,8 @@
 package com.app.questionnaire.model.service;
 
+import com.app.questionnaire.exception.HashedPasswordException;
 import com.app.questionnaire.model.entity.HashedPassword;
+import com.app.questionnaire.model.entity.User;
 
 /**
  * абстрактный сервис для управления паролями пользователей
@@ -10,9 +12,10 @@ import com.app.questionnaire.model.entity.HashedPassword;
  */
 public interface IHashedPasswordService {
     public HashedPassword savePassword(HashedPassword hashedPassword);
-    /*public HashedPassword changePassword(String oldPassword, String newPassword);*/
+    public HashedPassword changePassword(User user, String oldPassword, String newPassword)
+            throws HashedPasswordException;
 
-    public String encryptPassword(String password);
+    public String encrypt(String password);
 
-    public boolean checkPassword(String password, String hashedPassword);
+    public boolean check(String password, String hashedPassword);
 }

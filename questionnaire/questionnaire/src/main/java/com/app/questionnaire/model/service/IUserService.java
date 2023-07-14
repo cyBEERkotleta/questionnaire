@@ -1,5 +1,6 @@
 package com.app.questionnaire.model.service;
 
+import com.app.questionnaire.exception.AccessDeniedException;
 import com.app.questionnaire.exception.UserException;
 import com.app.questionnaire.model.entity.User;
 
@@ -20,5 +21,7 @@ public interface IUserService {
     public User saveUser(User user);
     public User registerUser(User user, String password) throws UserException;
     public User loginUser(String email, String password) throws UserException;
-    public void changePassword(String email, String oldPassword, String newPassword) throws UserException;
+    public User getUserByToken(String token) throws UserException, AccessDeniedException;
+    public String createTokenFromUser(User user);
+    public User changePassword(String email, String oldPassword, String newPassword) throws UserException;
 }

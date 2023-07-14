@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ErrorService} from "./error.service";
-import {catchError, Observable, tap, throwError} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 import {RequestResult} from "../additional/RequestResult";
 import {Form} from "../entity/Form";
+import {SessionService} from "./session.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +12,21 @@ import {Form} from "../entity/Form";
 export class FormService {
   private http: HttpClient;
   private errorService: ErrorService;
+  private sessionService: SessionService;
 
-  forms: Form[];
-  form: Form;
-
-  constructor(http: HttpClient, errorService: ErrorService) {
+  constructor(http: HttpClient,
+              errorService: ErrorService,
+              sessionService: SessionService) {
     this.http = http;
     this.errorService = errorService;
+    this.sessionService = sessionService;
+  }
+
+  getAll(): Observable<Form[]> {
+    return this.http.get<Form[]>('http://localhost:8080/forms')
+      .pipe(
+        catchError(this.errorHandler.bind(this))
+      );
   }
 
   getFormsByTopicId(topicId: bigint) : Observable<Form[]> {
@@ -25,37 +34,40 @@ export class FormService {
     return this.http.get<Form[]>(path)
       .pipe(
         catchError(this.errorHandler.bind(this)),
-        tap(forms => this.forms = forms)
-      )
+      );
   }
 
   getFormsByUserId(userId: bigint) : Observable<Form[]> {
+    let token = this.sessionService.getToken();
     let path = 'http://localhost:8080/forms/user_' + userId;
-    return this.http.get<Form[]>(path)
+    return this.http.post<Form[]>(path, token)
       .pipe(
         catchError(this.errorHandler.bind(this)),
-        tap(forms => this.forms = forms)
-      )
+      );
   }
 
   getFormById(id: bigint): Observable<Form> {
+    let token = this.sessionService.getToken();
     let path = 'http://localhost:8080/forms/' + id;
-    return this.http.get<Form>(path)
+    return this.http.post<Form>(path, token)
       .pipe(
         catchError(this.errorHandler.bind(this)),
-        tap(form => this.form = form)
       );
   }
 
   saveForm(form: Form): Observable<RequestResult> {
-    return this.http.post<RequestResult>('http://localhost:8080/save_form', form)
+    let token = this.sessionService.getToken();
+    let tokenWithForm = {token: token, form: form};
+    return this.http.post<RequestResult>('http://localhost:8080/save_form', tokenWithForm)
       .pipe(
         catchError(this.errorHandler.bind(this)),
       );
   }
 
-  deleteFormById(id: bigint): Observable<RequestResult> {
-    return this.http.post<RequestResult>('http://localhost:8080/delete_form', id)
+  deleteForm(form: Form): Observable<RequestResult> {
+    let token = this.sessionService.getToken();
+    let tokenWithForm = {token: token, form: form};
+    return this.http.post<RequestResult>('http://localhost:8080/delete_form', tokenWithForm)
       .pipe(
         catchError(this.errorHandler.bind(this)),
       );

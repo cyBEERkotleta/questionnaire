@@ -15,7 +15,7 @@
     <p *ngIf="loading" class="text-center text-lg p-2">Loading...</p>
 
     <app-user-profile
-      *ngFor="let item of userService.users | filterUsers: term"
+      *ngFor="let item of users | filterUsers: term"
       [user]="item">
     </app-user-profile>
 

@@ -1,17 +1,16 @@
 package com.app.questionnaire.controller;
 
-import com.app.questionnaire.additional.ChangePasswordData;
-import com.app.questionnaire.additional.LoginData;
-import com.app.questionnaire.additional.UserWithPassword;
+import com.app.questionnaire.additional.*;
+import com.app.questionnaire.additional.tokenable.TokenWithChangePasswordData;
+import com.app.questionnaire.additional.tokenable.TokenWithUser;
+import com.app.questionnaire.exception.AccessDeniedException;
 import com.app.questionnaire.exception.UserException;
-import com.app.questionnaire.model.RequestResult;
 import com.app.questionnaire.model.dto.UserDTO;
 import com.app.questionnaire.model.entity.User;
 import com.app.questionnaire.model.mappers.UserMapper;
-import com.app.questionnaire.model.service.IHashedPasswordService;
 import com.app.questionnaire.model.service.IUserService;
+import com.app.questionnaire.security.AccessHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,63 +20,95 @@ import java.util.List;
  * запросов, связанных с пользователями
  *
  * @author Катя Левкович
- * @version 1.3, 05.07.2023
+ * @version 1.5, 05.07.2023
  */
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class UserController {
     private final IUserService userService;
-    private final IHashedPasswordService hashedPasswordService;
+    private final AccessHandler accessHandler;
 
-    @GetMapping("/users")
-    public List<UserDTO> getUsers() {
+    @PostMapping("/users")
+    public List<UserDTO> getUsers(@RequestBody String token) throws AccessDeniedException {
+        accessHandler.checkTokenIsFromAdminAccountOrThrown(token);
+
         List<User> users = userService.findAll();
         return UserMapper.INSTANCE.toDTOs(users);
     }
 
-    @GetMapping("/users/{id}")
-    public UserDTO getUser(@PathVariable Long id) {
+    @PostMapping("/users/{id}")
+    public UserDTO getUserById(@PathVariable Long id, @RequestBody String token) throws AccessDeniedException {
         User user = userService.getUserById(id);
+        if (!accessHandler.areUsersOneEntity(token, user)) {
+            accessHandler.checkTokenIsFromAdminAccountOrThrown(token);
+        }
+        return UserMapper.INSTANCE.toDTO(user);
+    }
+
+    @PostMapping("/user_by_token")
+    public UserDTO getUserByToken(@RequestBody String token) throws AccessDeniedException, UserException {
+        User user = userService.getUserByToken(token);
         return UserMapper.INSTANCE.toDTO(user);
     }
 
     @PostMapping("/save_user")
-    public RequestResult saveUser(@RequestBody UserDTO user) {
-        userService.saveUser(UserMapper.INSTANCE.fromDTO(user));
-        return new RequestResult(true, "Пользователь успешно сохранён");
+    public AuthorizeResult saveUser(@RequestBody TokenWithUser tokenWithUser) throws AccessDeniedException {
+        String token = tokenWithUser.getToken();
+        User userToSave = UserMapper.INSTANCE.fromDTO(tokenWithUser.getUser());
+
+        accessHandler.checkUsersAreOneEntityOrThrown(token, userToSave);
+
+        User user = userService.saveUser(userToSave);
+        String newToken = userService.createTokenFromUser(user);
+
+        return new AuthorizeResult(true, "Вы успешно обновили данные аккаунта", newToken);
     }
 
     @PostMapping("/register")
-    public RequestResult registerUser(@RequestBody UserWithPassword userWithPassword) throws UserException {
+    public AuthorizeResult registerUser(@RequestBody UserWithPassword userWithPassword) throws UserException {
         UserDTO userDTO = userWithPassword.getUser();
         String password = userWithPassword.getPassword();
 
         System.out.println(userDTO.toString());
         User user = UserMapper.INSTANCE.fromDTO(userDTO);
 
-        userService.registerUser(user, password);
-        return new RequestResult(true, "Аккаунт пользователя успешно зарегистрирован");
+        user = userService.registerUser(user, password);
+        String token = userService.createTokenFromUser(user);
+
+        return new AuthorizeResult(true, "Вы успешно зарегистрировались", token);
     }
 
     @PostMapping("/login")
-    public RequestResult loginUser(@RequestBody LoginData loginData) throws UserException {
+    public AuthorizeResult loginUser(@RequestBody LoginData loginData) throws UserException {
         User user = userService.loginUser(loginData.getEmail(), loginData.getPassword());
+        String token = userService.createTokenFromUser(user);
 
-        return new RequestResult(true, "Вы успешно вошли в свой аккаунт");
+        return new AuthorizeResult(true, "Вы успешно зашли в аккаунт", token);
     }
 
     @PostMapping("/change_password")
-    public RequestResult changePassword(@RequestBody ChangePasswordData changePasswordData) throws UserException {
-        userService.changePassword(changePasswordData.getEmail(),
-                changePasswordData.getOldPassword(),
-                changePasswordData.getNewPassword());
+    public AuthorizeResult changePassword(@RequestBody TokenWithChangePasswordData tokenWithChangePasswordData)
+            throws UserException, AccessDeniedException {
+        String token = tokenWithChangePasswordData.getToken();
+        User user = accessHandler.getUserByToken(token);
+        accessHandler.checkUsersAreOneEntityOrThrown(token, user);
 
-        return new RequestResult(true, "Пароль успешно изменён");
+        user = userService.changePassword(user.getEmail(),
+                tokenWithChangePasswordData.getOldPassword(),
+                tokenWithChangePasswordData.getNewPassword());
+
+        String newToken = userService.createTokenFromUser(user);
+        return new AuthorizeResult(true, "Вы успешно сменили пароль", newToken);
     }
 
     @ExceptionHandler(UserException.class)
-    public RequestResult handleException(UserException exception) {
-        return new RequestResult(false, exception.getMessage());
+    public AuthorizeResult handleException(UserException exception) {
+        return new AuthorizeResult(false, exception.getMessage(), "");
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public AuthorizeResult handleException(AccessDeniedException exception) {
+        return new AuthorizeResult(false, "Недостаточно прав для этого действия", "");
     }
 }

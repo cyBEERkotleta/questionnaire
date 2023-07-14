@@ -4,6 +4,7 @@ import {FormService} from "../../service/form.service";
 import {ActivatedRoute} from "@angular/router";
 import {TopicService} from "../../service/topic.service";
 import {Topic} from "../../entity/Topic";
+import {Form} from "../../entity/Form";
 
 @Component({
   selector: 'app-forms-page',
@@ -24,6 +25,7 @@ export class FormsPageComponent {
   modalService: ModalService;
 
   topic: Topic;
+  forms: Form[];
 
   constructor(formService: FormService,
               topicService: TopicService,
@@ -41,13 +43,15 @@ export class FormsPageComponent {
 
       this.loading = true;
 
-      this.topicService.getTopicById(topicId).subscribe(() => {
+      this.topicService.getTopicById(topicId).subscribe(result => {
         this.topicLoaded = true;
+        this.topic = result;
         this.checkLoading();
       });
 
       this.formService.getFormsByTopicId(topicId)
-        .subscribe(() => {
+        .subscribe(result => {
+          this.forms = result;
           this.formsLoaded = true;
           this.checkLoading();
         });

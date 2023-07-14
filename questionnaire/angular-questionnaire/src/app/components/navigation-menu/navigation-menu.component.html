@@ -1,7 +1,6 @@
 <nav class="navigation_menu"
 >
-  <h1 class="logotype-in-navbar"
-  >
+  <h1>
     <a routerLink="/" class="text-decoration-none">
       <app-logotype-text></app-logotype-text>
     </a>
@@ -9,7 +8,16 @@
 
   <div class="menu-items-div"
   >
-    <a routerLink="/user-list" class="menu-item">Пользователи</a>
     <a routerLink="/topics" class="menu-item">Каталог</a>
+    <a routerLink="/" class="menu-item">Мои формы</a>
+    <a routerLink="/user-list" class="menu-item">Пользователи</a>
+    <div class="dropdown">
+      <button class="dropbtn">Меню</button>
+      <div class="dropdown-content">
+        <a href="#">Ссылка 1</a>
+        <a href="#">Ссылка 2</a>
+        <a href="#">Ссылка 3</a>
+      </div>
+    </div>
   </div>
 </nav>

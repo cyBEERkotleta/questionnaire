@@ -1,4 +1,4 @@
-package com.app.questionnaire.model;
+package com.app.questionnaire.additional;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

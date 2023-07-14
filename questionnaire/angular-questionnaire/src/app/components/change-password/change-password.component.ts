@@ -66,9 +66,7 @@ export class ChangePasswordComponent {
     let oldPassword = this.getOldPasswordFromField();
     let newPassword = this.getNewPasswordFromField();
 
-    const email = 'eeekotletka@gmail.com';
-
-    this.userService.changePassword(email, oldPassword, newPassword)
+    this.userService.changePassword(oldPassword, newPassword)
       .subscribe(result => {
         console.log(result);
         if (result.success) {

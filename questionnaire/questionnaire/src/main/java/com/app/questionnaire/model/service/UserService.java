@@ -1,11 +1,15 @@
 package com.app.questionnaire.model.service;
 
+import com.app.questionnaire.additional.HashedLoginData;
+import com.app.questionnaire.exception.AccessDeniedException;
+import com.app.questionnaire.exception.HashedPasswordException;
 import com.app.questionnaire.exception.UserException;
 import com.app.questionnaire.model.entity.HashedPassword;
 import com.app.questionnaire.model.entity.User;
 import com.app.questionnaire.model.entity.UserRole;
 import com.app.questionnaire.model.repository.UserRepository;
 import com.app.questionnaire.model.validator.UserValidator;
+import com.app.questionnaire.security.TokenHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +25,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
     private final UserRepository userRepository;
-    private final HashedHashedPasswordService hashedPasswordService;
+    private final IHashedPasswordService hashedPasswordService;
+    private final TokenHandler tokenHandler;
 
     @Override
     public List<User> findAll() {
@@ -58,7 +63,7 @@ public class UserService implements IUserService {
         UserValidator.getInstance().checkPasswordOrThrown(password);
 
         HashedPassword hashedPassword = HashedPassword.builder()
-                .hash(hashedPasswordService.encryptPassword(password))
+                .hash(hashedPasswordService.encrypt(password))
                 .build();
 
         hashedPassword = hashedPasswordService.savePassword(hashedPassword);
@@ -69,16 +74,36 @@ public class UserService implements IUserService {
 
     @Override
     public User loginUser(String email, String password) throws UserException {
-        User user = userRepository.getUserByEmail(email);
+        User user = getUserByEmail(email);
         if (user == null)
             throw new UserException("Пользователя с таким Email не существует");
 
         String hashedPassword = user.getHashedPassword().getHash();
-        boolean passwordIsCorrect = hashedPasswordService.checkPassword(password, hashedPassword);
+        boolean passwordIsCorrect = hashedPasswordService.check(password, hashedPassword);
         if (!passwordIsCorrect)
             throw new UserException("Неправильный пароль");
 
         return user;
+    }
+
+    private User loginUserWithHashedPassword(String email, String hashedPassword) throws UserException {
+        User user = getUserByEmail(email);
+        if (user == null)
+            throw new UserException("Пользователя с таким Email не существует");
+
+        if (!hashedPassword.equals(user.getHashedPassword().getHash()))
+            throw new UserException("Неправильный пароль");
+
+        return user;
+    }
+
+    @Override
+    public String createTokenFromUser(User user) {
+        HashedLoginData hashedLoginData = HashedLoginData.builder()
+                .email(user.getEmail())
+                .hashedPassword(user.getHashedPassword().getHash())
+                .build();
+        return tokenHandler.createTokenFromHashedLoginData(hashedLoginData);
     }
 
     private void checkUserWithEmailExistenceOrThrown(String email) throws UserException {
@@ -88,23 +113,26 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void changePassword(String email, String oldPassword, String newPassword) throws UserException {
+    public User getUserByToken(String token) throws UserException, AccessDeniedException {
+        HashedLoginData hashedLoginData = tokenHandler.getHashedLoginDataFromToken(token);
+        String email = hashedLoginData.getEmail();
+        String hashedPassword = hashedLoginData.getHashedPassword();
+
+        return loginUserWithHashedPassword(email, hashedPassword);
+    }
+
+    @Override
+    public User changePassword(String email, String oldPassword, String newPassword) throws UserException {
         User user = getUserByEmail(email);
         if (user == null)
             throw new UserException("Нельзя сменить пароль: пользователя с почтой " + email + " не существует");
 
-        boolean passwordsMatch = hashedPasswordService.checkPassword(oldPassword, user.getHashedPassword().getHash());
-        if (!passwordsMatch)
-            throw new UserException("Неверно введён предыдущий пароль");
-
-        boolean samePasswordAsWas = oldPassword.equals(newPassword);
-        if (samePasswordAsWas)
-            throw new UserException("Новый пароль такой же, какой был до этого");
-
-        String hash = hashedPasswordService.encryptPassword(newPassword);
-        HashedPassword hashedPassword = user.getHashedPassword();
-        hashedPassword.setHash(hash);
-
-        hashedPasswordService.savePassword(hashedPassword);
+        try {
+            HashedPassword hashedPassword = hashedPasswordService.changePassword(user, oldPassword, newPassword);
+            user.setHashedPassword(hashedPassword);
+            return user;
+        } catch (HashedPasswordException ex) {
+            throw new UserException(ex.getMessage());
+        }
     }
 }

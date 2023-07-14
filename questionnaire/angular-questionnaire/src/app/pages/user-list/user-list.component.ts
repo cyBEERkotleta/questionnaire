@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {ModalService} from "../../service/modal.service";
+import {User} from "../../entity/User";
+import {SessionService} from "../../service/session.service";
 
 @Component({
   selector: 'app-user-list',
@@ -15,7 +17,10 @@ export class UserListComponent {
   userService: UserService;
   modalService: ModalService;
 
-  constructor(userService: UserService, modalService: ModalService) {
+  users: User[];
+
+  constructor(userService: UserService,
+              modalService: ModalService) {
     this.userService = userService;
     this.modalService = modalService;
   }
@@ -24,7 +29,8 @@ export class UserListComponent {
     this.loading = true;
 
     this.userService.getAll()
-      .subscribe(() => {
+      .subscribe(result => {
+        this.users = result;
         this.loading = false;
       });
   }
