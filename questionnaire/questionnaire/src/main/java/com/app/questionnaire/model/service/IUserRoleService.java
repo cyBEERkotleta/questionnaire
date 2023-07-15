@@ -9,8 +9,9 @@ import java.util.List;
  * со списком ролей пользователей
  *
  * @author Катя Левкович
- * @version 1.0, 07.07.2023
+ * @version 1.1, 07.07.2023
  */
 public interface IUserRoleService {
     public List<UserRole> findAll();
+    public UserRole getRoleById(Short id);
 }

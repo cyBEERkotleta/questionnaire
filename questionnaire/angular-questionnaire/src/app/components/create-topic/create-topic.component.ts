@@ -1,25 +1,25 @@
-import { Component } from '@angular/core';
-import {UserService} from "../../service/user.service";
+import {Component, OnDestroy} from '@angular/core';
 import {NavigationExtras, Router} from "@angular/router";
-import {User} from "../../entity/User";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Gender} from "../../entity/Gender";
 import {TopicService} from "../../service/topic.service";
 import {Topic} from "../../entity/Topic";
 import {ModalService} from "../../service/modal.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-create-topic',
   templateUrl: './create-topic.component.html',
   styleUrls: ['./create-topic.component.css']
 })
-export class CreateTopicComponent {
+export class CreateTopicComponent implements OnDestroy {
   private topicService: TopicService;
   private modalService: ModalService;
   private router: Router;
 
   showAllErrors = false;
   globalError: string = '';
+
+  private subscription: Subscription;
 
   form = new FormGroup({
     name: new FormControl<string>('', [
@@ -38,6 +38,11 @@ export class CreateTopicComponent {
     this.topicService = topicService;
     this.modalService = modalService;
     this.router = router;
+  }
+
+  ngOnDestroy() {
+    if (this.subscription)
+      this.subscription.unsubscribe();
   }
 
   isGlobalErrorSet(): boolean {
@@ -64,7 +69,7 @@ export class CreateTopicComponent {
   private addTopic() {
     let topic = this.createTopicFromFields();
 
-    this.topicService.saveTopic(topic)
+    this.subscription = this.topicService.saveTopic(topic)
       .subscribe(result => {
         console.log(result);
         if (result.success) {

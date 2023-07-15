@@ -22,6 +22,10 @@ export class AnswerService {
     this.sessionService = sessionService;
   }
 
+  isAnswerPresent(answer: Answer): boolean {
+    return !!answer && !!answer.id && !!answer.field && !!answer.text;
+  }
+
   getAnswerById(id: bigint): Observable<Answer> {
     let token = this.sessionService.getToken();
     let path = 'http://localhost:8080/answers/' + id;

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {RegistrationPageComponent} from "./pages/registration-page/registration-page.component";
 import {UserListComponent} from "./pages/user-list/user-list.component";
-import {SuccessfulRegistrationComponent} from "./pages/successful-registration/successful-registration.component";
+import {FinishRegistrationComponent} from "./pages/finish-registration/finish-registration.component";
 import {MainPageComponent} from "./pages/main-page/main-page.component";
 import {ErrorPageComponent} from "./pages/error-page/error-page.component";
 import {LoginPageComponent} from "./pages/login-page/login-page.component";
@@ -12,6 +12,9 @@ import {
 } from "./pages/successful-password-change/successful-password-change.component";
 import {TopicsPageComponent} from "./pages/topics-page/topics-page.component";
 import {FormsPageComponent} from "./pages/forms-page/forms-page.component";
+import {ConfirmRegistrationComponent} from "./pages/confirm-registration/confirm-registration.component";
+import {RestorePasswordPageComponent} from "./pages/restore-password-page/restore-password-page.component";
+import {SuccessfulRestorationComponent} from "./pages/successful-restoration/successful-restoration.component";
 
 const routes: Routes = [
   {
@@ -23,8 +26,8 @@ const routes: Routes = [
     component: RegistrationPageComponent
   },
   {
-    path: 'successful-registration',
-    component: SuccessfulRegistrationComponent
+    path: 'finish-registration',
+    component: FinishRegistrationComponent
   },
   {
     path: '',
@@ -53,6 +56,18 @@ const routes: Routes = [
   {
     path: 'forms-by-topic',
     component: FormsPageComponent
+  },
+  {
+    path: 'confirm-registration',
+    component: ConfirmRegistrationComponent
+  },
+  {
+    path: 'restore',
+    component: RestorePasswordPageComponent
+  },
+  {
+    path: 'successful-restoration',
+    component: SuccessfulRestorationComponent
   }
 ];
 

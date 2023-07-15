@@ -1,16 +1,17 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Gender} from "../../entity/Gender";
 import {UserService} from "../../service/user.service";
 import {User} from "../../entity/User";
 import {NavigationExtras, Router} from "@angular/router";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.css']
 })
-export class CreateUserComponent {
+export class CreateUserComponent implements OnDestroy {
   private userService: UserService;
   private router: Router;
 
@@ -18,7 +19,9 @@ export class CreateUserComponent {
 
   showAllErrors = false;
   globalError: string = '';
-  private successfulReg = false;
+  private validationPassed = false;
+
+  private subscription: Subscription;
 
   form = new FormGroup({
     email: new FormControl<string>('', [
@@ -62,6 +65,11 @@ export class CreateUserComponent {
     this.router = router;
   }
 
+  ngOnDestroy() {
+    if (this.subscription)
+      this.subscription.unsubscribe();
+  }
+
   isGlobalErrorSet(): boolean {
     return this.globalError != '';
   }
@@ -70,7 +78,7 @@ export class CreateUserComponent {
     if (this.anyErrorExists())
       return;
 
-    this.registerUser();
+    this.tryRegisterUser();
   }
 
   private anyErrorExists(): boolean {
@@ -87,32 +95,33 @@ export class CreateUserComponent {
     return false;
   }
 
-  private registerUser() {
+  private tryRegisterUser() {
     this.createdUser = this.createUserFromFields();
     let password = this.getPasswordFromField();
 
-    this.userService.register(this.createdUser, password)
+    this.subscription = this.userService.tryRegister(this.createdUser, password)
       .subscribe(result => {
         console.log(result);
 
         if (result.success) {
-          this.successfulReg = true;
-          this.navigateToSuccessfulRegistrationPage();
+          this.validationPassed = true;
+          this.navigateToConfirmRegistrationPage();
         }
         else {
-          this.successfulReg = false;
+          this.validationPassed = false;
           this.globalError = result.message;
         }
       });
   }
 
-  private navigateToSuccessfulRegistrationPage() {
+  private navigateToConfirmRegistrationPage() {
     let navigationExtras: NavigationExtras = {
       queryParams: {'first_name': this.createdUser.firstName,
-                    'last_name': this.createdUser.lastName}
+                    'last_name': this.createdUser.lastName,
+                    'email': this.createdUser.email}
     };
 
-    this.router.navigate(['/successful-registration'], navigationExtras);
+    this.router.navigate(['/confirm-registration'], navigationExtras);
   }
 
   private resetGlobalError() {

@@ -16,4 +16,6 @@ import java.util.List;
 public interface UserRoleRepository extends CrudRepository<UserRole, Short> {
     @Override
     public List<UserRole> findAll();
+
+    public UserRole getUserRoleById(Short id);
 }

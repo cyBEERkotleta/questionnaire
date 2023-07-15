@@ -16,18 +16,26 @@
     [showError]="showAllErrors"
   ></app-text-field-placeholder>
 
-  <app-checkbox-single
-    fieldName="Запомнить меня"
-    [formElement]="form.controls.rememberMe"
-  ></app-checkbox-single>
+  <app-middle-control
+    [paddingTop]="2">
+    <app-checkbox-single
+      fieldName="Запомнить меня"
+      [formElement]="form.controls.rememberMe"
+    ></app-checkbox-single>
+    <a routerLink="/register" class="blue-bold-link-text">Забыли пароль?</a>
+  </app-middle-control>
 
-  <br/>
-
-  <app-middle-control>
+  <app-middle-control
+    [paddingTop]="2">
     <button
       type="submit"
       class="button-red-rounded"
     >Войти</button>
   </app-middle-control>
+
+  <p class="text-center fs-6 pt-3">
+    <span class="text-black">Нет аккаунта? </span>
+    <a routerLink="/register" class="blue-bold-link-text">Создать</a>
+  </p>
 
 </form>

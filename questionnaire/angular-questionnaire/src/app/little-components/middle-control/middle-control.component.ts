@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-middle-control',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./middle-control.component.css']
 })
 export class MiddleControlComponent {
-
+  @Input() paddingTop: number = 0;
 }

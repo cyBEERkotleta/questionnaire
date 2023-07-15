@@ -1,15 +1,16 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Gender} from "../../entity/Gender";
 import {GenderService} from "../../service/gender.service";
 import {INamed} from "../../additional/INamed";
 import {FormControl, Validators} from "@angular/forms";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-choice-gender',
   templateUrl: './choice-gender.component.html',
   styleUrls: ['./choice-gender.component.css']
 })
-export class ChoiceGenderComponent implements OnInit {
+export class ChoiceGenderComponent implements OnInit, OnDestroy {
   @Input() formElement: FormControl<Gender>;
   @Input() fieldName: string;
   @Input() showError: boolean = false;
@@ -19,14 +20,21 @@ export class ChoiceGenderComponent implements OnInit {
 
   private genderService: GenderService;
 
+  private subscription: Subscription;
+
   constructor(genderService: GenderService) {
     this.genderService = genderService;
   }
 
   ngOnInit() {
-    this.genderService.getAll().subscribe(genders => {
+    this.subscription = this.genderService.getAll().subscribe(genders => {
       this.genders = genders;
     });
+  }
+
+  ngOnDestroy() {
+    if (this.subscription)
+      this.subscription.unsubscribe();
   }
 
   onChange(item: INamed) {

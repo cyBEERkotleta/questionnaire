@@ -11,7 +11,7 @@ import java.util.List;
  * для взаимозаменяемости различных реализаций сервисов
  *
  * @author Катя Левкович
- * @version 1.1, 25.06.2023
+ * @version 1.2, 25.06.2023
  */
 public interface IUserService {
     public List<User> findAll();
@@ -20,8 +20,11 @@ public interface IUserService {
     public void deleteUserById(Long id);
     public User saveUser(User user);
     public User registerUser(User user, String password) throws UserException;
+    public User registerUser(User user) throws UserException;
+    public void checkUserIsLegalForRegistration(User user, String password) throws UserException;
     public User loginUser(String email, String password) throws UserException;
     public User getUserByToken(String token) throws UserException, AccessDeniedException;
     public String createTokenFromUser(User user);
-    public User changePassword(String email, String oldPassword, String newPassword) throws UserException;
+    public User changePassword(User user, String oldPassword, String newPassword) throws UserException;
+    public User changePassword(User user, String newPassword) throws UserException;
 }

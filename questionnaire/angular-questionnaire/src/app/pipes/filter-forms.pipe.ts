@@ -7,6 +7,8 @@ import {Form} from "../entity/Form";
 export class FilterFormsPipe implements PipeTransform {
 
   transform(forms: Form[], search: string): Form[] {
+    if (!forms)
+      return [];
     return forms.filter(f => this.topicFitsBySearchStr(f, search));
   }
 

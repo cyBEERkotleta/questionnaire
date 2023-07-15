@@ -46,13 +46,17 @@
     [showError]="showAllErrors"
   ></app-choice-gender>
 
-  <br/>
-
-  <app-middle-control>
+  <app-middle-control
+    [paddingTop]="2">
     <button
       type="submit"
       class="button-red-rounded"
     >Зарегистрироваться</button>
   </app-middle-control>
+
+  <p class="text-center fs-6 pt-3">
+    <span class="text-black">Уже есть аккаунт? </span>
+    <a routerLink="/login" class="blue-bold-link-text">Войти</a>
+  </p>
 
 </form>

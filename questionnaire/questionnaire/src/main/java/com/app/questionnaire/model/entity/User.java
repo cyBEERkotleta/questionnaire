@@ -47,7 +47,7 @@ public class User {
 
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "role_id")
-    private UserRole role;
+    private UserRole userRole;
 
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "gender_id")

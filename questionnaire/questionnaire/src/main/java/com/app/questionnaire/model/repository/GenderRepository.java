@@ -10,10 +10,11 @@ import java.util.List;
  * доступ к хранилищу типов полов пользователей
  *
  * @author Катя Левкович
- * @version 1.0, 07.07.2023
+ * @version 1.1, 07.07.2023
  */
 @Repository
 public interface GenderRepository extends CrudRepository<Gender, Short> {
     @Override
     public List<Gender> findAll();
+    public Gender getGenderById(Short id);
 }

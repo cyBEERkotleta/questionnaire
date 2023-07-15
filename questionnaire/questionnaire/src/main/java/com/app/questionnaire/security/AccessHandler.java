@@ -33,7 +33,7 @@ public class AccessHandler {
     }
 
     public boolean isTokenFromAdminAccount(String token) throws AccessDeniedException {
-        return getUserByToken(token).getRole().equals(UserRole.admin());
+        return getUserByToken(token).getUserRole().equals(UserRole.admin());
     }
 
     public void checkUsersAreOneEntityOrThrown(String tokenUserFirst, User userSecond) throws AccessDeniedException {

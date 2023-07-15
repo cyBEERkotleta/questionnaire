@@ -14,7 +14,7 @@ import java.util.List;
  * запросов, связанных с различными полами пользователей
  *
  * @author Катя Левкович
- * @version 1.0, 07.07.2023
+ * @version 1.1, 07.07.2023
  */
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -26,5 +26,11 @@ public class GenderController {
     public List<GenderDTO> getGenders() {
         List<Gender> genders = genderService.findAll();
         return GenderMapper.INSTANCE.toDTOs(genders);
+    }
+
+    @GetMapping("/genders/{id}")
+    public GenderDTO getGenderById(@PathVariable Short id) {
+        Gender gender = genderService.getGenderById(id);
+        return GenderMapper.INSTANCE.toDTO(gender);
     }
 }

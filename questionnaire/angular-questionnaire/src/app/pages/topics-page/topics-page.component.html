@@ -19,7 +19,7 @@
       [topic]="item">
     </app-topic-item>
 
-    <button
+    <button *ngIf="sessionService.isCurrentUserAdmin()"
       class="rounded-pill bg-red-700 text-white fixed right-5 bottom-8 py-2 px-3"
       (click)="modalService.open()"
     >+</button>

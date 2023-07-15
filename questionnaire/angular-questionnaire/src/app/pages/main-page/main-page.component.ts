@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {SessionService} from "../../service/session.service";
 
 @Component({
   selector: 'app-main-page',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./main-page.component.css']
 })
 export class MainPageComponent {
+  sessionService: SessionService;
 
+  constructor(sessionService: SessionService) {
+    this.sessionService = sessionService;
+  }
 }

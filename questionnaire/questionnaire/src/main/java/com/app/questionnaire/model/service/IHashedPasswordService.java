@@ -14,6 +14,7 @@ public interface IHashedPasswordService {
     public HashedPassword savePassword(HashedPassword hashedPassword);
     public HashedPassword changePassword(User user, String oldPassword, String newPassword)
             throws HashedPasswordException;
+    public HashedPassword changePassword(User user, String newPassword) throws HashedPasswordException;
 
     public String encrypt(String password);
 

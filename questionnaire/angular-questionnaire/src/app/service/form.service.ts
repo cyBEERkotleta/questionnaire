@@ -5,6 +5,7 @@ import {catchError, Observable, throwError} from "rxjs";
 import {RequestResult} from "../additional/RequestResult";
 import {Form} from "../entity/Form";
 import {SessionService} from "./session.service";
+import {Field} from "../entity/Field";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class FormService {
     this.http = http;
     this.errorService = errorService;
     this.sessionService = sessionService;
+  }
+
+  isFormPresent(form: Form): boolean {
+    return !!form && !!form.id && !!form.fields && !!form.name && !!form.answeredForms;
   }
 
   getAll(): Observable<Form[]> {

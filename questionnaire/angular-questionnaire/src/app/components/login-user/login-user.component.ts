@@ -1,20 +1,23 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-login-user',
   templateUrl: './login-user.component.html',
   styleUrls: ['./login-user.component.css']
 })
-export class LoginUserComponent {
+export class LoginUserComponent implements OnDestroy {
   private userService: UserService;
   private router: Router;
 
   showAllErrors = false;
   globalError: string = '';
   private successfulLogin = false;
+
+  private subscription: Subscription;
 
   form = new FormGroup({
     email: new FormControl<string>('', [
@@ -31,6 +34,11 @@ export class LoginUserComponent {
               router: Router) {
     this.userService = userService;
     this.router = router;
+  }
+
+  ngOnDestroy() {
+    if (this.subscription)
+      this.subscription.unsubscribe();
   }
 
   isGlobalErrorSet(): boolean {
@@ -59,7 +67,7 @@ export class LoginUserComponent {
     let password = this.getPasswordFromField();
     let rememberMe = this.getRememberMeOptionFromField();
 
-    this.userService.login(email, password, rememberMe)
+    this.subscription = this.userService.login(email, password, rememberMe)
       .subscribe(result => {
         console.log(result);
         if (result.success) {

@@ -2,9 +2,11 @@ package com.app.questionnaire.controller;
 
 import com.app.questionnaire.additional.*;
 import com.app.questionnaire.additional.tokenable.TokenWithChangePasswordData;
+import com.app.questionnaire.additional.tokenable.LinkWithNewPassword;
 import com.app.questionnaire.additional.tokenable.TokenWithUser;
 import com.app.questionnaire.exception.AccessDeniedException;
 import com.app.questionnaire.exception.UserException;
+import com.app.questionnaire.mail.MailService;
 import com.app.questionnaire.model.dto.UserDTO;
 import com.app.questionnaire.model.entity.User;
 import com.app.questionnaire.model.mappers.UserMapper;
@@ -28,6 +30,7 @@ import java.util.List;
 public class UserController {
     private final IUserService userService;
     private final AccessHandler accessHandler;
+    private final MailService mailService;
 
     @PostMapping("/users")
     public List<UserDTO> getUsers(@RequestBody String token) throws AccessDeniedException {
@@ -79,6 +82,19 @@ public class UserController {
         return new AuthorizeResult(true, "Вы успешно зарегистрировались", token);
     }
 
+    @PostMapping("/try_register")
+    public AuthorizeResult tryRegisterUser(@RequestBody UserWithPassword userWithPassword) throws UserException {
+        UserDTO userDTO = userWithPassword.getUser();
+        String password = userWithPassword.getPassword();
+
+        System.out.println(userDTO.toString());
+        User user = UserMapper.INSTANCE.fromDTO(userDTO);
+
+        userService.checkUserIsLegalForRegistration(user, password);
+
+        return new AuthorizeResult(true, "Пользователь подходит для регистрации", "");
+    }
+
     @PostMapping("/login")
     public AuthorizeResult loginUser(@RequestBody LoginData loginData) throws UserException {
         User user = userService.loginUser(loginData.getEmail(), loginData.getPassword());
@@ -92,14 +108,38 @@ public class UserController {
             throws UserException, AccessDeniedException {
         String token = tokenWithChangePasswordData.getToken();
         User user = accessHandler.getUserByToken(token);
-        accessHandler.checkUsersAreOneEntityOrThrown(token, user);
 
-        user = userService.changePassword(user.getEmail(),
+        user = userService.changePassword(user,
                 tokenWithChangePasswordData.getOldPassword(),
                 tokenWithChangePasswordData.getNewPassword());
 
         String newToken = userService.createTokenFromUser(user);
         return new AuthorizeResult(true, "Вы успешно сменили пароль", newToken);
+    }
+
+    @PostMapping("/restore_password")
+    public AuthorizeResult restorePassword(@RequestBody LinkWithNewPassword linkWithNewPassword)
+            throws AccessDeniedException, UserException {
+        String linkFromMail = linkWithNewPassword.getToken();
+        String newPassword = linkWithNewPassword.getNewPassword();
+
+        String token = mailService.createTokenFromLinkForPasswordRestoration(linkFromMail);
+        User user = accessHandler.getUserByToken(token);
+
+        user = userService.changePassword(user, newPassword);
+
+        String newToken = userService.createTokenFromUser(user);
+        return new AuthorizeResult(true, "Вы успешно сменили пароль", newToken);
+    }
+
+    @PostMapping("/finish_registration")
+    public AuthorizeResult finishRegistrationWithLinkFromMail(@RequestBody String linkFromMail) throws UserException {
+        User user = mailService.createUserFromLinkForRegistrationConfirmation(linkFromMail);
+
+        user = userService.registerUser(user);
+        String token = userService.createTokenFromUser(user);
+
+        return new AuthorizeResult(true, "Успешная регистрация", token);
     }
 
     @ExceptionHandler(UserException.class)

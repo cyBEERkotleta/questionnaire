@@ -7,7 +7,7 @@
   >
     <app-about-text></app-about-text>
 
-    <app-middle-control>
+    <app-middle-control *ngIf="!sessionService.isCurrentUserAuthorized()">
         <button
           class="button-red-very-rounded-narrow"
           routerLink="/register"

@@ -7,6 +7,8 @@ import {Topic} from "../entity/Topic";
 export class FilterTopicsPipe implements PipeTransform {
 
   transform(topics: Topic[], search: string): Topic[] {
+    if (!topics)
+      return [];
     return topics.filter(t => this.topicFitsBySearchStr(t, search));
   }
 

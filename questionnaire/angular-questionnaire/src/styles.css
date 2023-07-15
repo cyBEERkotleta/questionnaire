@@ -48,3 +48,18 @@ body, html {
 .button-red-very-rounded-narrow:active {
   @apply bg-red-500;
 }
+
+.blue-bold-link-text {
+  @apply text-blue-500 font-bold;
+  text-decoration: none;
+}
+
+.blue-bold-link-text:hover {
+  @apply text-blue-300 font-bold;
+  text-decoration: none;
+}
+
+.blue-bold-link-text:active {
+  @apply text-blue-600 font-bold;
+  text-decoration: none;
+}

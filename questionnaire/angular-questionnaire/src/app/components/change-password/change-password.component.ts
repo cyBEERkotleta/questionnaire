@@ -1,20 +1,23 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.css']
 })
-export class ChangePasswordComponent {
+export class ChangePasswordComponent implements OnDestroy {
   private userService: UserService;
   private router: Router;
 
   showAllErrors = false;
   globalError: string = '';
   private successfulChange = false;
+
+  private subscription: Subscription;
 
   form = new FormGroup({
     oldPassword: new FormControl<string>('', [
@@ -38,7 +41,9 @@ export class ChangePasswordComponent {
     this.router = router;
   }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    if (this.subscription)
+      this.subscription.unsubscribe();
   }
 
   isGlobalErrorSet(): boolean {
@@ -66,7 +71,7 @@ export class ChangePasswordComponent {
     let oldPassword = this.getOldPasswordFromField();
     let newPassword = this.getNewPasswordFromField();
 
-    this.userService.changePassword(oldPassword, newPassword)
+    this.subscription = this.userService.changePassword(oldPassword, newPassword)
       .subscribe(result => {
         console.log(result);
         if (result.success) {

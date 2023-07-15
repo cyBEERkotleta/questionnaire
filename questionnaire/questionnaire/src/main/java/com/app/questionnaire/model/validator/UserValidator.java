@@ -30,7 +30,7 @@ public class UserValidator implements IValidator<User> {
         checkLastNameOrThrown(user.getLastName());
         checkPhoneNumberOrThrown(user.getPhoneNumber());
         checkGenderOrThrown(user.getGender());
-        checkUserRoleOrThrown(user.getRole());
+        checkUserRoleOrThrown(user.getUserRole());
     }
 
     public void checkPasswordOrThrown(String password) throws UserException {

@@ -8,15 +8,20 @@
 
   <div class="menu-items-div"
   >
-    <a routerLink="/topics" class="menu-item">Каталог</a>
-    <a routerLink="/" class="menu-item">Мои формы</a>
-    <a routerLink="/user-list" class="menu-item">Пользователи</a>
-    <div class="dropdown">
-      <button class="dropbtn">Меню</button>
+    <div class="menu-items-in-row">
+      <a routerLink="/topics" class="menu-item">Каталог</a>
+      <a *ngIf="sessionService.isCurrentUserAuthorized()" routerLink="/" class="menu-item">Мои формы</a>
+      <a *ngIf="sessionService.isCurrentUserAdmin()" routerLink="/user-list" class="menu-item">Пользователи</a>
+    </div>
+
+    <div *ngIf="sessionService.isCurrentUserAuthorized()"
+         class="dropdown"
+    >
+      <button class="dropbtn">{{getUserName()}} ▼</button>
       <div class="dropdown-content">
-        <a href="#">Ссылка 1</a>
-        <a href="#">Ссылка 2</a>
-        <a href="#">Ссылка 3</a>
+        <a href="">Мой профиль</a>
+        <a href="">Сменить пароль</a>
+        <a href="" (click)="logOut()">Выйти</a>
       </div>
     </div>
   </div>

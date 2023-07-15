@@ -19,7 +19,7 @@ import java.util.List;
  * конкретный сервис для управления операциями с пользователями
  *
  * @author Катя Левкович
- * @version 1.1, 25.06.2023
+ * @version 1.2, 25.06.2023
  */
 @Service
 @RequiredArgsConstructor
@@ -55,12 +55,9 @@ public class UserService implements IUserService {
 
     @Override
     public User registerUser(User user, String password) throws UserException {
-        user.setRole(UserRole.member());
+        user.setUserRole(UserRole.member());
 
-        checkUserWithEmailExistenceOrThrown(user.getEmail());
-
-        UserValidator.getInstance().checkValidityOrThrown(user);
-        UserValidator.getInstance().checkPasswordOrThrown(password);
+        checkUserIsLegalForRegistration(user, password);
 
         HashedPassword hashedPassword = HashedPassword.builder()
                 .hash(hashedPasswordService.encrypt(password))
@@ -70,6 +67,27 @@ public class UserService implements IUserService {
         user.setHashedPassword(hashedPassword);
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public User registerUser(User user) throws UserException {
+        user.setUserRole(UserRole.member());
+
+        checkUserWithEmailExistenceOrThrown(user.getEmail());
+        UserValidator.getInstance().checkValidityOrThrown(user);
+
+        HashedPassword hashedPassword = hashedPasswordService.savePassword(user.getHashedPassword());
+        user.setHashedPassword(hashedPassword);
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void checkUserIsLegalForRegistration(User user, String password) throws UserException {
+        checkUserWithEmailExistenceOrThrown(user.getEmail());
+
+        UserValidator.getInstance().checkValidityOrThrown(user);
+        UserValidator.getInstance().checkPasswordOrThrown(password);
     }
 
     @Override
@@ -122,13 +140,20 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User changePassword(String email, String oldPassword, String newPassword) throws UserException {
-        User user = getUserByEmail(email);
-        if (user == null)
-            throw new UserException("Нельзя сменить пароль: пользователя с почтой " + email + " не существует");
-
+    public User changePassword(User user, String oldPassword, String newPassword) throws UserException {
         try {
             HashedPassword hashedPassword = hashedPasswordService.changePassword(user, oldPassword, newPassword);
+            user.setHashedPassword(hashedPassword);
+            return user;
+        } catch (HashedPasswordException ex) {
+            throw new UserException(ex.getMessage());
+        }
+    }
+
+    @Override
+    public User changePassword(User user, String newPassword) throws UserException {
+        try {
+            HashedPassword hashedPassword = hashedPasswordService.changePassword(user, newPassword);
             user.setHashedPassword(hashedPassword);
             return user;
         } catch (HashedPasswordException ex) {

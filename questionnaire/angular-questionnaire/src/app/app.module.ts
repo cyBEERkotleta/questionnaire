@@ -28,7 +28,7 @@ import { AboutTextComponent } from './components/about-text/about-text.component
 import {AppRoutingModule} from "./app-routing.module";
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { LogotypeTextComponent } from './little-components/logotype-text/logotype-text.component';
-import { SuccessfulRegistrationComponent } from './pages/successful-registration/successful-registration.component';
+import { FinishRegistrationComponent } from './pages/finish-registration/finish-registration.component';
 import { PlainParagraphComponent } from './little-components/plain-paragraph/plain-paragraph.component';
 import { ButtonBackToMainComponent } from './little-components/button-back-to-main/button-back-to-main.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
@@ -50,6 +50,10 @@ import { FilterFormsPipe } from './pipes/filter-forms.pipe';
 import { CheckboxComponent } from './little-components/checkbox/checkbox.component';
 import { CheckboxGroupComponent } from './little-components/checkbox-group/checkbox-group.component';
 import { CheckboxSingleComponent } from './little-components/checkbox-single/checkbox-single.component';
+import { ConfirmRegistrationComponent } from './pages/confirm-registration/confirm-registration.component';
+import { RestorePasswordComponent } from './components/restore-password/restore-password.component';
+import { RestorePasswordPageComponent } from './pages/restore-password-page/restore-password-page.component';
+import { SuccessfulRestorationComponent } from './pages/successful-restoration/successful-restoration.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +80,7 @@ import { CheckboxSingleComponent } from './little-components/checkbox-single/che
     AboutTextComponent,
     UserListComponent,
     LogotypeTextComponent,
-    SuccessfulRegistrationComponent,
+    FinishRegistrationComponent,
     PlainParagraphComponent,
     ButtonBackToMainComponent,
     MainPageComponent,
@@ -97,7 +101,11 @@ import { CheckboxSingleComponent } from './little-components/checkbox-single/che
     FilterFormsPipe,
     CheckboxComponent,
     CheckboxGroupComponent,
-    CheckboxSingleComponent
+    CheckboxSingleComponent,
+    ConfirmRegistrationComponent,
+    RestorePasswordComponent,
+    RestorePasswordPageComponent,
+    SuccessfulRestorationComponent
   ],
     imports: [
         BrowserModule,

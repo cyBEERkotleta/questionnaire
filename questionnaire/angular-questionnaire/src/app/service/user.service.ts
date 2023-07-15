@@ -5,6 +5,7 @@ import {User} from "../entity/User";
 import {ErrorService} from "./error.service";
 import {AuthorizeResult} from "../additional/AuthorizeResult";
 import {SessionService} from "./session.service";
+import {MailService} from "./mail.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,21 @@ export class UserService {
   private http: HttpClient;
   private errorService: ErrorService;
   private sessionService: SessionService;
+  private mailService: MailService;
 
   constructor(http: HttpClient,
               errorService: ErrorService,
-              sessionService: SessionService) {
+              sessionService: SessionService,
+              mailService: MailService) {
     this.http = http;
     this.errorService = errorService;
     this.sessionService = sessionService;
+    this.mailService = mailService;
+  }
+
+  isUserPresent(user: User): boolean {
+    return !!user && !!user.id && !!user.userRole && !!user.firstName && !!user.lastName &&
+      !!user.email && !!user.phoneNumber && !!user.forms && !!user.gender;
   }
 
   getAll() : Observable<User[]> {
@@ -48,8 +57,19 @@ export class UserService {
         tap(result => {
           if (result.success) {
             this.updateTokenInSession(result.token);
+            this.updateCurrentUser()
+              .subscribe(result => result);
           }
         })
+      );
+  }
+
+  tryRegister(user: User, password: string): Observable<AuthorizeResult> {
+    const userWithPassword = {user: user, password: password};
+
+    return this.http.post<AuthorizeResult>('http://localhost:8080/try_register', userWithPassword)
+      .pipe(
+        catchError(this.errorHandler.bind(this))
       );
   }
 
@@ -62,9 +82,16 @@ export class UserService {
         tap(result => {
           if (result.success) {
             this.updateTokenWithRememberMeFlag(result.token, rememberMe);
+            this.updateCurrentUser()
+              .subscribe(result => result);
           }
         })
       );
+  }
+
+  logOut() {
+    this.sessionService.removeTokenFromEverywhere();
+    this.sessionService.resetUser();
   }
 
   changePassword(oldPassword: string, newPassword: string): Observable<AuthorizeResult> {
@@ -79,6 +106,10 @@ export class UserService {
         tap(result => {
           if (result.success) {
             this.updateTokenWhereItWasSet(result.token);
+            this.updateCurrentUser()
+              .subscribe(result => {
+                this.mailService.sendPasswordChangeNotification(this.sessionService.getUser().email);
+              })
           }
         })
       );
@@ -96,24 +127,67 @@ export class UserService {
         tap(result => {
           if (result.success) {
             this.updateTokenWhereItWasSet(result.token);
+            this.updateCurrentUser()
+              .subscribe(result => result);
           }
         })
       );
   }
 
-  getCurrentUser(): Observable<User> {
+  updateCurrentUser(): Observable<User> {
     let token = this.sessionService.getToken();
     return this.http.post<User>('http://localhost:8080/user_by_token', token)
       .pipe(
+        catchError(this.errorHandler.bind(this)),
+        tap(result => {
+          if (this.isUserPresent(result))
+            this.sessionService.setUser(result);
+        })
+      );
+  }
+
+  getUserByToken(token: string): Observable<User> {
+    return this.http.post<User>('http://localhost:8080/user_by_token', token)
+      .pipe(
         catchError(this.errorHandler.bind(this))
-      )
+      );
+  }
+
+  finishRegistration(linkFromMail: string): Observable<AuthorizeResult> {
+    return this.http.post<AuthorizeResult>('http://localhost:8080/finish_registration', linkFromMail)
+      .pipe(
+        catchError(this.errorHandler.bind(this)),
+        tap(result => {
+          if (result.success) {
+            this.updateTokenInSession(result.token);
+            this.updateCurrentUser()
+              .subscribe(result => result);
+          }
+        })
+      );
+  }
+
+  restorePassword(linkFromMail: string, newPassword: string): Observable<AuthorizeResult> {
+    let linkWithNewPassword = {linkFromMail: linkFromMail, newPassword: newPassword};
+    return this.http.post<AuthorizeResult>('http://localhost:8080/restore_password', linkWithNewPassword)
+      .pipe(
+        catchError(this.errorHandler.bind(this)),
+        tap(result => {
+          if (result.success) {
+            this.getUserByToken(result.token)
+              .subscribe(user => {
+                this.mailService.sendPasswordChangeNotification(user.email);
+              });
+          }
+        })
+      );
   }
 
   private updateTokenWithRememberMeFlag(token: string, rememberMe: boolean) {
     if (rememberMe)
       this.updateTokenGlobally(token);
     else
-      this.updateTokenGlobally(token);
+      this.updateTokenInSession(token);
   }
 
   private updateTokenInSession(token: string) {

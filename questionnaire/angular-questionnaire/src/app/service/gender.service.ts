@@ -3,6 +3,7 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
 import {ErrorService} from "./error.service";
 import {Gender} from "../entity/Gender";
+import {Form} from "../entity/Form";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class GenderService {
   constructor(http: HttpClient, errorService: ErrorService) {
     this.http = http;
     this.errorService = errorService;
+  }
+
+  isGenderPresent(gender: Gender): boolean {
+    return !!gender && !!gender.id && !!gender.name && !!gender.shownName;
   }
 
   getAll() : Observable<Gender[]> {

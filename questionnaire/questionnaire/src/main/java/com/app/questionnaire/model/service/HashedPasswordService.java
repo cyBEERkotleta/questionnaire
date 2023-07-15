@@ -46,6 +46,17 @@ public class HashedPasswordService implements IHashedPasswordService {
     }
 
     @Override
+    public HashedPassword changePassword(User user, String newPassword) {
+        String hash = encrypt(newPassword);
+        HashedPassword hashedPassword = user.getHashedPassword();
+        hashedPassword.setHash(hash);
+
+        savePassword(hashedPassword);
+
+        return hashedPassword;
+    }
+
+    @Override
     public String encrypt(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }

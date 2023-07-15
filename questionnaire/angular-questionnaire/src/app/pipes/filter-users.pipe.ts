@@ -7,6 +7,8 @@ import {User} from "../entity/User";
 export class FilterUsersPipe implements PipeTransform {
 
   transform(users: User[], search: string): User[] {
+    if (!users)
+      return [];
     return users.filter(u => this.userFitsBySearchStr(u, search));
   }
 

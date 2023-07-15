@@ -18,17 +18,5 @@
       *ngFor="let item of users | filterUsers: term"
       [user]="item">
     </app-user-profile>
-
-    <button
-      class="rounded-pill bg-red-700 text-white fixed right-5 bottom-8 py-2 px-3"
-      (click)="modalService.open()"
-    >+</button>
   </app-large-area>
 </div>
-
-<app-modal-window
-  *ngIf="modalService.isVisible()"
-  title="Создать нового пользователя"
->
-  <app-create-user></app-create-user>
-</app-modal-window>

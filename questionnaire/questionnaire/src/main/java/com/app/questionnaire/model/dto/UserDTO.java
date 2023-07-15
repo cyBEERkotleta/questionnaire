@@ -26,7 +26,7 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private UserRoleDTO role;
+    private UserRoleDTO userRole;
     private GenderDTO gender;
     private List<FormDTO> forms;
 }

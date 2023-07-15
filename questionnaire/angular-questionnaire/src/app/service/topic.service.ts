@@ -5,6 +5,7 @@ import {Topic} from "../entity/Topic";
 import {catchError, Observable, throwError} from "rxjs";
 import {RequestResult} from "../additional/RequestResult";
 import {SessionService} from "./session.service";
+import {UserRole} from "../entity/UserRole";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class TopicService {
     this.http = http;
     this.errorService = errorService;
     this.sessionService = sessionService;
+  }
+
+  isTopicPresent(topic: Topic): boolean {
+    return !!topic && !!topic.id && !!topic.name && !!topic.description && !!topic.forms;
   }
 
   getAll() : Observable<Topic[]> {

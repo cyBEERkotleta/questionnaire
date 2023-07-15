@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ErrorService} from "../../service/error.service";
 
 @Component({
@@ -6,13 +6,10 @@ import {ErrorService} from "../../service/error.service";
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.css']
 })
-export class ErrorComponent implements OnInit {
+export class ErrorComponent {
   errorService: ErrorService;
 
   constructor(errorService: ErrorService) {
     this.errorService = errorService;
-  }
-
-  ngOnInit() {
   }
 }

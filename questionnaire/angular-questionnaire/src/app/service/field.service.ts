@@ -5,6 +5,7 @@ import {SessionService} from "./session.service";
 import {catchError, Observable, throwError} from "rxjs";
 import {RequestResult} from "../additional/RequestResult";
 import {Field} from "../entity/Field";
+import {AnsweredForm} from "../entity/AnsweredForm";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class FieldService {
     this.http = http;
     this.errorService = errorService;
     this.sessionService = sessionService;
+  }
+
+  isFieldPresent(field: Field): boolean {
+    return !!field && !!field.id && !!field.fieldType && !!field.active && !!field.required && !!field.label;
   }
 
   getFieldById(id: bigint): Observable<Field> {

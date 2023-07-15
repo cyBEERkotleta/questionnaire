@@ -17,7 +17,7 @@ export class CheckboxComponent {
   })
 
   selectionChanged() {
-    let active = this.form.value.check;
+    let active = this.form.controls.check.getRawValue();
     let checkBoxState = new CheckBoxState(this.text, active);
     this.itemSelection.emit(checkBoxState);
   }

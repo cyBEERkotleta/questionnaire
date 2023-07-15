@@ -12,7 +12,7 @@ import java.util.List;
  * со списком полов пользователей
  *
  * @author Катя Левкович
- * @version 1.0, 07.07.2023
+ * @version 1.1, 07.07.2023
  */
 @Service
 @RequiredArgsConstructor
@@ -22,5 +22,10 @@ public class UserRoleService implements IUserRoleService {
     @Override
     public List<UserRole> findAll() {
         return userRoleRepository.findAll();
+    }
+
+    @Override
+    public UserRole getRoleById(Short id) {
+        return userRoleRepository.getUserRoleById(id);
     }
 }
