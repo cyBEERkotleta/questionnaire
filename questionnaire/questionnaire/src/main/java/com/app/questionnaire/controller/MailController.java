@@ -2,16 +2,15 @@ package com.app.questionnaire.controller;
 
 import com.app.questionnaire.additional.RequestResult;
 import com.app.questionnaire.additional.UserWithPassword;
-import com.app.questionnaire.exception.AccessDeniedException;
-import com.app.questionnaire.exception.MailException;
 import com.app.questionnaire.exception.UserException;
 import com.app.questionnaire.mail.MailService;
 import com.app.questionnaire.model.dto.UserDTO;
 import com.app.questionnaire.model.entity.User;
 import com.app.questionnaire.model.mappers.UserMapper;
 import com.app.questionnaire.model.service.IUserService;
-import com.app.questionnaire.security.TokenHandler;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.MailSendException;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -27,12 +26,10 @@ import org.springframework.web.bind.annotation.*;
 public class MailController {
     private final MailService mailService;
     private final IUserService userService;
-    private final TokenHandler tokenHandler;
-
-    @PostMapping("/get")
 
     @PostMapping("/send_confirmation_email")
-    public RequestResult sendConfirmationEmail(@RequestBody UserWithPassword userWithPassword) throws UserException {
+    public RequestResult sendConfirmationEmail(@RequestBody UserWithPassword userWithPassword)
+            throws UserException, MessagingException {
         UserDTO userDTO = userWithPassword.getUser();
         String password = userWithPassword.getPassword();
 
@@ -46,15 +43,19 @@ public class MailController {
     }
 
     @PostMapping("/send_notification_password_changed")
-    public RequestResult sendNotificationPasswordChanged(@RequestBody String email) {
+    public RequestResult sendNotificationPasswordChanged(@RequestBody String email) throws MessagingException {
         mailService.sendNotificationAboutPasswordChange(email);
 
         return new RequestResult(true, "Письмо, оповещающее о смене пароля, послано");
     }
 
     @PostMapping("/send_password_restoration")
-    public RequestResult sendPasswordRestoration(@RequestBody String token) throws AccessDeniedException {
-        String email = tokenHandler.getHashedLoginDataFromToken(token).getEmail();
+    public RequestResult sendPasswordRestoration(@RequestBody String email) throws UserException, MessagingException {
+        User user = userService.getUserByEmail(email);
+        if (user == null)
+            throw new UserException("Пользователь с таким Email не зарегистрирован");
+
+        String token = userService.createTokenFromUser(user);
 
         mailService.sendPasswordRestoration(email, token);
 
@@ -66,8 +67,15 @@ public class MailController {
         return new RequestResult(false, exception.getMessage());
     }
 
-    @ExceptionHandler(MailException.class)
-    public RequestResult handleException(AccessDeniedException exception) {
-        return new RequestResult(false, "Недостаточно прав для этого действия");
+    @ExceptionHandler(MailSendException.class)
+    public RequestResult handleException(MailSendException exception) {
+        System.out.println(exception);
+        return new RequestResult(false, "Скорее всего, Email не существует. Но возможна также и серверная ошибка");
+    }
+
+    @ExceptionHandler(MessagingException.class)
+    public RequestResult handleException(MessagingException exception) {
+        System.out.println(exception);
+        return new RequestResult(false, "Ошибка при отправке сообщения");
     }
 }

@@ -3,7 +3,7 @@ import {NavigationExtras, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TopicService} from "../../service/topic.service";
 import {Topic} from "../../entity/Topic";
-import {ModalService} from "../../service/modal.service";
+import {ModalCreateWindowService} from "../../service/modal-create-window.service";
 import {Subscription} from "rxjs";
 
 @Component({
@@ -13,7 +13,7 @@ import {Subscription} from "rxjs";
 })
 export class CreateTopicComponent implements OnDestroy {
   private topicService: TopicService;
-  private modalService: ModalService;
+  private modalService: ModalCreateWindowService;
   private router: Router;
 
   showAllErrors = false;
@@ -33,7 +33,7 @@ export class CreateTopicComponent implements OnDestroy {
   });
 
   constructor(topicService: TopicService,
-              modalService: ModalService,
+              modalService: ModalCreateWindowService,
               router: Router) {
     this.topicService = topicService;
     this.modalService = modalService;

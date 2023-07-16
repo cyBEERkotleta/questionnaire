@@ -34,23 +34,23 @@ public class Form {
     private String name;
 
     @Column(name = "shown")
-    private boolean shown;
+    private Boolean shown;
 
-    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "topic_id")
     private Topic topic;
 
-    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "form", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "form")
     private List<AnsweredForm> answeredForms = new ArrayList<>();
 
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "form", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "form")
     private List<Field> fields = new ArrayList<>();
 }

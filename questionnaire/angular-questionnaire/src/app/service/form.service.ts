@@ -6,6 +6,7 @@ import {RequestResult} from "../additional/RequestResult";
 import {Form} from "../entity/Form";
 import {SessionService} from "./session.service";
 import {Field} from "../entity/Field";
+import {Topic} from "../entity/Topic";
 
 @Injectable({
   providedIn: 'root'
@@ -60,10 +61,10 @@ export class FormService {
       );
   }
 
-  saveForm(form: Form): Observable<RequestResult> {
+  saveForm(form: Form, topic: Topic): Observable<RequestResult> {
     let token = this.sessionService.getToken();
-    let tokenWithForm = {token: token, form: form};
-    return this.http.post<RequestResult>('http://localhost:8080/save_form', tokenWithForm)
+    let tokenWithFormAndTopic = {token: token, form: form, topic: topic};
+    return this.http.post<RequestResult>('http://localhost:8080/save_form', tokenWithFormAndTopic)
       .pipe(
         catchError(this.errorHandler.bind(this)),
       );

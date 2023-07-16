@@ -29,7 +29,7 @@ public class AnsweredForm {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "form_id")
     private Form form;
 

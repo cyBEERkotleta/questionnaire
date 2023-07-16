@@ -63,3 +63,30 @@ body, html {
   @apply text-blue-600 font-bold;
   text-decoration: none;
 }
+
+.button-dark {
+  background-color: #3d4c64;
+  color: #FFFFFF;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+}
+
+.button-dark:hover {
+  background-color: #000000;
+}
+
+.button-dark:active {
+  background-color: #3d4c64;
+}
+
+.button-back-arrow {
+  @apply bg-white text-red-800 font-bold text-4xl rounded-xl px-2 border-2 border-red-800;
+}
+
+.button-back-arrow:hover {
+  @apply bg-red-800 text-white;
+}
+
+.button-back-arrow:active {
+  @apply bg-white text-red-800;
+}

@@ -1,0 +1,11 @@
+<div class="modal-background"
+     (click)="modalService.close()"
+></div>
+
+<div
+  class="w-[500px] position-absolute rounded top-16 p-6 bg-white left-1/2 -translate-x-1/2"
+>
+  <h1 class="text-center mb-2 text-lg">{{title | titlecase}}</h1>
+  <app-light-h-line></app-light-h-line>
+  <ng-content></ng-content>
+</div>

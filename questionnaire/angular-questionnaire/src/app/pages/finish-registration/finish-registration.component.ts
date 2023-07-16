@@ -1,7 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs";
 import {UserService} from "../../service/user.service";
+import {ActivatedRoute} from "@angular/router";
+import {User} from "../../entity/User";
+import {GenderService} from "../../service/gender.service";
+import {SessionService} from "../../service/session.service";
 
 @Component({
   selector: 'app-finish-registration',
@@ -10,26 +13,58 @@ import {UserService} from "../../service/user.service";
 })
 export class FinishRegistrationComponent implements OnInit, OnDestroy {
   private userService: UserService;
-  private location: Location;
+  private genderService: GenderService;
+  private activatedRoute: ActivatedRoute;
 
-  private subscription: Subscription;
+  successfulReg = false;
+  globalError: string = '';
+
+  private subscriptionParams: Subscription;
+  private subscriptionGender: Subscription;
+  private subscriptionFinishReg: Subscription;
 
   constructor(userService: UserService,
-              location: Location) {
+              activatedRoute: ActivatedRoute,
+              genderService: GenderService) {
     this.userService = userService;
-    this.location = location;
+    this.activatedRoute = activatedRoute;
+    this.genderService = genderService;
   }
 
   ngOnInit() {
+    this.subscriptionParams = this.activatedRoute.queryParams
+      .subscribe(params => {
+        let email = params['email'];
+        let firstName = params['first_name'];
+        let lastName = params['last_name'];
+        let phoneNumber = params['phone_number'];
+        let hashedPassword = params['hashed'];
+        let genderId: number = params['gender_id'];
 
+        this.subscriptionGender = this.genderService.getGenderById(genderId)
+          .subscribe(gender => {
+            let user = new User(null, email, firstName, lastName, phoneNumber, null, null, gender);
+
+            this.subscriptionFinishReg = this.userService.finishRegistration(user, hashedPassword)
+              .subscribe(result => {
+                this.successfulReg = result.success;
+                if (!result.success)
+                  this.globalError = 'Ошибка при подтверждении регистрации: ' + result.message;
+              });
+          });
+      });
   }
 
   ngOnDestroy() {
-    if (this.subscription)
-      this.subscription.unsubscribe();
+    if (this.subscriptionParams)
+      this.subscriptionParams.unsubscribe();
+    if (this.subscriptionGender)
+      this.subscriptionGender.unsubscribe();
+    if (this.subscriptionFinishReg)
+      this.subscriptionFinishReg.unsubscribe();
   }
 
-  private getCurrentUrl() {
-    return this.location.href;
+  isGlobalErrorSet(): boolean {
+    return this.globalError != '';
   }
 }

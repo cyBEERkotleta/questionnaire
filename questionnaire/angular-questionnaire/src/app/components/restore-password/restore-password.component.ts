@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from "../../service/user.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
@@ -9,15 +9,18 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
   templateUrl: './restore-password.component.html',
   styleUrls: ['./restore-password.component.css']
 })
-export class RestorePasswordComponent {
+export class RestorePasswordComponent implements OnDestroy {
+  private activatedRoute: ActivatedRoute;
   private userService: UserService;
   private router: Router;
-  private location: Location;
 
   showAllErrors = false;
   globalError: string = '';
 
-  private subscription: Subscription;
+  private token: string;
+
+  private subscriptionParams: Subscription;
+  private subscriptionRestore: Subscription;
 
   form = new FormGroup({
     newPassword: new FormControl<string>('', [
@@ -32,17 +35,19 @@ export class RestorePasswordComponent {
     ])
   })
 
-  constructor(userService: UserService,
-              router: Router,
-              location: Location) {
+  constructor(activatedRoute: ActivatedRoute,
+              userService: UserService,
+              router: Router) {
+    this.activatedRoute = activatedRoute;
     this.userService = userService;
     this.router = router;
-    this.location = location;
   }
 
   ngOnDestroy() {
-    if (this.subscription)
-      this.subscription.unsubscribe();
+    if (this.subscriptionParams)
+      this.subscriptionParams.unsubscribe();
+    if (this.subscriptionRestore)
+      this.subscriptionRestore.unsubscribe();
   }
 
   isGlobalErrorSet(): boolean {
@@ -67,18 +72,22 @@ export class RestorePasswordComponent {
   }
 
   private changePassword() {
-    let linkFromMail = this.getCurrentUrl();
     let newPassword = this.getNewPasswordFromField();
 
-    this.subscription = this.userService.restorePassword(linkFromMail, newPassword)
-      .subscribe(result => {
-        console.log(result);
-        if (result.success) {
-          this.doTransferToSuccessPage();
-        }
-        else {
-          this.globalError = result.message;
-        }
+    this.subscriptionParams = this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.token = params['code'];
+
+        this.subscriptionRestore = this.userService.restorePassword(this.token, newPassword)
+          .subscribe(result => {
+            console.log(result);
+            if (result.success) {
+              this.doTransferToSuccessPage();
+            }
+            else {
+              this.globalError = result.message;
+            }
+          });
       });
   }
 
@@ -112,9 +121,5 @@ export class RestorePasswordComponent {
 
   doTransferToSuccessPage() {
     this.router.navigate(['/successful-restoration']);
-  }
-
-  private getCurrentUrl() {
-    return this.location.href;
   }
 }

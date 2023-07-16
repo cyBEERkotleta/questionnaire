@@ -18,4 +18,5 @@ import lombok.NoArgsConstructor;
 public class FieldTypeDTO {
     private Short id;
     private String name;
+    private Boolean ableToHaveOptions;
 }

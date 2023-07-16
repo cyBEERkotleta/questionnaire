@@ -26,11 +26,11 @@ public class Answer {
     @Column(name = "text")
     private String text;
 
-    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "answered_form_id")
     private AnsweredForm answeredForm;
 
-    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "field_id")
     private Field field;
 }

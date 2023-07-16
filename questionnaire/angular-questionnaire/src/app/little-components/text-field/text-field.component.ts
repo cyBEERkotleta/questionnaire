@@ -11,6 +11,7 @@ export class TextFieldComponent {
   @Input() nextLine: boolean = true;
   @Input() formElement: FormControl;
   @Input() showError: boolean = false;
+  @Input() additionalNote: string = '';
 
   isFieldRequired(): boolean {
     return this.formElement.hasValidator(Validators.required);

@@ -38,7 +38,7 @@ public class UserRole {
 
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "userRole", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userRole")
     private List<User> users = new ArrayList<>();
 
     public static UserRole admin() {

@@ -23,7 +23,7 @@ public class AnswerValidator implements IValidator<Answer> {
     public void checkValidityOrThrown(Answer answer) throws AnswerException {
         checkFieldOrThrown(answer.getField());
         checkAnsweredFormOrThrown(answer.getAnsweredForm());
-        checkTextOrThrown(answer.getText(), answer.getField().isRequired());
+        checkTextOrThrown(answer.getText(), answer.getField().getRequired());
     }
 
     private void checkTextOrThrown(String text, boolean required) throws AnswerException {

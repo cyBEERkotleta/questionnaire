@@ -3,7 +3,8 @@
   <app-error></app-error>
 
   <app-large-area
-    title="Формы из темы '{{topic.name}}'"
+    title="Формы из темы {{getTopicName()}}"
+    buttonBackRoute="/topics"
   >
     <input
       type="text"
@@ -12,7 +13,7 @@
       [(ngModel)]="term"
     />
 
-    <p *ngIf="loading" class="text-center text-lg p-2">Loading...</p>
+    <p *ngIf="loading" class="text-center text-lg p-2">Загрузка...</p>
 
     <app-form-item-in-list
       *ngFor="let item of forms | filterForms: term"
@@ -26,9 +27,11 @@
   </app-large-area>
 </div>
 
-<app-modal-window
+<app-modal-create-window
   *ngIf="modalService.isVisible()"
   title="Создать новую форму"
 >
-  <app-create-topic></app-create-topic>
-</app-modal-window>
+  <app-create-form
+    [topic]="topic"
+  ></app-create-form>
+</app-modal-create-window>

@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from "../../service/user.service";
-import {ModalService} from "../../service/modal.service";
+import {ModalCreateWindowService} from "../../service/modal-create-window.service";
 import {User} from "../../entity/User";
 import {SessionService} from "../../service/session.service";
 import {Subscription} from "rxjs";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-user-list',
@@ -11,18 +12,18 @@ import {Subscription} from "rxjs";
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit, OnDestroy {
-  title = 'angular-questionnaire';
   loading = false;
   term: string = '';
 
   userService: UserService;
-  modalService: ModalService;
+  modalService: ModalCreateWindowService;
 
   users: User[];
 
-  private subscription: Subscription;
+  private subscription1: Subscription;
+
   constructor(userService: UserService,
-              modalService: ModalService) {
+              modalService: ModalCreateWindowService) {
     this.userService = userService;
     this.modalService = modalService;
   }
@@ -30,7 +31,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loading = true;
 
-    this.subscription = this.userService.getAll()
+    this.subscription1 = this.userService.getAll()
       .subscribe(result => {
         this.users = result;
         this.loading = false;
@@ -38,7 +39,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscription)
-      this.subscription.unsubscribe();
+    if (this.subscription1)
+      this.subscription1.unsubscribe();
   }
 }

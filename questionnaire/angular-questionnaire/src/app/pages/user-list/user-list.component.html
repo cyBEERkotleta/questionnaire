@@ -12,11 +12,11 @@
       [(ngModel)]="term"
     />
 
-    <p *ngIf="loading" class="text-center text-lg p-2">Loading...</p>
+    <p *ngIf="loading" class="text-center text-lg p-2">Загрузка...</p>
 
-    <app-user-profile
+    <app-user-row
       *ngFor="let item of users | filterUsers: term"
       [user]="item">
-    </app-user-profile>
+    </app-user-row>
   </app-large-area>
 </div>

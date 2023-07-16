@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class TokenHandler {
     private final IHashedPasswordService hashedPasswordService;
 
-    private final String SEPARATOR = "&@&&-&=&-&&@&";
+    private final String SEPARATOR = "!':,,::!!::,,!-__!!!_-";
 
     public String createTokenFromLoginData(LoginData loginData) {
         String email = loginData.getEmail();

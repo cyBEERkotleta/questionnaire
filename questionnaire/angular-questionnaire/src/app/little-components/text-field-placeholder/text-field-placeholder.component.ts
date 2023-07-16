@@ -10,6 +10,7 @@ export class TextFieldPlaceholderComponent {
   @Input() placeholder: string;
   @Input() formElement: FormControl;
   @Input() showError: boolean = false;
+  @Input() additionalNote: string = '';
 
   getPlaceholder(): string {
     return this.placeholder + (this.isFieldRequired() ? ' *' : '');

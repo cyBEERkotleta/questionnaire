@@ -15,7 +15,6 @@ export class LoginUserComponent implements OnDestroy {
 
   showAllErrors = false;
   globalError: string = '';
-  private successfulLogin = false;
 
   private subscription: Subscription;
 
@@ -71,12 +70,10 @@ export class LoginUserComponent implements OnDestroy {
       .subscribe(result => {
         console.log(result);
         if (result.success) {
-          this.successfulLogin = true;
           this.navigateToMainPage();
         }
         else {
           this.globalError = result.message;
-          this.successfulLogin = false;
         }
       });
   }

@@ -1,14 +1,17 @@
 package com.app.questionnaire.controller;
 
 import com.app.questionnaire.additional.tokenable.TokenWithForm;
+import com.app.questionnaire.additional.tokenable.TokenWithFormAndTopic;
 import com.app.questionnaire.exception.AccessDeniedException;
 import com.app.questionnaire.exception.FormException;
-import com.app.questionnaire.exception.UserException;
 import com.app.questionnaire.additional.RequestResult;
+import com.app.questionnaire.exception.UserException;
 import com.app.questionnaire.model.dto.FormDTO;
+import com.app.questionnaire.model.dto.TopicDTO;
 import com.app.questionnaire.model.entity.Form;
 import com.app.questionnaire.model.entity.User;
 import com.app.questionnaire.model.mappers.FormMapper;
+import com.app.questionnaire.model.mappers.TopicMapper;
 import com.app.questionnaire.model.service.IFormService;
 import com.app.questionnaire.model.service.IUserService;
 import com.app.questionnaire.security.AccessHandler;
@@ -41,10 +44,8 @@ public class FormController {
     @PostMapping("/forms/{id}")
     public FormDTO getForm(@PathVariable Long id, @RequestBody String token) throws AccessDeniedException {
         Form form = formService.getFormById(id);
-        if (!form.isShown()) {
-            if (!accessHandler.areUsersOneEntity(token, form.getUser())) {
-                accessHandler.checkTokenIsFromAdminAccountOrThrown(token);
-            }
+        if (!form.getShown()) {
+            accessHandler.checkUsersAreOneEntityOrThrown(token, form.getUser());
         }
 
         return FormMapper.INSTANCE.toDTO(form);
@@ -59,9 +60,7 @@ public class FormController {
     @PostMapping("/forms/user_{id}")
     public List<FormDTO> getFormsByUserId(@PathVariable Long id, @RequestBody String token) throws AccessDeniedException {
         User user = userService.getUserById(id);
-        if (!accessHandler.areUsersOneEntity(token, user)) {
-            accessHandler.checkTokenIsFromAdminAccountOrThrown(token);
-        }
+        accessHandler.checkUsersAreOneEntityOrThrown(token, user);
 
         List<Form> forms = formService.getFormsByUserId(id);
         return FormMapper.INSTANCE.toDTOs(forms);
@@ -72,6 +71,8 @@ public class FormController {
         Form form = formService.getFormById(tokenWithForm.getForm().getId());
         if (!accessHandler.areUsersOneEntity(tokenWithForm.getToken(), form.getUser())) {
             accessHandler.checkTokenIsFromAdminAccountOrThrown(tokenWithForm.getToken());
+            if (!form.getShown())
+                throw new AccessDeniedException();
         }
 
         formService.deleteFormById(tokenWithForm.getForm().getId());
@@ -80,17 +81,23 @@ public class FormController {
     }
 
     @PostMapping("/save_form")
-    public RequestResult saveForm(@RequestBody TokenWithForm tokenWithForm) throws AccessDeniedException {
-        FormDTO form = tokenWithForm.getForm();
-        String token = tokenWithForm.getToken();
+    public RequestResult saveForm(@RequestBody TokenWithFormAndTopic tokenWithFormAndTopic)
+            throws AccessDeniedException, UserException {
+        FormDTO form = tokenWithFormAndTopic.getForm();
+        TopicDTO topic = tokenWithFormAndTopic.getTopic();
+        String token = tokenWithFormAndTopic.getToken();
+        User user = userService.getUserByToken(token);
+
         if (form.getId() != null) {
             Form formWas = formService.getFormById(form.getId());
-            if (!accessHandler.areUsersOneEntity(token, formWas.getUser())) {
-                accessHandler.checkTokenIsFromAdminAccountOrThrown(token);
-            }
+            accessHandler.checkUsersAreOneEntityOrThrown(token, formWas.getUser());
         }
 
-        formService.saveForm(FormMapper.INSTANCE.fromDTO(form));
+        Form formToSave = FormMapper.INSTANCE.fromDTO(form);
+        formToSave.setTopic(TopicMapper.INSTANCE.fromDTO(topic));
+        formToSave.setUser(user);
+
+        formService.saveForm(formToSave);
 
         return new RequestResult(true, "Форма успешно сохранена");
     }

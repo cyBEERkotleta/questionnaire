@@ -3,6 +3,7 @@ import {UserService} from "../../service/user.service";
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
+import {UrlService} from "../../service/url.service";
 
 @Component({
   selector: 'app-change-password',
@@ -12,10 +13,11 @@ import {Subscription} from "rxjs";
 export class ChangePasswordComponent implements OnDestroy {
   private userService: UserService;
   private router: Router;
+  private urlService: UrlService;
 
   showAllErrors = false;
   globalError: string = '';
-  private successfulChange = false;
+  changingPasswordProcess = false;
 
   private subscription: Subscription;
 
@@ -36,9 +38,11 @@ export class ChangePasswordComponent implements OnDestroy {
   })
 
   constructor(userService: UserService,
-              router: Router) {
+              router: Router,
+              urlService: UrlService) {
     this.userService = userService;
     this.router = router;
+    this.urlService = urlService;
   }
 
   ngOnDestroy() {
@@ -71,16 +75,16 @@ export class ChangePasswordComponent implements OnDestroy {
     let oldPassword = this.getOldPasswordFromField();
     let newPassword = this.getNewPasswordFromField();
 
+    this.changingPasswordProcess = true;
     this.subscription = this.userService.changePassword(oldPassword, newPassword)
       .subscribe(result => {
+        this.changingPasswordProcess = false;
         console.log(result);
         if (result.success) {
-          this.successfulChange = true;
           this.doTransferToSuccessPage();
         }
         else {
           this.globalError = result.message;
-          this.successfulChange = false;
         }
       });
   }
@@ -122,7 +126,7 @@ export class ChangePasswordComponent implements OnDestroy {
     this.router.navigate(['/successful-password-change']);
   }
 
-  doTransferToMainPage() {
-    this.router.navigate(['']);
+  doTransferToLastPage() {
+    this.router.navigate([this.urlService.getLastPage()]);
   }
 }

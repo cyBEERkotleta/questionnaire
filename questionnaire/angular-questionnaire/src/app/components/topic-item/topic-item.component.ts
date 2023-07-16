@@ -17,10 +17,6 @@ export class TopicItemComponent {
   }
 
   doTransferToFormsOfTopicPage() {
-    let navigationExtras: NavigationExtras = {
-      queryParams: {'topic_id': this.topic.id}
-    };
-
-    this.router.navigate(['/forms-by-topic'], navigationExtras);
+    this.router.navigate(['/forms-by-topic', this.topic.id]);
   }
 }

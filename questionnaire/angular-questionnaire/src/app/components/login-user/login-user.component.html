@@ -10,11 +10,11 @@
     [showError]="showAllErrors"
   ></app-text-field-placeholder>
 
-  <app-text-field-placeholder
+  <app-text-field-password-placeholder
     placeholder="Пароль"
     [formElement]="form.controls.password"
     [showError]="showAllErrors"
-  ></app-text-field-placeholder>
+  ></app-text-field-password-placeholder>
 
   <app-middle-control
     [paddingTop]="2">
@@ -22,7 +22,7 @@
       fieldName="Запомнить меня"
       [formElement]="form.controls.rememberMe"
     ></app-checkbox-single>
-    <a routerLink="/register" class="blue-bold-link-text">Забыли пароль?</a>
+    <a routerLink="/email-to-restore-password" class="blue-bold-link-text">Забыли пароль?</a>
   </app-middle-control>
 
   <app-middle-control

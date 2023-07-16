@@ -19,8 +19,8 @@
     >
       <button class="dropbtn">{{getUserName()}} ▼</button>
       <div class="dropdown-content">
-        <a href="">Мой профиль</a>
-        <a href="">Сменить пароль</a>
+        <a *ngIf="user" [routerLink]="['/user-profiles', user.id]">Мой профиль</a>
+        <a routerLink="/change-password">Сменить пароль</a>
         <a href="" (click)="logOut()">Выйти</a>
       </div>
     </div>

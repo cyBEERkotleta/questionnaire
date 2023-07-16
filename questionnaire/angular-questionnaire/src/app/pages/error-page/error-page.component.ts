@@ -12,20 +12,21 @@ export class ErrorPageComponent implements OnInit, OnDestroy {
 
   errorText: string;
 
-  private subscription: Subscription;
+  private subscription1: Subscription;
 
   constructor(activatedRoute: ActivatedRoute) {
     this.activatedRoute = activatedRoute;
   }
 
   ngOnInit() {
-    this.subscription = this.activatedRoute.queryParams.subscribe(params => {
+    this.subscription1 = this.activatedRoute.queryParams
+      .subscribe(params => {
       this.errorText = params['error_text'];
     });
   }
 
   ngOnDestroy() {
-    if (this.subscription)
-      this.subscription.unsubscribe();
+    if (this.subscription1)
+      this.subscription1.unsubscribe();
   }
 }

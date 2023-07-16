@@ -5,6 +5,7 @@ import {UserService} from "../../service/user.service";
 import {User} from "../../entity/User";
 import {NavigationExtras, Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {MailService} from "../../service/mail.service";
 
 @Component({
   selector: 'app-create-user',
@@ -13,15 +14,18 @@ import {Subscription} from "rxjs";
 })
 export class CreateUserComponent implements OnDestroy {
   private userService: UserService;
+  private mailService: MailService;
   private router: Router;
 
   private createdUser: User;
 
   showAllErrors = false;
   globalError: string = '';
-  private validationPassed = false;
 
-  private subscription: Subscription;
+  sendingMailProcess = false;
+
+  private subscriptionTryReg: Subscription;
+  private subscriptionSendMail: Subscription;
 
   form = new FormGroup({
     email: new FormControl<string>('', [
@@ -43,16 +47,20 @@ export class CreateUserComponent implements OnDestroy {
     firstName: new FormControl<string>('', [
       Validators.minLength(2),
       Validators.maxLength(30),
-      Validators.required
+      Validators.required,
+      Validators.pattern(/^[\p{L}\s-]{2,30}$/u)
     ]),
     lastName: new FormControl<string>('', [
       Validators.minLength(2),
       Validators.maxLength(30),
-      Validators.required
+      Validators.required,
+      Validators.pattern(/^[\p{L}\s-]{2,30}$/u)
     ]),
     phoneNumber: new FormControl<string>('', [
       Validators.required,
-      Validators.pattern('\\d{3,15}')
+      Validators.pattern('^\\d{3,15}$'),
+      Validators.minLength(3),
+      Validators.maxLength(15)
     ]),
     gender: new FormControl<Gender>(null, [
       Validators.required
@@ -60,14 +68,18 @@ export class CreateUserComponent implements OnDestroy {
   })
 
   constructor(userService: UserService,
+              mailService: MailService,
               router: Router) {
     this.userService = userService;
+    this.mailService = mailService;
     this.router = router;
   }
 
   ngOnDestroy() {
-    if (this.subscription)
-      this.subscription.unsubscribe();
+    if (this.subscriptionTryReg)
+      this.subscriptionTryReg.unsubscribe();
+    if (this.subscriptionSendMail)
+      this.subscriptionSendMail.unsubscribe();
   }
 
   isGlobalErrorSet(): boolean {
@@ -99,16 +111,24 @@ export class CreateUserComponent implements OnDestroy {
     this.createdUser = this.createUserFromFields();
     let password = this.getPasswordFromField();
 
-    this.subscription = this.userService.tryRegister(this.createdUser, password)
+    this.subscriptionTryReg = this.userService.tryRegister(this.createdUser, password)
       .subscribe(result => {
         console.log(result);
 
         if (result.success) {
-          this.validationPassed = true;
-          this.navigateToConfirmRegistrationPage();
+          this.sendingMailProcess = true;
+          this.subscriptionSendMail = this.mailService.sendConfirmationEmail(this.createdUser, password)
+            .subscribe(answer => {
+              this.sendingMailProcess = false;
+              if (answer.success) {
+                this.navigateToConfirmRegistrationPage();
+              }
+              else {
+                this.globalError = answer.message;
+              }
+            });
         }
         else {
-          this.validationPassed = false;
           this.globalError = result.message;
         }
       });

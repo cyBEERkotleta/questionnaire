@@ -52,85 +52,51 @@ export class SessionService {
 
   saveTokenToLocalStorage(token: string){
     localStorage.setItem(this.TOKEN_KEY, token);
-
-    console.log('method saveTokenToLocalStorage');
-    this.ping();
   }
 
   saveTokenToSessionStorage(token: string) {
     sessionStorage.setItem(this.TOKEN_KEY, token);
-
-    console.log('method saveTokenToSessionStorage');
-    this.ping();
   }
 
   updateTokenWhereItWasSet(token: string) {
-    console.log('method updateTokenWhereItWasSet');
-    this.ping();
-
     if (this.getTokenFromSessionStorage() != this.TOKEN_BY_DEFAULT)
       this.saveTokenToSessionStorage(token);
     if (this.getTokenFromLocalStorage() != this.TOKEN_BY_DEFAULT)
       this.saveTokenToLocalStorage(token);
-
-    this.ping();
   }
 
   getTokenFromLocalStorage() {
-    console.log('method getTokenFromLocalStorage');
-    this.ping();
-
     let token = localStorage.getItem(this.TOKEN_KEY);
     return token ? token : this.TOKEN_BY_DEFAULT;
   }
 
   getTokenFromSessionStorage() {
-    console.log('method getTokenFromSessionStorage');
-    this.ping();
-
     let token = sessionStorage.getItem(this.TOKEN_KEY);
     return token ? token : this.TOKEN_BY_DEFAULT;
   }
 
   getToken() {
-    console.log('method getToken');
-    this.ping();
-
     let token = this.getTokenFromSessionStorage();
     if (token && token != this.TOKEN_BY_DEFAULT) {
-      console.log('token: ' + token);
       return token;
     }
     token = this.getTokenFromLocalStorage();
     if (token && token != this.TOKEN_BY_DEFAULT) {
       this.saveTokenToSessionStorage(token);
-      console.log('token: ' + token);
       return token;
     }
-    console.log('token: ' + token);
     return this.TOKEN_BY_DEFAULT;
   }
 
   removeTokenFromLocalStorage(){
-    console.log('method removeTokenFromLocalStorage');
-    this.ping();
-
     localStorage.removeItem(this.TOKEN_KEY);
-
-    this.ping();
   }
 
   removeTokenFromSessionStorage(){
-    console.log('method removeTokenFromSessionStorage');
-    this.ping();
-
     sessionStorage.removeItem(this.TOKEN_KEY);
-
-    this.ping();
   }
 
   removeTokenFromEverywhere(){
-    console.log('method removeTokenFromEverywhere');
     this.removeTokenFromSessionStorage();
     this.removeTokenFromLocalStorage();
   }

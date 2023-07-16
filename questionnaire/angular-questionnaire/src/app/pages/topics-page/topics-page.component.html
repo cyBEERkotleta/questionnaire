@@ -3,7 +3,7 @@
   <app-error></app-error>
 
   <app-large-area
-    title="Разделы"
+    title="Каталог"
   >
     <input
       type="text"
@@ -26,9 +26,9 @@
   </app-large-area>
 </div>
 
-<app-modal-window
+<app-modal-create-window
   *ngIf="modalService.isVisible()"
   title="Создать новую тему"
 >
   <app-create-topic></app-create-topic>
-</app-modal-window>
+</app-modal-create-window>

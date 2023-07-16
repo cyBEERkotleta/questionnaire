@@ -32,8 +32,8 @@ export class MailService {
       );
   }
 
-  sendPasswordRestoration(token: string): Observable<RequestResult> {
-    return this.http.post<RequestResult>('http://localhost:8080/send_password_restoration', token)
+  sendPasswordRestoration(email: string): Observable<RequestResult> {
+    return this.http.post<RequestResult>('http://localhost:8080/send_password_restoration', email)
       .pipe(
         catchError(this.errorHandler.bind(this))
       );

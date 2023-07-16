@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Data Transfer Object для сущности "поле для ввода"
  *
@@ -19,6 +21,7 @@ public class FieldDTO {
     private Long id;
     private String label;
     private FieldTypeDTO fieldType;
-    private boolean required;
-    private boolean active;
+    private Boolean required;
+    private Boolean active;
+    private List<FieldOptionDTO> options;
 }

@@ -14,6 +14,7 @@
       name="{{label}}"
       value="{{item}}"
       (click)="selectionChanged(item)"
+      [checked]="isChecked(item)"
     /><span class="text-black fs-6">{{item.shownName}}</span>
     <br/>
   </div>

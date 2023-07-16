@@ -3,6 +3,7 @@
   <app-checkbox
     [text]="fieldName"
     (itemSelection)="onChange($event)"
+    [startValue]="formElement.getRawValue()"
   ></app-checkbox>
   <br/>
 </div>

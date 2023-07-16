@@ -20,7 +20,7 @@ import java.util.List;
 public class FormDTO {
     private Long id;
     private String name;
-    private boolean shown;
+    private Boolean shown;
     private List<FieldDTO> fields;
     private List<AnsweredFormDTO> answeredForms;
 }

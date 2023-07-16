@@ -9,6 +9,23 @@ import {FormControl} from "@angular/forms";
 export class FieldValidatorComponent {
   @Input() formElement: FormControl;
   @Input() showError: boolean;
+  @Input() additionalNote: string = '';
+
+  isNoteEmpty(): boolean {
+    return this.additionalNote == '';
+  }
+
+  anyErrorExists(): boolean {
+    return this.errorWithMaxLength() ||
+      this.errorWithMinLength() ||
+      this.errorWithRequired() ||
+      this.errorWithEmail() ||
+      this.errorWithPattern();
+  }
+
+  getNoteText(): string {
+    return 'Примечание: ' + this.additionalNote;
+  }
 
   showErrorBlock(): boolean {
     return this.showError || this.formElement.touched;

@@ -1,0 +1,24 @@
+<div class="main-body">
+  <app-header></app-header>
+  <app-error></app-error>
+
+  <app-large-area
+    title="Мои формы"
+  >
+    <app-manage-questionnaires></app-manage-questionnaires>
+  </app-large-area>
+</div>
+
+<app-modal-create-window
+  *ngIf="modalCreateWindow.isVisible()"
+  title="Создать форму"
+>
+  <app-create-form></app-create-form>
+</app-modal-create-window>
+
+<app-modal-edit-window
+  *ngIf="modalEditWindow.isVisible()"
+  title="Редактировать форму"
+>
+  <app-create-form></app-create-form>
+</app-modal-edit-window>

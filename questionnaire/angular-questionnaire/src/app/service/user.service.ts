@@ -108,7 +108,8 @@ export class UserService {
             this.updateTokenWhereItWasSet(result.token);
             this.updateCurrentUser()
               .subscribe(result => {
-                this.mailService.sendPasswordChangeNotification(this.sessionService.getUser().email);
+                this.mailService.sendPasswordChangeNotification(this.sessionService.getUser().email)
+                  .subscribe(mail => mail);
               })
           }
         })
@@ -153,30 +154,25 @@ export class UserService {
       );
   }
 
-  finishRegistration(linkFromMail: string): Observable<AuthorizeResult> {
-    return this.http.post<AuthorizeResult>('http://localhost:8080/finish_registration', linkFromMail)
+  finishRegistration(user: User, hashedPassword: string): Observable<AuthorizeResult> {
+    let userWithHashedPassword = {user: user, hashedPassword: hashedPassword};
+    return this.http.post<AuthorizeResult>('http://localhost:8080/finish_registration', userWithHashedPassword)
       .pipe(
-        catchError(this.errorHandler.bind(this)),
-        tap(result => {
-          if (result.success) {
-            this.updateTokenInSession(result.token);
-            this.updateCurrentUser()
-              .subscribe(result => result);
-          }
-        })
+        catchError(this.errorHandler.bind(this))
       );
   }
 
-  restorePassword(linkFromMail: string, newPassword: string): Observable<AuthorizeResult> {
-    let linkWithNewPassword = {linkFromMail: linkFromMail, newPassword: newPassword};
-    return this.http.post<AuthorizeResult>('http://localhost:8080/restore_password', linkWithNewPassword)
+  restorePassword(token: string, newPassword: string): Observable<AuthorizeResult> {
+    let tokenWithNewPassword = {token: token, newPassword: newPassword};
+    return this.http.post<AuthorizeResult>('http://localhost:8080/restore_password', tokenWithNewPassword)
       .pipe(
         catchError(this.errorHandler.bind(this)),
         tap(result => {
           if (result.success) {
             this.getUserByToken(result.token)
               .subscribe(user => {
-                this.mailService.sendPasswordChangeNotification(user.email);
+                this.mailService.sendPasswordChangeNotification(user.email)
+                  .subscribe(mail => mail);
               });
           }
         })

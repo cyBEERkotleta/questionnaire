@@ -39,7 +39,7 @@ public class Topic {
 
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "topic")
     private List<Form> forms = new ArrayList<>();
 }
 

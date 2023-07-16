@@ -1,8 +1,11 @@
 <div class="pt-3">
   <app-combobox-group
+    *ngIf="gendersLoaded"
+
     [label]="fieldName"
     [required]="isFieldRequired()"
     [objects]="genders"
+    [selected]="selectedGender"
     (itemSelection)="onChange($event)"
   ></app-combobox-group>
 

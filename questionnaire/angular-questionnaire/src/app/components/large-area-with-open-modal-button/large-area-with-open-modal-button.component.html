@@ -1,0 +1,23 @@
+<div
+  class="large-window"
+>
+  <div class="table">
+    <div class="row">
+      <div class="cell">
+        <button *ngIf="buttonBackRoute"
+                type="submit"
+                class="button-back-arrow"
+                (click)="navigateBack()"
+        >🠔</button>
+      </div>
+      <div class="cell">
+        <h1 class="text-center fs-4">{{title | titlecase}}</h1>
+      </div>
+      <div class="cell">
+        <button class="btn btn-primary">Кнопка 2</button>
+      </div>
+    </div>
+  </div>
+  <app-dark-h-line></app-dark-h-line>
+  <ng-content></ng-content>
+</div>

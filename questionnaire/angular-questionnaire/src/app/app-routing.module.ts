@@ -15,6 +15,13 @@ import {FormsPageComponent} from "./pages/forms-page/forms-page.component";
 import {ConfirmRegistrationComponent} from "./pages/confirm-registration/confirm-registration.component";
 import {RestorePasswordPageComponent} from "./pages/restore-password-page/restore-password-page.component";
 import {SuccessfulRestorationComponent} from "./pages/successful-restoration/successful-restoration.component";
+import {
+  EmailToRestorePasswordPageComponent
+} from "./pages/email-to-restore-password-page/email-to-restore-password-page.component";
+import {MailToRestoreSentComponent} from "./pages/mail-to-restore-sent/mail-to-restore-sent.component";
+import {UserProfilePageComponent} from "./pages/user-profile-page/user-profile-page.component";
+import {UserEditionPageComponent} from "./pages/user-edition-page/user-edition-page.component";
+import {SuccessfulFormPassingComponent} from "./pages/successful-form-passing/successful-form-passing.component";
 
 const routes: Routes = [
   {
@@ -54,7 +61,7 @@ const routes: Routes = [
     component: TopicsPageComponent
   },
   {
-    path: 'forms-by-topic',
+    path: 'forms-by-topic/:topic_id',
     component: FormsPageComponent
   },
   {
@@ -68,6 +75,26 @@ const routes: Routes = [
   {
     path: 'successful-restoration',
     component: SuccessfulRestorationComponent
+  },
+  {
+    path: 'email-to-restore-password',
+    component: EmailToRestorePasswordPageComponent
+  },
+  {
+    path: 'mail-to-restore-sent',
+    component: MailToRestoreSentComponent
+  },
+  {
+    path: 'user-profiles/:id',
+    component: UserProfilePageComponent
+  },
+  {
+    path: 'edit-my-profile',
+    component: UserEditionPageComponent
+  },
+  {
+    path: 'successful-form-passing',
+    component: SuccessfulFormPassingComponent
   }
 ];
 

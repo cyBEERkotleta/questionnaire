@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ModalService} from "../../service/modal.service";
+import {ModalCreateWindowService} from "../../service/modal-create-window.service";
 import {FormService} from "../../service/form.service";
 import {ActivatedRoute} from "@angular/router";
 import {TopicService} from "../../service/topic.service";
 import {Topic} from "../../entity/Topic";
 import {Form} from "../../entity/Form";
 import {Subscription} from "rxjs";
+import {SessionService} from "../../service/session.service";
 
 @Component({
   selector: 'app-forms-page',
@@ -23,7 +24,7 @@ export class FormsPageComponent implements OnInit, OnDestroy {
 
   formService: FormService;
   topicService: TopicService;
-  modalService: ModalService;
+  modalService: ModalCreateWindowService;
 
   topic: Topic;
   forms: Form[];
@@ -34,7 +35,7 @@ export class FormsPageComponent implements OnInit, OnDestroy {
 
   constructor(formService: FormService,
               topicService: TopicService,
-              modalService: ModalService,
+              modalService: ModalCreateWindowService,
               activatedRoute: ActivatedRoute) {
     this.formService = formService;
     this.topicService = topicService;
@@ -43,7 +44,7 @@ export class FormsPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription1 = this.activatedRoute.queryParams.subscribe(params => {
+    this.subscription1 = this.activatedRoute.params.subscribe(params => {
       let topicId = params['topic_id'];
 
       this.loading = true;
@@ -61,6 +62,13 @@ export class FormsPageComponent implements OnInit, OnDestroy {
           this.checkLoading();
         });
     });
+  }
+
+  getTopicName() {
+    if (this.topic) {
+      return '"' + this.topic.name + '"';
+    }
+    return '';
   }
 
   ngOnDestroy() {

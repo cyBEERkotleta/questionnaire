@@ -1,0 +1,24 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Название</th>
+    <th>Тема</th>
+    <th>Вопросы</th>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of items; let even = even" [ngClass]="{ 'bg-gray-100': even }">
+    <td>{{ item.column1 }}</td>
+    <td>{{ item.column2 }}</td>
+    <td>{{ item.column3 }}</td>
+    <td>
+      <button class="btn btn-primary" (click)="action1(item)">Действие 1</button>
+    </td>
+    <td>
+      <button class="btn btn-secondary" (click)="action2(item)">Действие 2</button>
+    </td>
+  </tr>
+  </tbody>
+</table>

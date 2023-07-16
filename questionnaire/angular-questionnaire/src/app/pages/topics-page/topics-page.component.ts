@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UserService} from "../../service/user.service";
-import {ModalService} from "../../service/modal.service";
+import {ModalCreateWindowService} from "../../service/modal-create-window.service";
 import {TopicService} from "../../service/topic.service";
 import {Topic} from "../../entity/Topic";
 import {SessionService} from "../../service/session.service";
 import {Subscription} from "rxjs";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-topics-page',
@@ -16,14 +16,15 @@ export class TopicsPageComponent implements OnInit, OnDestroy {
   term: string = '';
 
   topicService: TopicService;
-  modalService: ModalService;
+  modalService: ModalCreateWindowService;
   sessionService: SessionService;
 
   topics: Topic[];
 
-  private subscription: Subscription;
+  private subscription1: Subscription;
+
   constructor(topicService: TopicService,
-              modalService: ModalService,
+              modalService: ModalCreateWindowService,
               sessionService: SessionService) {
     this.topicService = topicService;
     this.modalService = modalService;
@@ -33,7 +34,7 @@ export class TopicsPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loading = true;
 
-    this.subscription = this.topicService.getAll()
+    this.subscription1 = this.topicService.getAll()
       .subscribe(result => {
         this.topics = result;
         this.loading = false;
@@ -41,7 +42,7 @@ export class TopicsPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscription)
-      this.subscription.unsubscribe();
+    if (this.subscription1)
+      this.subscription1.unsubscribe();
   }
 }

@@ -4,40 +4,49 @@
     [errorMessage]="globalError"
   ></app-error-paragraph>
 
+  <app-middle-control *ngIf="sendingMailProcess">
+    <span class="text-blue-500 fs-6 fw-bold">
+      Выполняется отправка письма на ваш Email...
+    </span>
+  </app-middle-control>
+
   <app-text-field-placeholder
     placeholder="Email"
     [formElement]="form.controls.email"
     [showError]="showAllErrors"
   ></app-text-field-placeholder>
 
-  <app-text-field-placeholder
+  <app-text-field-password-placeholder
     placeholder="Пароль"
     [formElement]="form.controls.password"
     [showError]="showAllErrors"
-  ></app-text-field-placeholder>
+  ></app-text-field-password-placeholder>
 
-  <app-text-field-placeholder
+  <app-text-field-password-placeholder
     placeholder="Подтверждение пароля"
     [formElement]="form.controls.confirmPassword"
     [showError]="showAllErrors"
-  ></app-text-field-placeholder>
+  ></app-text-field-password-placeholder>
 
   <app-text-field-placeholder
     placeholder="Имя"
     [formElement]="form.controls.firstName"
     [showError]="showAllErrors"
+    additionalNote="имя может состоять только из букв, пробелов и дефисов"
   ></app-text-field-placeholder>
 
   <app-text-field-placeholder
     placeholder="Фамилия"
     [formElement]="form.controls.lastName"
     [showError]="showAllErrors"
+    additionalNote="фамилия может состоять только из букв, пробелов и дефисов"
   ></app-text-field-placeholder>
 
   <app-text-field-placeholder
     placeholder="Номер телефона"
     [formElement]="form.controls.phoneNumber"
     [showError]="showAllErrors"
+    additionalNote="номер телефона задаётся без знака + и может состоять только из цифр"
   ></app-text-field-placeholder>
 
   <app-choice-gender

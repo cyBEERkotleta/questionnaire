@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
  * (ComboBox, RadioButton и другие)
  *
  * @author Катя Левкович
- * @version 1.1, 25.06.2023
+ * @version 1.2, 25.06.2023
  */
 @Data
 @NoArgsConstructor
@@ -28,10 +28,14 @@ public class FieldType {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "able_to_have_options")
+    private Boolean ableToHaveOptions;
+
     public static FieldType date() {
         return FieldType.builder()
                 .id((short) 1)
                 .name("DATE")
+                .ableToHaveOptions(false)
                 .build();
     }
 
@@ -39,6 +43,7 @@ public class FieldType {
         return FieldType.builder()
                 .id((short) 2)
                 .name("COMBOBOX")
+                .ableToHaveOptions(true)
                 .build();
     }
 
@@ -46,6 +51,7 @@ public class FieldType {
         return FieldType.builder()
                 .id((short) 3)
                 .name("CHECKBOX")
+                .ableToHaveOptions(true)
                 .build();
     }
 
@@ -53,6 +59,7 @@ public class FieldType {
         return FieldType.builder()
                 .id((short) 4)
                 .name("RADIOBUTTON")
+                .ableToHaveOptions(true)
                 .build();
     }
 
@@ -60,6 +67,7 @@ public class FieldType {
         return FieldType.builder()
                 .id((short) 5)
                 .name("MULTI_LINE_TEXT")
+                .ableToHaveOptions(false)
                 .build();
     }
 
@@ -67,6 +75,7 @@ public class FieldType {
         return FieldType.builder()
                 .id((short) 6)
                 .name("SINGLE_LINE_TEXT")
+                .ableToHaveOptions(false)
                 .build();
     }
 }

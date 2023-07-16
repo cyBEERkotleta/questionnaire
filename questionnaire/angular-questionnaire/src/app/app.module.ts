@@ -3,13 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from "@angular/common/http";
-import { CommonModule } from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import { HeaderComponent } from "./components/header/header.component";
-import { UserProfileComponent } from "./components/user_profile/user_profile.component";
+import { UserRowComponent } from "./components/user-row/user-row.component";
 import { ErrorComponent } from './components/error/error.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { FilterUsersPipe } from './pipes/filter-users.pipe';
-import { ModalWindow } from './components/modal-window/modal-window';
+import { ModalCreateWindow } from './components/modal-create-window/modal-create-window.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { FieldNameComponent } from './little-components/field-name/field-name.component';
 import { TextFieldComponent } from './little-components/text-field/text-field.component';
@@ -54,15 +54,31 @@ import { ConfirmRegistrationComponent } from './pages/confirm-registration/confi
 import { RestorePasswordComponent } from './components/restore-password/restore-password.component';
 import { RestorePasswordPageComponent } from './pages/restore-password-page/restore-password-page.component';
 import { SuccessfulRestorationComponent } from './pages/successful-restoration/successful-restoration.component';
+import { EmailToRestorePasswordPageComponent } from './pages/email-to-restore-password-page/email-to-restore-password-page.component';
+import { MailToRestoreSentComponent } from './pages/mail-to-restore-sent/mail-to-restore-sent.component';
+import { TextFieldPasswordComponent } from './little-components/text-field-password/text-field-password.component';
+import { TextFieldPasswordPlaceholderComponent } from './little-components/text-field-password-placeholder/text-field-password-placeholder.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserProfilePageComponent } from './pages/user-profile-page/user-profile-page.component';
+import { UserEditComponent } from './components/user-edit/user-edit.component';
+import { UserEditionPageComponent } from './pages/user-edition-page/user-edition-page.component';
+import { SuccessfulFormPassingComponent } from './pages/successful-form-passing/successful-form-passing.component';
+import { CreateFormComponent } from './components/create-form/create-form.component';
+import { MyFormsPageComponent } from './pages/my-forms-page/my-forms-page.component';
+import { ManageQuestionnairesComponent } from './components/manage-questionnaires/manage-questionnaires.component';
+import { LargeAreaWithOpenModalButtonComponent } from './components/large-area-with-open-modal-button/large-area-with-open-modal-button.component';
+import { ModalEditWindowComponent } from './components/modal-edit-window/modal-edit-window.component';
+import { EditFormComponent } from './components/edit-form/edit-form.component';
+import { ButtonAddNewComponent } from './little-components/button-add-new/button-add-new.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    UserProfileComponent,
+    UserRowComponent,
     ErrorComponent,
     FilterUsersPipe,
-    ModalWindow,
+    ModalCreateWindow,
     CreateUserComponent,
     FieldNameComponent,
     TextFieldComponent,
@@ -105,16 +121,33 @@ import { SuccessfulRestorationComponent } from './pages/successful-restoration/s
     ConfirmRegistrationComponent,
     RestorePasswordComponent,
     RestorePasswordPageComponent,
-    SuccessfulRestorationComponent
+    SuccessfulRestorationComponent,
+    EmailToRestorePasswordPageComponent,
+    MailToRestoreSentComponent,
+    TextFieldPasswordComponent,
+    TextFieldPasswordPlaceholderComponent,
+    UserProfileComponent,
+    UserProfilePageComponent,
+    UserEditComponent,
+    UserEditionPageComponent,
+    SuccessfulFormPassingComponent,
+    CreateFormComponent,
+    MyFormsPageComponent,
+    ManageQuestionnairesComponent,
+    LargeAreaWithOpenModalButtonComponent,
+    ModalEditWindowComponent,
+    EditFormComponent,
+    ButtonAddNewComponent
   ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AppRoutingModule
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    NgOptimizedImage
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

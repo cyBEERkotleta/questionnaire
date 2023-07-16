@@ -19,8 +19,8 @@ public interface IUserService {
     public User getUserByEmail(String email);
     public void deleteUserById(Long id);
     public User saveUser(User user);
-    public User registerUser(User user, String password) throws UserException;
-    public User registerUser(User user) throws UserException;
+    public User registerUserWithPassword(User user, String password) throws UserException;
+    public User registerUserWithHashedPassword(User user, String hashedPasswordStr) throws UserException;
     public void checkUserIsLegalForRegistration(User user, String password) throws UserException;
     public User loginUser(String email, String password) throws UserException;
     public User getUserByToken(String token) throws UserException, AccessDeniedException;

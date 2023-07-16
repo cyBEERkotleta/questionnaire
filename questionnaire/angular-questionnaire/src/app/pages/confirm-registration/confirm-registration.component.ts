@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs";
 
@@ -7,20 +7,22 @@ import {Subscription} from "rxjs";
   templateUrl: './confirm-registration.component.html',
   styleUrls: ['./confirm-registration.component.css']
 })
-export class ConfirmRegistrationComponent {
+export class ConfirmRegistrationComponent implements OnInit {
   private activatedRoute: ActivatedRoute;
 
   firstName: string;
   lastName: string;
   email: string;
 
-  private subscription: Subscription;
+  private subscription1: Subscription;
+
   constructor(activatedRoute: ActivatedRoute) {
     this.activatedRoute = activatedRoute;
   }
 
   ngOnInit() {
-    this.subscription = this.activatedRoute.queryParams.subscribe(params => {
+    this.subscription1 = this.activatedRoute.queryParams
+      .subscribe(params => {
       this.firstName = params['first_name'];
       this.lastName = params['last_name'];
       this.email = params['email'];
@@ -28,7 +30,7 @@ export class ConfirmRegistrationComponent {
   }
 
   ngOnDestroy() {
-    if (this.subscription)
-      this.subscription.unsubscribe();
+    if (this.subscription1)
+      this.subscription1.unsubscribe();
   }
 }

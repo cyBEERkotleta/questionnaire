@@ -54,7 +54,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User registerUser(User user, String password) throws UserException {
+    public User registerUserWithPassword(User user, String password) throws UserException {
         user.setUserRole(UserRole.member());
 
         checkUserIsLegalForRegistration(user, password);
@@ -70,13 +70,17 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User registerUser(User user) throws UserException {
+    public User registerUserWithHashedPassword(User user, String hashedPasswordStr) throws UserException {
         user.setUserRole(UserRole.member());
 
         checkUserWithEmailExistenceOrThrown(user.getEmail());
         UserValidator.getInstance().checkValidityOrThrown(user);
 
-        HashedPassword hashedPassword = hashedPasswordService.savePassword(user.getHashedPassword());
+        HashedPassword hashedPassword = HashedPassword.builder()
+                .hash(hashedPasswordStr)
+                .build();
+
+        hashedPassword = hashedPasswordService.savePassword(hashedPassword);
         user.setHashedPassword(hashedPassword);
 
         return userRepository.save(user);
@@ -84,8 +88,9 @@ public class UserService implements IUserService {
 
     @Override
     public void checkUserIsLegalForRegistration(User user, String password) throws UserException {
-        checkUserWithEmailExistenceOrThrown(user.getEmail());
+        user.setUserRole(UserRole.member());
 
+        checkUserWithEmailExistenceOrThrown(user.getEmail());
         UserValidator.getInstance().checkValidityOrThrown(user);
         UserValidator.getInstance().checkPasswordOrThrown(password);
     }

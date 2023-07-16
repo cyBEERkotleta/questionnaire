@@ -38,10 +38,8 @@ public class FieldController {
     @PostMapping("/fields/{id}")
     public FieldDTO getField(@PathVariable Long id, @RequestBody String token) throws AccessDeniedException {
         Field field = fieldService.getFieldById(id);
-        if (!field.getForm().isShown()) {
-            if (!accessHandler.areUsersOneEntity(token, field.getForm().getUser())) {
-                accessHandler.checkTokenIsFromAdminAccountOrThrown(token);
-            }
+        if (!field.getForm().getShown()) {
+            accessHandler.checkUsersAreOneEntityOrThrown(token, field.getForm().getUser());
         }
         return FieldMapper.INSTANCE.toDTO(field);
     }
@@ -50,10 +48,8 @@ public class FieldController {
     public List<FieldDTO> getFieldsByFormId(@PathVariable Long id, @RequestBody String token)
             throws AccessDeniedException {
         Form form = formService.getFormById(id);
-        if (!form.isShown()) {
-            if (!accessHandler.areUsersOneEntity(token, form.getUser())) {
-                accessHandler.checkTokenIsFromAdminAccountOrThrown(token);
-            }
+        if (!form.getShown()) {
+            accessHandler.checkUsersAreOneEntityOrThrown(token, form.getUser());
         }
         List<Field> fields = fieldService.getFieldsByFormId(id);
         return FieldMapper.INSTANCE.toDTOs(fields);
@@ -63,10 +59,8 @@ public class FieldController {
     public List<FieldDTO> getActiveFieldsByFormId(@PathVariable Long id, @RequestBody String token)
             throws AccessDeniedException {
         Form form = formService.getFormById(id);
-        if (!form.isShown()) {
-            if (!accessHandler.areUsersOneEntity(token, form.getUser())) {
-                accessHandler.checkTokenIsFromAdminAccountOrThrown(token);
-            }
+        if (!form.getShown()) {
+            accessHandler.checkUsersAreOneEntityOrThrown(token, form.getUser());
         }
         List<Field> fields = fieldService.getActiveFieldsByFormId(id);
         return FieldMapper.INSTANCE.toDTOs(fields);
@@ -77,9 +71,8 @@ public class FieldController {
         Field field = fieldService.getFieldById(tokenWithField.getField().getId());
         Form form = field.getForm();
         String token = tokenWithField.getToken();
-        if (!accessHandler.areUsersOneEntity(token, form.getUser())) {
-            accessHandler.checkTokenIsFromAdminAccountOrThrown(token);
-        }
+        accessHandler.checkUsersAreOneEntityOrThrown(token, form.getUser());
+
         fieldService.deleteFieldById(field.getId());
 
         return new RequestResult(true, "Поле успешно удалено");
@@ -90,9 +83,8 @@ public class FieldController {
         Field field = fieldService.getFieldById(tokenWithField.getField().getId());
         Form form = field.getForm();
         String token = tokenWithField.getToken();
-        if (!accessHandler.areUsersOneEntity(token, form.getUser())) {
-            accessHandler.checkTokenIsFromAdminAccountOrThrown(token);
-        }
+        accessHandler.checkUsersAreOneEntityOrThrown(token, form.getUser());
+
         fieldService.saveField(FieldMapper.INSTANCE.fromDTO(tokenWithField.getField()));
 
         return new RequestResult(true, "Поле успешно сохранено");

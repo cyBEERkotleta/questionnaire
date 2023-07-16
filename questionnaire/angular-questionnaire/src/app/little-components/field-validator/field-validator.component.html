@@ -21,4 +21,8 @@
      *ngIf="errorWithEmail()"
      errorMessage="Некорректный формат Email"
   ></app-error-paragraph>
+  <app-error-paragraph
+    *ngIf="!isNoteEmpty() && anyErrorExists()"
+    [errorMessage]="getNoteText()"
+  ></app-error-paragraph>
 </div>

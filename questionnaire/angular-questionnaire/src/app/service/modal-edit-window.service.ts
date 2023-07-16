@@ -4,8 +4,7 @@ import {BehaviorSubject} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class ModalService {
-
+export class ModalEditWindowService {
   private visible$ = new BehaviorSubject<boolean>(false);
 
   constructor() { }

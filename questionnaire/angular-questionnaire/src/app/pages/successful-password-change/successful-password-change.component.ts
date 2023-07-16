@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./successful-password-change.component.css']
 })
 export class SuccessfulPasswordChangeComponent {
-
 }

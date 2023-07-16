@@ -38,7 +38,7 @@ public class Gender {
 
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "gender", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "gender")
     private List<User> users = new ArrayList<>();
 
     public static Gender female() {
