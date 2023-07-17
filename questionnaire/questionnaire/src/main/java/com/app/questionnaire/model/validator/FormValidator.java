@@ -30,7 +30,7 @@ public class FormValidator implements IValidator<Form> {
 
     private void checkNameOrThrown(String name) throws FormException {
         if (isLengthOutsideRange(name, 2, 150))
-            throw new FormException("Название формы должно быть от 2 до 100 символов");
+            throw new FormException("Название формы должно быть от 2 до 150 символов");
     }
 
     private void checkTopicOrThrown(Topic topic) throws FormException {

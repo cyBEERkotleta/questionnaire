@@ -1,10 +1,6 @@
 package com.app.questionnaire.mail;
 
-import com.app.questionnaire.exception.UserException;
-import com.app.questionnaire.model.entity.Gender;
-import com.app.questionnaire.model.entity.HashedPassword;
 import com.app.questionnaire.model.entity.User;
-import com.app.questionnaire.model.service.IGenderService;
 import com.app.questionnaire.model.service.IHashedPasswordService;
 import com.app.questionnaire.util.Randomizer;
 import jakarta.mail.MessagingException;
@@ -22,13 +18,11 @@ import java.util.Properties;
 @Service
 public class MailService {
     private final JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-    private final IGenderService genderService;
     private final IHashedPasswordService hashedPasswordService;
 
     private final String SITE_URL = "localhost:4200";
 
-    public MailService(IGenderService genderService, IHashedPasswordService hashedPasswordService) {
-        this.genderService = genderService;
+    public MailService(IHashedPasswordService hashedPasswordService) {
         this.hashedPasswordService = hashedPasswordService;
 
         configure();
@@ -85,11 +79,6 @@ public class MailService {
         helper.setTo(to);
         helper.setSubject(makeSubjectBeautiful(subject));
         helper.setText(text, true);
-
-        /*SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(getMessageHeader() + body + getMessageFooter());*/
 
         mailSender.send(message);
         System.out.println("Письмо успешно отправлено на адрес " + to);
