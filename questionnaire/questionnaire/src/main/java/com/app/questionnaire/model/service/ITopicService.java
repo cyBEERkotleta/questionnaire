@@ -1,5 +1,6 @@
 package com.app.questionnaire.model.service;
 
+import com.app.questionnaire.exception.TopicException;
 import com.app.questionnaire.model.entity.Topic;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface ITopicService {
     public List<Topic> findAll();
     public Topic getTopicById(Long id);
     public void deleteTopicById(Long id);
-    public Topic saveTopic(Topic topic);
+    public Topic saveTopic(Topic topic) throws TopicException;
 }

@@ -81,7 +81,7 @@ public class FormController {
 
     @PostMapping("/save_form")
     public RequestResult saveForm(@RequestBody TokenWithForm tokenWithForm)
-            throws AccessDeniedException, UserException {
+            throws AccessDeniedException, FormException {
         FormDTO form = tokenWithForm.getForm();
         String token = tokenWithForm.getToken();
 

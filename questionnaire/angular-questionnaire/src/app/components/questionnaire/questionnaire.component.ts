@@ -51,7 +51,7 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscriptionFields = this.fieldService.getFieldsByFormId(this.formId)
+    this.subscriptionFields = this.fieldService.getActiveFieldsByFormId(this.formId)
       .subscribe(result => {
         this.fields = result;
 

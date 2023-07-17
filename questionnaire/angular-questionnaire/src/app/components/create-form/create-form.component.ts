@@ -32,7 +32,7 @@ export class CreateFormComponent implements OnInit, OnDestroy {
   form = new FormGroup({
     name: new FormControl<string>('', [
       Validators.minLength(2),
-      Validators.maxLength(100),
+      Validators.maxLength(150),
       Validators.required
     ]),
     shown: new FormControl<boolean>(true)

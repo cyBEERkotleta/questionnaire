@@ -37,6 +37,9 @@ public class AnsweredFormValidator implements IValidator<AnsweredForm> {
     }
 
     private void checkAnswersOrThrown(List<Answer> answers) throws AnsweredFormException {
+        if (answers.size() == 0)
+            throw new AnsweredFormException("Нельзя записать результат прохождения анкеты без единого ответа");
+
         try {
             for (Answer answer : answers) {
                 AnswerValidator.getInstance().checkValidityOrThrown(answer);

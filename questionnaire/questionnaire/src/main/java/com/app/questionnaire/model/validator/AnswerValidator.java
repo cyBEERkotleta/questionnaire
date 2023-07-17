@@ -23,15 +23,17 @@ public class AnswerValidator implements IValidator<Answer> {
     public void checkValidityOrThrown(Answer answer) throws AnswerException {
         checkFieldOrThrown(answer.getField());
         checkAnsweredFormOrThrown(answer.getAnsweredForm());
-        checkTextOrThrown(answer.getText(), answer.getField().getRequired());
+        checkTextOrThrown(answer.getText(), answer.getField().getRequired(), answer.getField().getActive());
     }
 
-    private void checkTextOrThrown(String text, boolean required) throws AnswerException {
-        if (required && text.length() == 0)
-            throw new AnswerException("Не все необходимые поля заполнены");
+    private void checkTextOrThrown(String text, boolean required, boolean active) throws AnswerException {
+        if (active && required) {
+            if (text.length() == 0)
+                throw new AnswerException("Не все необходимые поля заполнены");
 
-        if (isLengthOutsideRange(text, 1, 300))
-            throw new AnswerException("Ответ должен быть от 1 до 300 символов");
+            if (isLengthOutsideRange(text, 1, 300))
+                throw new AnswerException("Ответ должен быть от 1 до 300 символов");
+        }
     }
 
     private void checkAnsweredFormOrThrown(AnsweredForm answeredForm) throws AnswerException {

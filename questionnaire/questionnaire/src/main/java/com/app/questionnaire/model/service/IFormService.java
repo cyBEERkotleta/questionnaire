@@ -1,5 +1,6 @@
 package com.app.questionnaire.model.service;
 
+import com.app.questionnaire.exception.FormException;
 import com.app.questionnaire.model.entity.Form;
 
 import java.util.List;
@@ -17,5 +18,5 @@ public interface IFormService {
     public List<Form> getFormsByUserId(Long id);
     public List<Form> getFormsByTopicId(Long id);
     public void deleteFormById(Long id);
-    public Form saveForm(Form form);
+    public Form saveForm(Form form) throws FormException;
 }

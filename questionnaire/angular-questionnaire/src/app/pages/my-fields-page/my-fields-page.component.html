@@ -4,7 +4,7 @@
 
   <app-large-area-with-open-modal-button
     title="Поля"
-    buttonBackRoute="/my-forms"
+    [buttonBackRoute]="['/my-forms']"
   >
     <app-manage-fields
       [formId]="formId"

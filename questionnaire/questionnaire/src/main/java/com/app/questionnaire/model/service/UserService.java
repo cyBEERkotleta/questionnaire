@@ -49,7 +49,9 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User saveUser(User user) {
+    public User saveUser(User user) throws UserException {
+        UserValidator.getInstance().checkValidityOrThrown(user);
+
         return userRepository.save(user);
     }
 

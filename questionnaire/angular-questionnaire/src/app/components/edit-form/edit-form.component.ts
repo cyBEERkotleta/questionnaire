@@ -25,7 +25,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
   form = new FormGroup({
     name: new FormControl<string>('', [
       Validators.minLength(2),
-      Validators.maxLength(100),
+      Validators.maxLength(150),
       Validators.required
     ]),
     topic: new FormControl<Topic>(null, [

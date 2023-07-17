@@ -13,7 +13,7 @@
       <h1 class="text-center fs-5">{{title | titlecase}}</h1>
     </div>
     <div class="col-auto">
-      <div class="inline-flex flex-row gap-x-2">
+      <div *ngIf="buttonsAvailable" class="inline-flex flex-row gap-x-2">
         <app-button-edit
           [editable]="itemToPerformActionsWith"
         ></app-button-edit>

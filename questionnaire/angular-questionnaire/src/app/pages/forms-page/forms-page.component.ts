@@ -9,7 +9,7 @@ import {Subscription} from "rxjs";
 import {FieldService} from "../../service/field.service";
 import {ModalEditWindowService} from "../../service/modal-edit-window.service";
 import {ModalDeleteWindowService} from "../../service/modal-delete-window.service";
-import {ModalDeleteWindowComponent} from "../../components/modal-delete-window/modal-delete-window.component";
+import {SessionService} from "../../service/session.service";
 
 @Component({
   selector: 'app-forms-page',
@@ -18,6 +18,7 @@ import {ModalDeleteWindowComponent} from "../../components/modal-delete-window/m
 })
 export class FormsPageComponent implements OnInit, OnDestroy {
   private activatedRoute: ActivatedRoute;
+  sessionService: SessionService;
 
   loading = false;
   private formsLoaded = false;
@@ -47,6 +48,7 @@ export class FormsPageComponent implements OnInit, OnDestroy {
               topicService: TopicService,
               fieldService: FieldService,
               activatedRoute: ActivatedRoute,
+              sessionService: SessionService,
 
               modalCreateService: ModalCreateWindowService,
               modalEditService: ModalEditWindowService,
@@ -55,6 +57,7 @@ export class FormsPageComponent implements OnInit, OnDestroy {
     this.topicService = topicService;
     this.fieldService = fieldService;
     this.activatedRoute = activatedRoute;
+    this.sessionService = sessionService;
 
     this.modalCreateService = modalCreateService;
     this.modalEditService = modalEditService;

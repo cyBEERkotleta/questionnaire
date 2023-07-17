@@ -1,7 +1,9 @@
 package com.app.questionnaire.model.service;
 
+import com.app.questionnaire.exception.FormException;
 import com.app.questionnaire.model.entity.Form;
 import com.app.questionnaire.model.repository.FormRepository;
+import com.app.questionnaire.model.validator.FormValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +47,9 @@ public class FormService implements IFormService {
     }
 
     @Override
-    public Form saveForm(Form form) {
+    public Form saveForm(Form form) throws FormException {
+        FormValidator.getInstance().checkValidityOrThrown(form);
+
         return formRepository.save(form);
     }
 }

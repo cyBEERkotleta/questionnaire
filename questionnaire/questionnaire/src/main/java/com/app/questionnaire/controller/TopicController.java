@@ -58,7 +58,7 @@ public class TopicController {
     }
 
     @PostMapping("/save_topic")
-    public RequestResult saveTopic(@RequestBody TokenWithTopic tokenWithTopic) throws AccessDeniedException {
+    public RequestResult saveTopic(@RequestBody TokenWithTopic tokenWithTopic) throws AccessDeniedException, TopicException {
         accessHandler.checkTokenIsFromAdminAccountOrThrown(tokenWithTopic.getToken());
 
         topicService.saveTopic(TopicMapper.INSTANCE.fromDTO(tokenWithTopic.getTopic()));

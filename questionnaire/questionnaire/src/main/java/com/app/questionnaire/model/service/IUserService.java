@@ -18,7 +18,7 @@ public interface IUserService {
     public User getUserById(Long id);
     public User getUserByEmail(String email);
     public void deleteUserById(Long id);
-    public User saveUser(User user);
+    public User saveUser(User user) throws UserException;
     public User registerUserWithPassword(User user, String password) throws UserException;
     public User registerUserWithHashedPassword(User user, String hashedPasswordStr) throws UserException;
     public void checkUserIsLegalForRegistration(User user, String password) throws UserException;

@@ -11,6 +11,7 @@ export class LargeAreaWithActionButtonsComponent {
   @Input() title: string;
   @Input() itemToPerformActionsWith: Object;
   @Input() buttonBackRoute: [string] | [string, bigint];
+  @Input() buttonsAvailable: boolean = true;
 
   private router: Router;
   private urlService: UrlService;

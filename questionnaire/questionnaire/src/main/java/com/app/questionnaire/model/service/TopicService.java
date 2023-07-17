@@ -1,7 +1,9 @@
 package com.app.questionnaire.model.service;
 
+import com.app.questionnaire.exception.TopicException;
 import com.app.questionnaire.model.entity.Topic;
 import com.app.questionnaire.model.repository.TopicRepository;
+import com.app.questionnaire.model.validator.TopicValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +36,9 @@ public class TopicService implements ITopicService {
     }
 
     @Override
-    public Topic saveTopic(Topic topic) {
+    public Topic saveTopic(Topic topic) throws TopicException {
+        TopicValidator.getInstance().checkValidityOrThrown(topic);
+
         return topicRepository.save(topic);
     }
 }

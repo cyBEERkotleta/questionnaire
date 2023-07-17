@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @PostMapping("/save_user")
-    public AuthorizeResult saveUser(@RequestBody TokenWithUser tokenWithUser) throws AccessDeniedException {
+    public AuthorizeResult saveUser(@RequestBody TokenWithUser tokenWithUser) throws AccessDeniedException, UserException {
         String token = tokenWithUser.getToken();
         User userToSave = UserMapper.INSTANCE.fromDTO(tokenWithUser.getUser());
         User userFromDB = userService.getUserById(userToSave.getId());

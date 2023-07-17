@@ -7,6 +7,7 @@
     [itemToPerformActionsWith]="topic"
     title="Формы из темы {{getTopicName()}}"
     [buttonBackRoute]="['/topics']"
+    [buttonsAvailable]="sessionService.isCurrentUserAdmin()"
   >
     <input
       type="text"
@@ -18,13 +19,17 @@
     <p *ngIf="loading" class="text-center text-lg p-2">Загрузка...</p>
 
     <div *ngIf="forms && fieldCounts">
-      <app-form-item-in-list
-        *ngFor="let item of forms | filterForms: term; let i = index"
-        [form]="item"
-        [fieldCount]="fieldCounts[i]">
-      </app-form-item-in-list>
-    </div>
+      <div *ngFor="let item of forms | filterForms: term; let i = index"
+           class="inline-block"
+      >
+        <app-form-item-in-list
+          *ngIf="item.shown"
 
+          [form]="item"
+          [fieldCount]="fieldCounts[i]">
+        </app-form-item-in-list>
+      </div>
+    </div>
     <button
       class="rounded-pill bg-red-700 text-white fixed right-5 bottom-8 py-2 px-3"
       (click)="modalCreateService.open()"
