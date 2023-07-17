@@ -28,7 +28,7 @@ export class UserService {
 
   isUserPresent(user: User): boolean {
     return !!user && !!user.id && !!user.userRole && !!user.firstName && !!user.lastName &&
-      !!user.email && !!user.phoneNumber && !!user.forms && !!user.gender;
+      !!user.email && !!user.phoneNumber && !!user.gender;
   }
 
   getAll() : Observable<User[]> {

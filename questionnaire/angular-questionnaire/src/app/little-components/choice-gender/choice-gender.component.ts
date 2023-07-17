@@ -41,7 +41,6 @@ export class ChoiceGenderComponent implements OnInit, OnDestroy {
     this.subscription2 = this.formElement.valueChanges
       .subscribe(gender => {
         this.selectedGender = gender;
-        console.log('formElement.valueChanges, selectedGender = ' + gender.shownName);
       });
     this.listenerToValueChangeReady.emit();
   }
@@ -53,11 +52,9 @@ export class ChoiceGenderComponent implements OnInit, OnDestroy {
       this.subscription2.unsubscribe();
   }
 
-
   onChange(item: INamed) {
     this.selectedGender = item as Gender;
     this.formElement.setValue(this.selectedGender);
-    console.log('onChange(' + item.shownName + ') in choice-gender');
   }
 
   isFieldRequired(): boolean {

@@ -5,6 +5,7 @@
   color: #2D3748;
   font-weight: bold;
   transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+  @apply rounded-sm;
 }
 
 .button-add-new:hover {

@@ -1,18 +1,19 @@
 import {Field} from "./Field";
-import {AnsweredForm} from "./AnsweredForm";
+import {Topic} from "./Topic";
+import {User} from "./User";
 
 export class Form {
   id: bigint;
   name: string;
-  fields: Field[];
-  answeredForms: AnsweredForm[];
   shown: boolean;
+  user: User;
+  topic: Topic;
 
-  constructor(id: bigint, name: string, fields: Field[], answeredForms: AnsweredForm[], shown: boolean) {
+  constructor(id: bigint, name: string, shown: boolean, user: User, topic: Topic) {
     this.id = id;
     this.name = name;
-    this.fields = fields;
-    this.answeredForms = answeredForms;
     this.shown = shown;
+    this.user = user;
+    this.topic = topic;
   }
 }

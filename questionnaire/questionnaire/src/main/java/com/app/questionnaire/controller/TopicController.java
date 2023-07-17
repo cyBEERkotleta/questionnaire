@@ -5,15 +5,19 @@ import com.app.questionnaire.exception.AccessDeniedException;
 import com.app.questionnaire.exception.TopicException;
 import com.app.questionnaire.exception.UserException;
 import com.app.questionnaire.additional.RequestResult;
+import com.app.questionnaire.model.dto.FormDTO;
 import com.app.questionnaire.model.dto.TopicDTO;
+import com.app.questionnaire.model.entity.Form;
 import com.app.questionnaire.model.entity.Topic;
 import com.app.questionnaire.model.mappers.TopicMapper;
+import com.app.questionnaire.model.service.IFormService;
 import com.app.questionnaire.model.service.ITopicService;
 import com.app.questionnaire.model.service.IUserService;
 import com.app.questionnaire.security.AccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,13 +25,14 @@ import java.util.List;
  * запросов, связанных с темами форм
  *
  * @author Катя Левкович
- * @version 1.1, 06.07.2023
+ * @version 1.2, 06.07.2023
  */
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class TopicController {
     private final ITopicService topicService;
+    private final IFormService formService;
     private final IUserService userService;
     private final AccessHandler accessHandler;
 

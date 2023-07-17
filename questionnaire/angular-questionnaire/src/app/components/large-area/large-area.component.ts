@@ -9,7 +9,7 @@ import {UrlService} from "../../service/url.service";
 })
 export class LargeAreaComponent {
   @Input() title: string;
-  @Input() buttonBackRoute: string;
+  @Input() buttonBackRoute: [string] | [string, bigint];
 
   private router: Router;
   private urlService: UrlService;
@@ -24,6 +24,6 @@ export class LargeAreaComponent {
     this.router.navigate([this.urlService.getLastPage()]);
   }*/
   navigateBack() {
-    this.router.navigate([this.buttonBackRoute]);
+    this.router.navigate(this.buttonBackRoute);
   }
 }

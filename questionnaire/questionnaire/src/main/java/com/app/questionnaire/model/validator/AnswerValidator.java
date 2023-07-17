@@ -27,9 +27,11 @@ public class AnswerValidator implements IValidator<Answer> {
     }
 
     private void checkTextOrThrown(String text, boolean required) throws AnswerException {
-        int minLength = required ? 0 : 1;
-        if (isLengthOutsideRange(text, minLength, 200))
-            throw new AnswerException("Ответ быть от " + minLength + " до 200 символов");
+        if (required && text.length() == 0)
+            throw new AnswerException("Не все необходимые поля заполнены");
+
+        if (isLengthOutsideRange(text, 1, 300))
+            throw new AnswerException("Ответ должен быть от 1 до 300 символов");
     }
 
     private void checkAnsweredFormOrThrown(AnsweredForm answeredForm) throws AnswerException {

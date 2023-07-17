@@ -30,7 +30,6 @@ import java.util.List;
 public class AnsweredFormController {
     private final IAnsweredFormService answeredFormService;
     private final IFormService formService;
-    private final IUserService userService;
     private final AccessHandler accessHandler;
 
     @PostMapping("/answered_forms/{id}")
@@ -55,7 +54,7 @@ public class AnsweredFormController {
     }
 
     @PostMapping("/save_answered_form")
-    public RequestResult saveAnsweredForm(@RequestBody AnsweredFormDTO answeredForm) {
+    public RequestResult saveAnsweredForm(@RequestBody AnsweredFormDTO answeredForm) throws AnsweredFormException {
         answeredFormService.saveAnsweredForm(AnsweredFormMapper.INSTANCE.fromDTO(answeredForm));
 
         return new RequestResult(true, "Отвеченная анкета успешно сохранена");

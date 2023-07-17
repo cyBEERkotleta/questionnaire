@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {NavigationExtras, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TopicService} from "../../service/topic.service";
 import {Topic} from "../../entity/Topic";
@@ -74,6 +74,7 @@ export class CreateTopicComponent implements OnDestroy {
         console.log(result);
         if (result.success) {
           this.modalService.close();
+          location.reload();
         }
         else {
           this.globalError = result.message;
@@ -89,7 +90,7 @@ export class CreateTopicComponent implements OnDestroy {
     let name = this.getNameFromField();
     let description = this.getDescriptionFromField();
 
-    return new Topic(null, name, description, null);
+    return new Topic(null, name, description);
   }
 
   private getNameFromField(): string {

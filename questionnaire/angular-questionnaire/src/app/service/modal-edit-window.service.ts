@@ -6,11 +6,17 @@ import {BehaviorSubject} from "rxjs";
 })
 export class ModalEditWindowService {
   private visible$ = new BehaviorSubject<boolean>(false);
+  private editable: Object;
 
   constructor() { }
 
-  open() {
+  open(editable: Object) {
+    this.editable = editable;
     this.visible$.next(true);
+  }
+
+  getEditableObject(): Object {
+    return this.editable;
   }
 
   close() {

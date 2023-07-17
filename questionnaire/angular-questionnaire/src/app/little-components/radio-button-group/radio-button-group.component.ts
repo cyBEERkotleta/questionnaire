@@ -1,12 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {INamed} from "../../additional/INamed";
 
 @Component({
-  selector: 'app-combobox-group',
-  templateUrl: './combobox-group.component.html',
-  styleUrls: ['./combobox-group.component.css']
+  selector: 'app-radio-button-group',
+  templateUrl: './radio-button-group.component.html',
+  styleUrls: ['./radio-button-group.component.css']
 })
-export class ComboboxGroupComponent {
+export class RadioButtonGroupComponent {
   @Input() label: string;
   @Input() required: boolean;
   @Input() objects: INamed[];
@@ -17,7 +17,6 @@ export class ComboboxGroupComponent {
   selectionChanged(item: INamed) {
     this.selected = item;
     this.itemSelection.emit(item);
-    console.log('selectionChanged(' + item.shownName + ') in combobox-group');
   }
 
   isChecked(item: INamed) {

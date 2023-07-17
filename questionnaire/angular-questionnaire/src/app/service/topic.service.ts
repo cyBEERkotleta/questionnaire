@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ErrorService} from "./error.service";
 import {Topic} from "../entity/Topic";
-import {catchError, Observable, throwError} from "rxjs";
+import {catchError, map, Observable, throwError} from "rxjs";
 import {RequestResult} from "../additional/RequestResult";
 import {SessionService} from "./session.service";
 import {UserRole} from "../entity/UserRole";
+import {Form} from "../entity/Form";
 
 @Injectable({
   providedIn: 'root'
@@ -24,14 +25,20 @@ export class TopicService {
   }
 
   isTopicPresent(topic: Topic): boolean {
-    return !!topic && !!topic.id && !!topic.name && !!topic.description && !!topic.forms;
+    return !!topic && !!topic.id && !!topic.name && !!topic.description;
   }
 
   getAll() : Observable<Topic[]> {
     return this.http.get<Topic[]>('http://localhost:8080/topics')
       .pipe(
         catchError(this.errorHandler.bind(this)),
-      )
+        map(topics => {
+          return topics.map(topic => {
+            topic.shownName = topic.name;
+            return topic;
+          });
+        })
+      );
   }
 
   getTopicById(id: bigint): Observable<Topic> {
@@ -39,6 +46,10 @@ export class TopicService {
     return this.http.get<Topic>(path)
       .pipe(
         catchError(this.errorHandler.bind(this)),
+        map(topic => {
+          topic.shownName = topic.name;
+          return topic;
+        })
       );
   }
 
@@ -47,7 +58,7 @@ export class TopicService {
     let tokenWithTopic = {token: token, topic: topic};
     return this.http.post<RequestResult>('http://localhost:8080/save_topic', tokenWithTopic)
       .pipe(
-        catchError(this.errorHandler.bind(this)),
+        catchError(this.errorHandler.bind(this))
       );
   }
 
@@ -56,7 +67,7 @@ export class TopicService {
     let tokenWithTopic = {token: token, topic: topic};
     return this.http.post<RequestResult>('http://localhost:8080/delete_topic', tokenWithTopic)
       .pipe(
-        catchError(this.errorHandler.bind(this)),
+        catchError(this.errorHandler.bind(this))
       );
   }
 

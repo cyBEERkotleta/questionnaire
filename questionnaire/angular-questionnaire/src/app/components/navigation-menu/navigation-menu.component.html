@@ -10,7 +10,7 @@
   >
     <div class="menu-items-in-row">
       <a routerLink="/topics" class="menu-item">Каталог</a>
-      <a *ngIf="sessionService.isCurrentUserAuthorized()" routerLink="/" class="menu-item">Мои формы</a>
+      <a *ngIf="sessionService.isCurrentUserAuthorized()" routerLink="/my-forms" class="menu-item">Мои формы</a>
       <a *ngIf="sessionService.isCurrentUserAdmin()" routerLink="/user-list" class="menu-item">Пользователи</a>
     </div>
 

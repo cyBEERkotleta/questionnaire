@@ -17,6 +17,7 @@ import com.app.questionnaire.security.AccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,6 +56,28 @@ public class FieldController {
         return FieldMapper.INSTANCE.toDTOs(fields);
     }
 
+    @GetMapping("/field_counts/user_{id}")
+    public List<Integer> getFieldCountsInUserForms(@PathVariable Long id) {
+        List<Form> forms = formService.getFormsByUserId(id);
+
+        List<Integer> fieldCounts = new ArrayList<>(forms.size());
+        for (Form form : forms) {
+            fieldCounts.add(form.getFields().size());
+        }
+        return fieldCounts;
+    }
+
+    @GetMapping("/field_counts/topic_{id}")
+    public List<Integer> getFieldCountsInTopicForms(@PathVariable Long id) {
+        List<Form> forms = formService.getFormsByTopicId(id);
+
+        List<Integer> fieldCounts = new ArrayList<>(forms.size());
+        for (Form form : forms) {
+            fieldCounts.add(form.getFields().size());
+        }
+        return fieldCounts;
+    }
+
     @PostMapping("/fields_active/form_{id}")
     public List<FieldDTO> getActiveFieldsByFormId(@PathVariable Long id, @RequestBody String token)
             throws AccessDeniedException {
@@ -79,11 +102,15 @@ public class FieldController {
     }
 
     @PostMapping("/save_field")
-    public RequestResult saveField(@RequestBody TokenWithField tokenWithField) throws AccessDeniedException {
-        Field field = fieldService.getFieldById(tokenWithField.getField().getId());
-        Form form = field.getForm();
-        String token = tokenWithField.getToken();
-        accessHandler.checkUsersAreOneEntityOrThrown(token, form.getUser());
+    public RequestResult saveField(@RequestBody TokenWithField tokenWithField)
+            throws AccessDeniedException, FieldException {
+
+        if (tokenWithField.getField().getId() != null) {
+            Field field = fieldService.getFieldById(tokenWithField.getField().getId());
+            Form form = field.getForm();
+            String token = tokenWithField.getToken();
+            accessHandler.checkUsersAreOneEntityOrThrown(token, form.getUser());
+        }
 
         fieldService.saveField(FieldMapper.INSTANCE.fromDTO(tokenWithField.getField()));
 

@@ -66,7 +66,7 @@ public class FieldType {
     public static FieldType multiLineText() {
         return FieldType.builder()
                 .id((short) 5)
-                .name("MULTI_LINE_TEXT")
+                .name("MULTI LINE TEXT")
                 .ableToHaveOptions(false)
                 .build();
     }
@@ -74,7 +74,7 @@ public class FieldType {
     public static FieldType singleLineText() {
         return FieldType.builder()
                 .id((short) 6)
-                .name("SINGLE_LINE_TEXT")
+                .name("SINGLE LINE TEXT")
                 .ableToHaveOptions(false)
                 .build();
     }

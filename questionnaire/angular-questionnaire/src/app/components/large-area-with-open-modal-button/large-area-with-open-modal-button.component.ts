@@ -9,7 +9,7 @@ import {UrlService} from "../../service/url.service";
 })
 export class LargeAreaWithOpenModalButtonComponent {
   @Input() title: string;
-  @Input() buttonBackRoute: string;
+  @Input() buttonBackRoute: [string] | [string, bigint];
 
   private router: Router;
   private urlService: UrlService;
@@ -20,10 +20,7 @@ export class LargeAreaWithOpenModalButtonComponent {
     this.urlService = urlService;
   }
 
-  /*navigateBack() {
-    this.router.navigate([this.urlService.getLastPage()]);
-  }*/
   navigateBack() {
-    this.router.navigate([this.buttonBackRoute]);
+    this.router.navigate(this.buttonBackRoute);
   }
 }

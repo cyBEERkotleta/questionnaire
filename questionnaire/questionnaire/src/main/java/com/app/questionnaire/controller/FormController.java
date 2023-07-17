@@ -1,7 +1,6 @@
 package com.app.questionnaire.controller;
 
 import com.app.questionnaire.additional.tokenable.TokenWithForm;
-import com.app.questionnaire.additional.tokenable.TokenWithFormAndTopic;
 import com.app.questionnaire.exception.AccessDeniedException;
 import com.app.questionnaire.exception.FormException;
 import com.app.questionnaire.additional.RequestResult;
@@ -81,12 +80,10 @@ public class FormController {
     }
 
     @PostMapping("/save_form")
-    public RequestResult saveForm(@RequestBody TokenWithFormAndTopic tokenWithFormAndTopic)
+    public RequestResult saveForm(@RequestBody TokenWithForm tokenWithForm)
             throws AccessDeniedException, UserException {
-        FormDTO form = tokenWithFormAndTopic.getForm();
-        TopicDTO topic = tokenWithFormAndTopic.getTopic();
-        String token = tokenWithFormAndTopic.getToken();
-        User user = userService.getUserByToken(token);
+        FormDTO form = tokenWithForm.getForm();
+        String token = tokenWithForm.getToken();
 
         if (form.getId() != null) {
             Form formWas = formService.getFormById(form.getId());
@@ -94,8 +91,6 @@ public class FormController {
         }
 
         Form formToSave = FormMapper.INSTANCE.fromDTO(form);
-        formToSave.setTopic(TopicMapper.INSTANCE.fromDTO(topic));
-        formToSave.setUser(user);
 
         formService.saveForm(formToSave);
 

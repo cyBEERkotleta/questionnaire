@@ -20,4 +20,5 @@ import java.util.List;
 public class AnsweredFormDTO {
     private Long id;
     private List<AnswerDTO> answers;
+    private FormDTO form;
 }

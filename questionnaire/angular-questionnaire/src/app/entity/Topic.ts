@@ -1,15 +1,16 @@
-import {Form} from "./Form";
+import {INamed} from "../additional/INamed";
 
-export class Topic {
+export class Topic implements INamed {
   id: bigint;
   name: string;
   description: string;
-  forms: Form[];
+  shownName: string;
 
-  constructor(id: bigint, name: string, description: string, forms: Form[]) {
+  constructor(id: bigint, name: string, description: string) {
     this.id = id;
     this.name = name;
     this.description = description;
-    this.forms = forms;
+
+    this.shownName = name;
   }
 }

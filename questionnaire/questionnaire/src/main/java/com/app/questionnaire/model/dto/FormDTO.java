@@ -21,6 +21,6 @@ public class FormDTO {
     private Long id;
     private String name;
     private Boolean shown;
-    private List<FieldDTO> fields;
-    private List<AnsweredFormDTO> answeredForms;
+    private TopicDTO topic;
+    private UserDTO user;
 }

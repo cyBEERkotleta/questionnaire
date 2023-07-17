@@ -114,9 +114,9 @@ export class UserEditComponent implements OnInit, OnDestroy {
   }
 
   private saveChanges() {
-    let updatedUser = this.createUserFromFields();
+    this.updateEditedUserFromFields();
 
-    this.subscriptionSaveUser = this.userService.saveUser(updatedUser)
+    this.subscriptionSaveUser = this.userService.saveUser(this.user)
       .subscribe(result => {
         console.log(result);
 
@@ -133,14 +133,16 @@ export class UserEditComponent implements OnInit, OnDestroy {
     this.globalError = '';
   }
 
-  private createUserFromFields(): User {
+  private updateEditedUserFromFields() {
     let firstName = this.form.controls.firstName.getRawValue();
     let lastName = this.form.controls.lastName.getRawValue();
     let phoneNumber = this.form.controls.phoneNumber.getRawValue();
     let gender = this.form.controls.gender.getRawValue();
 
-    return new User(this.user.id, this.user.email, firstName, lastName, phoneNumber,
-      this.user.userRole, this.user.forms, gender);
+    this.user.firstName = firstName;
+    this.user.lastName = lastName;
+    this.user.phoneNumber = phoneNumber;
+    this.user.gender = gender;
   }
 
   private isAnyErrorInFields(): boolean {

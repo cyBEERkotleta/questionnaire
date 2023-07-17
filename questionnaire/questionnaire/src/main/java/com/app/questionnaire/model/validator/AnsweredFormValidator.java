@@ -29,7 +29,6 @@ public class AnsweredFormValidator implements IValidator<AnsweredForm> {
     public void checkValidityOrThrown(AnsweredForm answeredForm) throws AnsweredFormException {
         checkFormOrThrown(answeredForm.getForm());
         checkAnswersOrThrown(answeredForm.getAnswers());
-        checkAnswerMatchingOrThrown(answeredForm.getAnswers(), answeredForm.getForm());
     }
 
     private void checkFormOrThrown(Form form) throws AnsweredFormException {
@@ -44,15 +43,6 @@ public class AnsweredFormValidator implements IValidator<AnsweredForm> {
             }
         } catch (AnswerException ex) {
             throw new AnsweredFormException("Один из ответов анкеты некорректен. " + ex.getMessage());
-        }
-    }
-
-    private void checkAnswerMatchingOrThrown(List<Answer> answers, Form form) throws AnsweredFormException {
-        for (int i = 0; i < answers.size(); i++) {
-            Field fieldFromAnswer = answers.get(i).getField();
-            Field fieldFromForm = form.getFields().get(i);
-            if (!fieldFromAnswer.equals(fieldFromForm))
-                throw new AnsweredFormException("Поле ответа анкеты не соответствует полю исходной формы");
         }
     }
 }

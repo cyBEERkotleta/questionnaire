@@ -1,8 +1,11 @@
 package com.app.questionnaire.model.service;
 
+import com.app.questionnaire.exception.AnsweredFormException;
 import com.app.questionnaire.model.entity.AnsweredForm;
 import com.app.questionnaire.model.entity.Topic;
 import com.app.questionnaire.model.repository.AnsweredFormRepository;
+import com.app.questionnaire.model.validator.AnsweredFormValidator;
+import com.app.questionnaire.websockets.WebSocketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,8 @@ import java.util.List;
 public class AnsweredFormService implements IAnsweredFormService {
     private final AnsweredFormRepository answeredFormRepository;
 
+    private final WebSocketService webSocketService;
+
     @Override
     public List<AnsweredForm> getAnsweredFormsByFormId(Long id) {
         return answeredFormRepository.getAnsweredFormsByFormId(id);
@@ -32,11 +37,33 @@ public class AnsweredFormService implements IAnsweredFormService {
 
     @Override
     public void deleteAnsweredFormById(Long id) {
+        Long formId = getAnsweredFormById(id).getForm().getId();
+        notifyWebSocket(formId);
+
         answeredFormRepository.deleteById(id);
     }
 
     @Override
-    public AnsweredForm saveAnsweredForm(AnsweredForm answeredForm) {
-        return answeredFormRepository.save(answeredForm);
+    public AnsweredForm saveAnsweredForm(AnsweredForm answeredForm) throws AnsweredFormException {
+        for (int i = 0; i < answeredForm.getAnswers().size(); i++) {
+            answeredForm.getAnswers().get(i).setAnsweredForm(answeredForm);
+        }
+
+        AnsweredFormValidator.getInstance().checkValidityOrThrown(answeredForm);
+
+        for (int i = 0; i < answeredForm.getAnswers().size(); i++) {
+            if (answeredForm.getAnswers().get(i).getText().length() == 0)
+                answeredForm.getAnswers().get(i).setText("N/A");
+        }
+
+        AnsweredForm result = answeredFormRepository.save(answeredForm);
+        Long formId = answeredForm.getForm().getId();
+        notifyWebSocket(formId);
+
+        return result;
+    }
+
+    private void notifyWebSocket(Long formId) {
+        webSocketService.sendMessage(formId, getAnsweredFormsByFormId(formId));
     }
 }

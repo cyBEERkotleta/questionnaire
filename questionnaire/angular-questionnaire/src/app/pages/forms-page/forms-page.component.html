@@ -2,9 +2,11 @@
   <app-header></app-header>
   <app-error></app-error>
 
-  <app-large-area
+  <app-large-area-with-action-buttons
+    *ngIf="topic"
+    [itemToPerformActionsWith]="topic"
     title="Формы из темы {{getTopicName()}}"
-    buttonBackRoute="/topics"
+    [buttonBackRoute]="['/topics']"
   >
     <input
       type="text"
@@ -15,23 +17,40 @@
 
     <p *ngIf="loading" class="text-center text-lg p-2">Загрузка...</p>
 
-    <app-form-item-in-list
-      *ngFor="let item of forms | filterForms: term"
-      [form]="item">
-    </app-form-item-in-list>
+    <div *ngIf="forms && fieldCounts">
+      <app-form-item-in-list
+        *ngFor="let item of forms | filterForms: term; let i = index"
+        [form]="item"
+        [fieldCount]="fieldCounts[i]">
+      </app-form-item-in-list>
+    </div>
 
     <button
       class="rounded-pill bg-red-700 text-white fixed right-5 bottom-8 py-2 px-3"
-      (click)="modalService.open()"
+      (click)="modalCreateService.open()"
     >+</button>
-  </app-large-area>
+  </app-large-area-with-action-buttons>
 </div>
 
 <app-modal-create-window
-  *ngIf="modalService.isVisible()"
+  *ngIf="modalCreateService.isVisible()"
   title="Создать новую форму"
 >
   <app-create-form
     [topic]="topic"
   ></app-create-form>
 </app-modal-create-window>
+
+<app-modal-edit-window
+  *ngIf="modalEditService.isVisible()"
+  title="Редактировать тему"
+>
+  <app-edit-topic></app-edit-topic>
+</app-modal-edit-window>
+
+<app-modal-delete-window
+  *ngIf="modalDeleteService.isVisible()"
+  title="Удалить тему"
+>
+  <app-delete-topic></app-delete-topic>
+</app-modal-delete-window>

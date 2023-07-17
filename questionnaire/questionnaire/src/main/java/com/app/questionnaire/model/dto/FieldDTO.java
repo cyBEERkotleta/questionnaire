@@ -20,8 +20,9 @@ import java.util.List;
 public class FieldDTO {
     private Long id;
     private String label;
-    private FieldTypeDTO fieldType;
+    private FieldTypeDTO type;
     private Boolean required;
     private Boolean active;
     private List<FieldOptionDTO> options;
+    private FormDTO form;
 }

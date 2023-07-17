@@ -32,10 +32,6 @@ export class UrlService {
       this.lastPage = prevPage;
       this.currentPage = currentPage;
     }
-
-    console.log('prev page: ' + prevPage);
-    console.log('current page: ' + currentPage);
-    console.log('last page: ' + this.getLastPage());
   }
 
   private getCurrentPage() {

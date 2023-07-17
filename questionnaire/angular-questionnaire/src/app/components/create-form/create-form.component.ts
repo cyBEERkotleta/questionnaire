@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ModalCreateWindowService} from "../../service/modal-create-window.service";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
@@ -6,27 +6,32 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Topic} from "../../entity/Topic";
 import {FormService} from "../../service/form.service";
 import {Form} from "../../entity/Form";
+import {User} from "../../entity/User";
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-create-form',
   templateUrl: './create-form.component.html',
   styleUrls: ['./create-form.component.css']
 })
-export class CreateFormComponent {
+export class CreateFormComponent implements OnInit, OnDestroy {
   @Input() topic: Topic;
+  private user: User;
 
   private formService: FormService;
+  private userService: UserService;
   private modalService: ModalCreateWindowService;
   private router: Router;
 
   showAllErrors = false;
   globalError: string = '';
 
-  private subscription: Subscription;
+  private subscriptionUser: Subscription;
+  private subscriptionSave: Subscription;
 
   form = new FormGroup({
     name: new FormControl<string>('', [
-      Validators.minLength(3),
+      Validators.minLength(2),
       Validators.maxLength(100),
       Validators.required
     ]),
@@ -34,16 +39,27 @@ export class CreateFormComponent {
   });
 
   constructor(formService: FormService,
+              userService: UserService,
               modalService: ModalCreateWindowService,
               router: Router) {
     this.formService = formService;
+    this.userService = userService;
     this.modalService = modalService;
     this.router = router;
   }
 
+  ngOnInit() {
+    this.subscriptionUser = this.userService.updateCurrentUser()
+      .subscribe(result => {
+        this.user = result;
+      });
+  }
+
   ngOnDestroy() {
-    if (this.subscription)
-      this.subscription.unsubscribe();
+    if (this.subscriptionUser)
+      this.subscriptionUser.unsubscribe();
+    if (this.subscriptionSave)
+      this.subscriptionSave.unsubscribe();
   }
 
   getTopicName(): string {
@@ -76,11 +92,12 @@ export class CreateFormComponent {
   private addForm() {
     let form = this.createFormFromFields();
 
-    this.subscription = this.formService.saveForm(form, this.topic)
+    this.subscriptionSave = this.formService.saveForm(form)
       .subscribe(result => {
         console.log(result);
         if (result.success) {
           this.modalService.close();
+          location.reload();
         }
         else {
           this.globalError = result.message;
@@ -96,7 +113,7 @@ export class CreateFormComponent {
     let name = this.getNameFromField();
     let shown = this.getShownFromField();
 
-    return new Form(null, name, null, null, shown);
+    return new Form(null, name, shown, this.user, this.topic);
   }
 
   private getNameFromField(): string {

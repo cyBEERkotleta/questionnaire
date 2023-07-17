@@ -9,7 +9,7 @@ import {FormControl, Validators} from "@angular/forms";
 export class TextFieldComponent {
   @Input() fieldName: string;
   @Input() nextLine: boolean = true;
-  @Input() formElement: FormControl;
+  @Input() formElement: FormControl<string>;
   @Input() showError: boolean = false;
   @Input() additionalNote: string = '';
 

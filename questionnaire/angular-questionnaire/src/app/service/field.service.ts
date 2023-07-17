@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ErrorService} from "./error.service";
 import {SessionService} from "./session.service";
-import {catchError, Observable, throwError} from "rxjs";
+import {catchError, map, Observable, throwError} from "rxjs";
 import {RequestResult} from "../additional/RequestResult";
 import {Field} from "../entity/Field";
-import {AnsweredForm} from "../entity/AnsweredForm";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +23,8 @@ export class FieldService {
   }
 
   isFieldPresent(field: Field): boolean {
-    return !!field && !!field.id && !!field.fieldType && !!field.active && !!field.required && !!field.label;
+    return !!field && !!field.id && !!field.type && !!field.active &&
+      !!field.required && !!field.label && !!field.form;
   }
 
   getFieldById(id: bigint): Observable<Field> {
@@ -33,6 +33,14 @@ export class FieldService {
     return this.http.post<Field>(path, token)
       .pipe(
         catchError(this.errorHandler.bind(this)),
+        map(field => {
+          field.type.shownName = field.type.name;
+          field.options = field.options.map(option => {
+            option.shownName = option.text;
+            return option;
+          });
+          return field;
+        })
       );
   }
 
@@ -42,6 +50,16 @@ export class FieldService {
     return this.http.post<Field[]>(path, token)
       .pipe(
         catchError(this.errorHandler.bind(this)),
+        map(fields => {
+          return fields.map(field => {
+            field.type.shownName = field.type.name;
+            field.options = field.options.map(option => {
+              option.shownName = option.text;
+              return option;
+            });
+            return field;
+          });
+        })
       );
   }
 
@@ -51,24 +69,50 @@ export class FieldService {
     return this.http.post<Field[]>(path, token)
       .pipe(
         catchError(this.errorHandler.bind(this)),
+        map(fields => {
+          return fields.map(field => {
+            field.type.shownName = field.type.name;
+            field.options = field.options.map(option => {
+              option.shownName = option.text;
+              return option;
+            });
+            return field;
+          });
+        })
       );
   }
 
-  saveForm(field: Field): Observable<RequestResult> {
+  getFieldCountsOfUserForms(userId: bigint): Observable<number[]> {
+    let path = 'http://localhost:8080/field_counts/user_' + userId;
+    return this.http.get<number[]>(path)
+      .pipe(
+        catchError(this.errorHandler.bind(this))
+      );
+  }
+
+  getFieldCountsOfTopicForms(topicId: bigint): Observable<number[]> {
+    let path = 'http://localhost:8080/field_counts/topic_' + topicId;
+    return this.http.get<number[]>(path)
+      .pipe(
+        catchError(this.errorHandler.bind(this))
+      );
+  }
+
+  saveField(field: Field): Observable<RequestResult> {
     let token = this.sessionService.getToken();
     let tokenWithField = {token: token, field: field};
     return this.http.post<RequestResult>('http://localhost:8080/save_field', tokenWithField)
       .pipe(
-        catchError(this.errorHandler.bind(this)),
+        catchError(this.errorHandler.bind(this))
       );
   }
 
-  deleteForm(field: Field): Observable<RequestResult> {
+  deleteField(field: Field): Observable<RequestResult> {
     let token = this.sessionService.getToken();
     let tokenWithField = {token: token, field: field};
     return this.http.post<RequestResult>('http://localhost:8080/delete_field', tokenWithField)
       .pipe(
-        catchError(this.errorHandler.bind(this)),
+        catchError(this.errorHandler.bind(this))
       );
   }
 

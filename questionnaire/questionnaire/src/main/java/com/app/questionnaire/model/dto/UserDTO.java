@@ -28,5 +28,4 @@ public class UserDTO {
     private String phoneNumber;
     private UserRoleDTO userRole;
     private GenderDTO gender;
-    private List<FormDTO> forms;
 }

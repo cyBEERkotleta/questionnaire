@@ -1,5 +1,6 @@
 package com.app.questionnaire.model.service;
 
+import com.app.questionnaire.exception.AnsweredFormException;
 import com.app.questionnaire.model.entity.AnsweredForm;
 
 import java.util.List;
@@ -15,5 +16,5 @@ public interface IAnsweredFormService {
     public List<AnsweredForm> getAnsweredFormsByFormId(Long id);
     public AnsweredForm getAnsweredFormById(Long id);
     public void deleteAnsweredFormById(Long id);
-    public AnsweredForm saveAnsweredForm(AnsweredForm answeredForm);
+    public AnsweredForm saveAnsweredForm(AnsweredForm answeredForm) throws AnsweredFormException;
 }

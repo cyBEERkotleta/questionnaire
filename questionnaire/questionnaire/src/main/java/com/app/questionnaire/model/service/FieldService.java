@@ -1,8 +1,10 @@
 package com.app.questionnaire.model.service;
 
+import com.app.questionnaire.exception.FieldException;
 import com.app.questionnaire.model.entity.Answer;
 import com.app.questionnaire.model.entity.Field;
 import com.app.questionnaire.model.repository.FieldRepository;
+import com.app.questionnaire.model.validator.FieldValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +43,13 @@ public class FieldService implements IFieldService {
     }
 
     @Override
-    public Field saveField(Field field) {
+    public Field saveField(Field field) throws FieldException {
+        for (int i = 0; i < field.getOptions().size(); i++) {
+            field.getOptions().get(i).setField(field);
+        }
+
+        FieldValidator.getInstance().checkValidityOrThrown(field);
+
         return fieldRepository.save(field);
     }
 }

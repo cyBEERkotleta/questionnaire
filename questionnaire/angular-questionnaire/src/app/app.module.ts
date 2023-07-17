@@ -18,7 +18,7 @@ import { HorizontalLineComponent } from './little-components/horizontal-line/hor
 import { DarkHLineComponent } from './little-components/dark-h-line/dark-h-line.component';
 import { LightHLineComponent } from './little-components/light-h-line/light-h-line.component';
 import { ChoiceGenderComponent } from './little-components/choice-gender/choice-gender.component';
-import { ComboboxGroupComponent } from './little-components/combobox-group/combobox-group.component';
+import { RadioButtonGroupComponent } from './little-components/radio-button-group/radio-button-group.component';
 import { FieldValidatorComponent } from './little-components/field-validator/field-validator.component';
 import { ErrorParagraphComponent } from './little-components/error-paragraph/error-paragraph.component';
 import { NavigationMenuComponent } from './components/navigation-menu/navigation-menu.component';
@@ -70,6 +70,38 @@ import { LargeAreaWithOpenModalButtonComponent } from './components/large-area-w
 import { ModalEditWindowComponent } from './components/modal-edit-window/modal-edit-window.component';
 import { EditFormComponent } from './components/edit-form/edit-form.component';
 import { ButtonAddNewComponent } from './little-components/button-add-new/button-add-new.component';
+import { ComboboxComponent } from './little-components/combobox/combobox.component';
+import { ComboboxTopicComponent } from './little-components/combobox-topic/combobox-topic.component';
+import { MultiLineTextComponent } from './little-components/multi-line-text/multi-line-text.component';
+import { ModalDeleteWindowComponent } from './components/modal-delete-window/modal-delete-window.component';
+import { ButtonEditComponent } from './little-components/button-edit/button-edit.component';
+import { ButtonDeleteComponent } from './little-components/button-delete/button-delete.component';
+import { DeleteFormComponent } from './components/delete-form/delete-form.component';
+import { CreateFormChooseTopicComponent } from './components/create-form-choose-topic/create-form-choose-topic.component';
+import { MyFieldsPageComponent } from './pages/my-fields-page/my-fields-page.component';
+import { ManageFieldsComponent } from './components/manage-fields/manage-fields.component';
+import { CreateFieldComponent } from './components/create-field/create-field.component';
+import { EditFieldComponent } from './components/edit-field/edit-field.component';
+import { ComboboxFieldTypeComponent } from './little-components/combobox-field-type/combobox-field-type.component';
+import { OptionListComponent } from './components/option-list/option-list.component';
+import { LargeAreaWithActionButtonsComponent } from './components/large-area-with-action-buttons/large-area-with-action-buttons.component';
+import { EditTopicComponent } from './components/edit-topic/edit-topic.component';
+import { DeleteTopicComponent } from './components/delete-topic/delete-topic.component';
+import { QuestionnairePassingComponent } from './pages/questionnaire-passing/questionnaire-passing.component';
+import { QuestionnaireComponent } from './components/questionnaire/questionnaire.component';
+import { ChoiceDateComponent } from './little-components/choice-date/choice-date.component';
+import { FlexibleFieldControlComponent } from './little-components/flexible-field-control/flexible-field-control.component';
+import { ComboboxOptionsComponent } from './little-components/combobox-options/combobox-options.component';
+import { RadioOptionsComponent } from './little-components/radio-options/radio-options.component';
+import { CheckboxOptionsComponent } from './little-components/checkbox-options/checkbox-options.component';
+import { ChoiceDateStringComponent } from './little-components/choice-date-string/choice-date-string.component';
+import { CheckboxOptionsStringComponent } from './little-components/checkbox-options-string/checkbox-options-string.component';
+import { ComboboxOptionsStringComponent } from './little-components/combobox-options-string/combobox-options-string.component';
+import { RadioOptionsStringComponent } from './little-components/radio-options-string/radio-options-string.component';
+import { QuestionnaireAnswersComponent } from './pages/questionnaire-answers/questionnaire-answers.component';
+import { ManageAnswersComponent } from './components/manage-answers/manage-answers.component';
+import { AnsweredFormItemComponent } from './components/answered-form-item/answered-form-item.component';
+import { AnswerItemComponent } from './components/answer-item/answer-item.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +119,7 @@ import { ButtonAddNewComponent } from './little-components/button-add-new/button
     DarkHLineComponent,
     LightHLineComponent,
     ChoiceGenderComponent,
-    ComboboxGroupComponent,
+    RadioButtonGroupComponent,
     FieldValidatorComponent,
     ErrorParagraphComponent,
     NavigationMenuComponent,
@@ -137,7 +169,39 @@ import { ButtonAddNewComponent } from './little-components/button-add-new/button
     LargeAreaWithOpenModalButtonComponent,
     ModalEditWindowComponent,
     EditFormComponent,
-    ButtonAddNewComponent
+    ButtonAddNewComponent,
+    ComboboxComponent,
+    ComboboxTopicComponent,
+    MultiLineTextComponent,
+    ModalDeleteWindowComponent,
+    ButtonEditComponent,
+    ButtonDeleteComponent,
+    DeleteFormComponent,
+    CreateFormChooseTopicComponent,
+    MyFieldsPageComponent,
+    ManageFieldsComponent,
+    CreateFieldComponent,
+    EditFieldComponent,
+    ComboboxFieldTypeComponent,
+    OptionListComponent,
+    LargeAreaWithActionButtonsComponent,
+    EditTopicComponent,
+    DeleteTopicComponent,
+    QuestionnairePassingComponent,
+    QuestionnaireComponent,
+    ChoiceDateComponent,
+    FlexibleFieldControlComponent,
+    ComboboxOptionsComponent,
+    RadioOptionsComponent,
+    CheckboxOptionsComponent,
+    ChoiceDateStringComponent,
+    CheckboxOptionsStringComponent,
+    ComboboxOptionsStringComponent,
+    RadioOptionsStringComponent,
+    QuestionnaireAnswersComponent,
+    ManageAnswersComponent,
+    AnsweredFormItemComponent,
+    AnswerItemComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,30 @@
+package com.app.questionnaire.websockets;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.messaging.SessionConnectedEvent;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
+@Component
+public class SocketEventListener {
+
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
+
+    @EventListener
+    public void handleSocketConnectListener (SessionConnectedEvent event) {
+        System.out.println("A new connection request has arrived");
+    }
+
+    @EventListener
+    public void handleSocketDisconnectListener ( SessionDisconnectEvent event ) {
+        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap ( event.getMessage () );
+        String username = (String) headerAccessor.getSessionAttributes ().get("username");
+        if(username != null){
+            System.out.println( "User"+username+"Disconnected" );
+        }
+    }
+}

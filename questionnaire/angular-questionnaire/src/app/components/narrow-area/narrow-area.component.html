@@ -1,12 +1,12 @@
 <div
   class="narrow-window"
 >
-  <p class="text-center w-full">
+  <p class="text-center w-full"
+     *ngIf="showLogo">
     <app-logotype-text
-      *ngIf="showLogo"
     ></app-logotype-text>
   </p>
-  <h1 class="text-center mb-2 fs-4">{{title | titlecase}}</h1>
+  <h1 class="text-center mb-2 fs-5">{{title | titlecase}}</h1>
   <app-light-h-line
     *ngIf="showLine"
   ></app-light-h-line>

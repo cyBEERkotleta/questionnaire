@@ -1,5 +1,5 @@
 <div class="pt-3">
-  <app-combobox-group
+  <app-radio-button-group
     *ngIf="gendersLoaded"
 
     [label]="fieldName"
@@ -7,7 +7,7 @@
     [objects]="genders"
     [selected]="selectedGender"
     (itemSelection)="onChange($event)"
-  ></app-combobox-group>
+  ></app-radio-button-group>
 
   <app-field-validator
     [formElement]="formElement"

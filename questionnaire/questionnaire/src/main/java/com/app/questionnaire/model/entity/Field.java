@@ -36,7 +36,7 @@ public class Field {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "type_id")
-    private FieldType fieldType;
+    private FieldType type;
 
     @Column(name = "required")
     private Boolean required;

@@ -156,7 +156,7 @@ export class CreateUserComponent implements OnDestroy {
     let gender = this.form.controls.gender.getRawValue();
 
     return new User(null, email, firstName, lastName, phoneNumber,
-      null, null, gender);
+      null, gender);
   }
 
   private getPasswordFromField(): string {

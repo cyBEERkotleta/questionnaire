@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ErrorService} from "./error.service";
-import {catchError, Observable, throwError} from "rxjs";
+import {catchError, map, Observable, throwError} from "rxjs";
 import {RequestResult} from "../additional/RequestResult";
 import {Form} from "../entity/Form";
 import {SessionService} from "./session.service";
@@ -25,13 +25,19 @@ export class FormService {
   }
 
   isFormPresent(form: Form): boolean {
-    return !!form && !!form.id && !!form.fields && !!form.name && !!form.answeredForms;
+    return !!form && !!form.id && !!form.name && !!form.user && !!form.topic;
   }
 
   getAll(): Observable<Form[]> {
     return this.http.get<Form[]>('http://localhost:8080/forms')
       .pipe(
-        catchError(this.errorHandler.bind(this))
+        catchError(this.errorHandler.bind(this)),
+        map(forms => {
+          return forms.map(form => {
+            form.topic.shownName = form.topic.name;
+            return form;
+          });
+        })
       );
   }
 
@@ -40,6 +46,12 @@ export class FormService {
     return this.http.get<Form[]>(path)
       .pipe(
         catchError(this.errorHandler.bind(this)),
+        map(forms => {
+          return forms.map(form => {
+            form.topic.shownName = form.topic.name;
+            return form;
+          });
+        })
       );
   }
 
@@ -49,6 +61,12 @@ export class FormService {
     return this.http.post<Form[]>(path, token)
       .pipe(
         catchError(this.errorHandler.bind(this)),
+        map(forms => {
+          return forms.map(form => {
+            form.topic.shownName = form.topic.name;
+            return form;
+          });
+        })
       );
   }
 
@@ -58,15 +76,19 @@ export class FormService {
     return this.http.post<Form>(path, token)
       .pipe(
         catchError(this.errorHandler.bind(this)),
+        map(form => {
+          form.topic.shownName = form.topic.name;
+          return form;
+        })
       );
   }
 
-  saveForm(form: Form, topic: Topic): Observable<RequestResult> {
+  saveForm(form: Form): Observable<RequestResult> {
     let token = this.sessionService.getToken();
-    let tokenWithFormAndTopic = {token: token, form: form, topic: topic};
-    return this.http.post<RequestResult>('http://localhost:8080/save_form', tokenWithFormAndTopic)
+    let tokenWithForm = {token: token, form: form};
+    return this.http.post<RequestResult>('http://localhost:8080/save_form', tokenWithForm)
       .pipe(
-        catchError(this.errorHandler.bind(this)),
+        catchError(this.errorHandler.bind(this))
       );
   }
 
@@ -75,7 +97,7 @@ export class FormService {
     let tokenWithForm = {token: token, form: form};
     return this.http.post<RequestResult>('http://localhost:8080/delete_form', tokenWithForm)
       .pipe(
-        catchError(this.errorHandler.bind(this)),
+        catchError(this.errorHandler.bind(this))
       );
   }
 

@@ -2,6 +2,8 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {User} from "../../entity/User";
 import {UserService} from "../../service/user.service";
 import {Subscription} from "rxjs";
+import {FormService} from "../../service/form.service";
+import {Form} from "../../entity/Form";
 
 @Component({
   selector: 'app-user-profile',
@@ -10,26 +12,38 @@ import {Subscription} from "rxjs";
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   @Input() user: User;
+  forms: Form[];
 
   private userService: UserService;
+  private formService: FormService;
   private sessionUser: User;
 
-  private subscription: Subscription;
+  private subscriptionUser: Subscription;
+  private subscriptionForms: Subscription;
 
-  constructor(userService: UserService) {
+  constructor(userService: UserService,
+              formService: FormService) {
     this.userService = userService;
+    this.formService = formService;
   }
 
   ngOnInit() {
-    this.subscription = this.userService.updateCurrentUser()
+    this.subscriptionUser = this.userService.updateCurrentUser()
       .subscribe(result => {
         this.sessionUser = result;
+      });
+
+    this.subscriptionForms = this.formService.getFormsByUserId(this.user.id)
+      .subscribe(result => {
+        this.forms = result;
       });
   }
 
   ngOnDestroy() {
-    if (this.subscription)
-      this.subscription.unsubscribe();
+    if (this.subscriptionUser)
+      this.subscriptionUser.unsubscribe();
+    if (this.subscriptionForms)
+      this.subscriptionForms.unsubscribe();
   }
 
   isMale() : boolean {
@@ -70,10 +84,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     return this.user.phoneNumber;
   }
 
-  getFormCount(): number {
-    if (!this.user)
-      return 0;
-    return this.user.forms.length;
+  getFormCount(): string {
+    if (!this.forms || !this.forms.length)
+      return '0';
+    return this.forms.length.toString();
   }
 
   getUserGenderName(): string {

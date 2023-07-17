@@ -53,11 +53,7 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
 
   getButtonBackRoute(): string {
     if (this.sessionService.isCurrentUserAdmin()) {
-      let lastPage = this.urlService.getLastPage();
-      if (lastPage == '/user-list')
         return '/user-list';
-      else
-        return null;
     } else {
       return null;
     }

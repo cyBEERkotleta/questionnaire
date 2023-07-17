@@ -4,7 +4,6 @@ import {TopicService} from "../../service/topic.service";
 import {Topic} from "../../entity/Topic";
 import {SessionService} from "../../service/session.service";
 import {Subscription} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-topics-page',

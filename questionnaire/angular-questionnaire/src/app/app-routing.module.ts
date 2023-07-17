@@ -22,6 +22,10 @@ import {MailToRestoreSentComponent} from "./pages/mail-to-restore-sent/mail-to-r
 import {UserProfilePageComponent} from "./pages/user-profile-page/user-profile-page.component";
 import {UserEditionPageComponent} from "./pages/user-edition-page/user-edition-page.component";
 import {SuccessfulFormPassingComponent} from "./pages/successful-form-passing/successful-form-passing.component";
+import {MyFormsPageComponent} from "./pages/my-forms-page/my-forms-page.component";
+import {MyFieldsPageComponent} from "./pages/my-fields-page/my-fields-page.component";
+import {QuestionnairePassingComponent} from "./pages/questionnaire-passing/questionnaire-passing.component";
+import {QuestionnaireAnswersComponent} from "./pages/questionnaire-answers/questionnaire-answers.component";
 
 const routes: Routes = [
   {
@@ -95,6 +99,22 @@ const routes: Routes = [
   {
     path: 'successful-form-passing',
     component: SuccessfulFormPassingComponent
+  },
+  {
+    path: 'my-forms',
+    component: MyFormsPageComponent
+  },
+  {
+    path: 'my-form-fields/:id',
+    component: MyFieldsPageComponent
+  },
+  {
+    path: 'questionnaires/:id',
+    component: QuestionnairePassingComponent
+  },
+  {
+    path: 'questionnaire-answers/:id',
+    component: QuestionnaireAnswersComponent
   }
 ];
 

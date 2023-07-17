@@ -43,7 +43,7 @@ export class FinishRegistrationComponent implements OnInit, OnDestroy {
 
         this.subscriptionGender = this.genderService.getGenderById(genderId)
           .subscribe(gender => {
-            let user = new User(null, email, firstName, lastName, phoneNumber, null, null, gender);
+            let user = new User(null, email, firstName, lastName, phoneNumber, null, gender);
 
             this.subscriptionFinishReg = this.userService.finishRegistration(user, hashedPassword)
               .subscribe(result => {

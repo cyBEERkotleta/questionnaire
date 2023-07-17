@@ -23,6 +23,8 @@ export class RoleService {
   }
 
   areRolesEqual(role1: UserRole, role2: UserRole): boolean {
+    if (!this.isRolePresent(role1) || !this.isRolePresent(role2))
+      return false;
     return role1.id == role2.id && role1.name == role2.name && role1.shownName == role2.shownName;
   }
 
@@ -30,7 +32,7 @@ export class RoleService {
     return !!role && !!role.id && !!role.name && !!role.shownName;
   }
 
-  initializeRoles() {
+  private initializeRoles() {
     const MEMBER_ROLE_ID = 1;
     this.getRoleById(MEMBER_ROLE_ID)
       .subscribe(result => {

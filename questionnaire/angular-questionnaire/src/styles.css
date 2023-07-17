@@ -12,7 +12,7 @@ body, html {
 }
 
 .button-red-rounded {
-  @apply py-2 px-4 mx-auto rounded bg-red-600 text-white;
+  @apply py-2 px-4 rounded bg-red-600 text-white;
 }
 
 .button-red-rounded:hover {
@@ -24,7 +24,7 @@ body, html {
 }
 
 .button-back {
-  @apply py-2 pl-5 pr-10 mx-auto text-white bg-red-800;
+  @apply py-2 pl-5 pr-10 text-white bg-red-800;
   border-radius: 5px;
   background-size: cover;
 
@@ -80,7 +80,9 @@ body, html {
 }
 
 .button-back-arrow {
-  @apply bg-white text-red-800 font-bold text-4xl rounded-xl px-2 border-2 border-red-800;
+  border: 1px solid;
+  @apply bg-white text-red-800 font-bold text-4xl rounded-xl px-2 border-red-800;
+  transition: background-color 0.3s;
 }
 
 .button-back-arrow:hover {
@@ -89,4 +91,130 @@ body, html {
 
 .button-back-arrow:active {
   @apply bg-white text-red-800;
+}
+
+.button-in-table {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  padding: 10px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.button-in-table:hover {
+  background-color: #E2E8F0;
+  transform: scale(1.1);
+}
+
+.button-in-table:active {
+  background-color: #CBD5E0;
+  transform: scale(0.95);
+}
+
+.btn-icon {
+  font-size: 20px;
+}
+
+.button-angry-delete {
+  display: inline-block;
+  border: none;
+  padding: 10px 20px;
+  /*border-radius: 6px;*/
+  transition: background-color 0.15s, transform 0.15s;
+
+  background-color: #8B0000;
+  color: white;
+
+  clip-path: polygon(0 20%, 10% 0, 90% 0, 100% 20%, 100% 80%, 90% 100%, 10% 100%, 0 80%);
+}
+
+.button-angry-delete:hover {
+  background-color: #B30000;
+  transform: scale(1.05);
+}
+
+.button-angry-delete:active {
+  background-color: #660000;
+  transform: scale(0.95);
+}
+
+.large-window {
+  @apply w-[1150px] relative rounded mt-3 p-6 bg-white left-1/2 -translate-x-1/2;
+}
+
+@media (max-width: 1250px) {
+  .large-window {
+    @apply w-11/12 relative rounded mt-3 p-6 bg-white left-1/2 -translate-x-1/2;
+  }
+}
+
+.modal-background {
+  @apply scroll-auto bg-black/30 backdrop-blur-sm fixed top-0 right-0 left-0 bottom-0;
+}
+
+.table-white-gray {
+  @apply table w-full overflow-x-clip rounded-xl;
+}
+
+.table-white-gray td {
+  @apply break-words px-3 align-middle text-center;
+  overflow-wrap: anywhere;
+}
+
+.table-white-gray th {
+  @apply px-3 py-3 align-middle text-center;
+}
+
+.action-buttons {
+  @apply flex flex-row items-center justify-around;
+}
+
+@media (max-width: 650px) {
+  .action-buttons {
+    @apply flex-col;
+  }
+
+  .table-white-gray {
+    font-size: 14px;
+  }
+
+  .table-white-gray td {
+    @apply px-1;
+  }
+
+  .table-white-gray th {
+    @apply px-1;
+    font-size: 14px;
+  }
+}
+
+.modal-window-kate {
+  @apply w-[500px] absolute rounded top-16 p-6 bg-white left-1/2 -translate-x-1/2;
+}
+
+@media (max-width: 535px) {
+  .modal-window-kate {
+    @apply w-11/12;
+  }
+}
+
+h1 {
+  @apply break-words;
+  overflow-wrap: anywhere;
+}
+
+h2 {
+  @apply break-words;
+  overflow-wrap: anywhere;
+}
+
+span {
+  @apply break-words;
+  overflow-wrap: anywhere;
+}
+
+p {
+  @apply break-words;
+  overflow-wrap: anywhere;
 }

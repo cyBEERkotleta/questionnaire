@@ -6,5 +6,4 @@ export class CheckBoxState {
     this.text = text;
     this.active = active;
   }
-
 }

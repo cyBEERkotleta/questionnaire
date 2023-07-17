@@ -21,5 +21,4 @@ public class TopicDTO {
     private Long id;
     private String name;
     private String description;
-    private List<FormDTO> forms;
 }

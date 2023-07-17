@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {ModalEditWindowService} from "../../service/modal-edit-window.service";
 import {ModalCreateWindowService} from "../../service/modal-create-window.service";
+import {ModalDeleteWindowService} from "../../service/modal-delete-window.service";
 
 @Component({
   selector: 'app-my-forms-page',
@@ -10,11 +11,13 @@ import {ModalCreateWindowService} from "../../service/modal-create-window.servic
 export class MyFormsPageComponent {
   modalCreateWindow: ModalCreateWindowService;
   modalEditWindow: ModalEditWindowService;
+  modalDeleteWindow: ModalDeleteWindowService;
 
   constructor(modalCreateWindow: ModalCreateWindowService,
-              modalEditWindow: ModalEditWindowService) {
+              modalEditWindow: ModalEditWindowService,
+              modalDeleteWindow: ModalDeleteWindowService) {
     this.modalCreateWindow = modalCreateWindow;
     this.modalEditWindow = modalEditWindow;
+    this.modalDeleteWindow = modalDeleteWindow;
   }
-
 }

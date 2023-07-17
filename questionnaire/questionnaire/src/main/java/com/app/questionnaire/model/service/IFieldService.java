@@ -1,5 +1,6 @@
 package com.app.questionnaire.model.service;
 
+import com.app.questionnaire.exception.FieldException;
 import com.app.questionnaire.model.entity.Field;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public interface IFieldService {
     public List<Field> getFieldsByFormId(Long id);
     public List<Field> getActiveFieldsByFormId(Long id);
     public void deleteFieldById(Long id);
-    public Field saveField(Field field);
+    public Field saveField(Field field) throws FieldException;
 }
