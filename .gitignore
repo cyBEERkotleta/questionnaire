@@ -1,20 +1,14 @@
-HELP.md
-README.md
-.mvn
 mvnw
 mvnw.cmd
 target/
-!**/src/**
 
 
 .idea/
 *.iws
-*.iml
 *.ipr
 out/
 
 .angular/
 .vscode/
 node_modules/
-*.json
 .editorconfig
